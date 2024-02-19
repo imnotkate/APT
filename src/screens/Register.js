@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text} from 'react-native';
 
-export default class Register extends Component {
-  render() {
-    return(
-      <View><Text>Register</Text></View>
-    )
-  }
-}
+export default function Register() {
+    return (
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <Text>Register</Text>
+      </View>
+    );
+  };
