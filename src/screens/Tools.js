@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const Tuner = () => {
+const Tools = () => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Tuner</Text>
+      <Text>Tools</Text>
     </View>
   );
 };
 
-export default Tuner;
+export default Tools;

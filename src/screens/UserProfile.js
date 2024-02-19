@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const Tuner = () => {
+const UserProfile = () => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Tuner</Text>
+      <Text>Profile</Text>
     </View>
   );
 };
 
-export default Tuner;
+export default UserProfile;
