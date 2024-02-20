@@ -8,7 +8,7 @@ import TabNavigator from './components/Navigation';
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const isAuthenticated = false; // Replace with your authentication logic
+  const isAuthenticated = true; // Replace with your authentication logic
 
   return (
     <NavigationContainer>
