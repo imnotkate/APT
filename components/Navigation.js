@@ -1,11 +1,11 @@
 import React from 'react';
 import { Hammer, MusicDoubleNote, ProfileCircle } from 'iconoir-react-native';
-import Tools from '../screens/Tools';
-import Tune from '../screens/Tuner';
-import Profile from '../screens/UserProfile';
-import { StyleSheet, Animated, Text } from 'react-native';
+import Tools from './screens/Tools';
+import Tune from './screens/Tuner';
+import Profile from './screens/UserProfile';
+import { StyleSheet, Animated } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { colors, sizes } from '../constants/Theme';
+import { colors } from './constants/Theme';
 import { Dimensions } from 'react-native';
 
 const tabs = [
