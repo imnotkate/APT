@@ -20,7 +20,7 @@ const UserProfile = () => {
     <View className="h-full w-full flex-1 justify-between">
       <View className="flex items-center">
         <View className="flex items-center">
-          <Text className='text-lg font-bold tracking-wider text-5xl pt-40'>Settings</Text>
+          <Text className='text-lg font-bold tracking-wider text-4xl pt-40'>Settings</Text>
         </View>
       </View> 
 
