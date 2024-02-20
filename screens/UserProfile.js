@@ -26,9 +26,10 @@ const UserProfile = () => {
 
       <View className='flex-1 justify-center items-center'>
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
         >
           <Text className='text-lg'>Saved Tunings</Text>
+          <Text className='text-lg'>{'>'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity disabled={true}
@@ -42,21 +43,24 @@ const UserProfile = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
         >
           <Text className='text-lg'>Calibrate</Text>
+          <Text className='text-lg'>{'>'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
         >
           <Text className='text-lg'>Language</Text>
+          <Text className='text-lg'>{'>'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
         >
           <Text className='text-lg'>Note Name Convention</Text>
+          <Text className='text-lg'>{'>'}</Text>
         </TouchableOpacity>
       </View>
     </View>
