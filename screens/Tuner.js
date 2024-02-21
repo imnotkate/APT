@@ -16,11 +16,11 @@ const Tuner = () => {
   const [selectedString, setSelectedString] = useState('E');
   const [tuningProgress, setTuningProgress] = useState(0);
 
-  const guitarTypes = ['Electric', 'Acoustic', 'Classical']; // Add more guitar types if needed
+  const guitarTypes = ['E Standard', 'Acoustic', 'Classical']; // Add more guitar types if needed
   // const strings = ['E2', 'A', 'D', 'G', 'B', 'E4']; // Tuning notes for standard guitar strings
   const stringsData = {
     Electric: ['E2', 'A', 'D', 'G', 'B', 'E4'], // Tuning notes for standard electric guitar strings
-    Acoustic: ['S2', 'A', 'D', 'G', 'B', 'E4'], // Tuning notes for standard acoustic guitar strings
+    Acoustic: ['E2', 'A', 'D', 'G', 'B', 'E4'], // Tuning notes for standard acoustic guitar strings
     Classical: ['E2', 'A', 'D', 'G', 'B', 'E4'], // Tuning notes for standard classical guitar strings
   };
   const strings = stringsData[selectedGuitarType] || []; // Get strings based on selected guitar type
@@ -43,6 +43,7 @@ const Tuner = () => {
   
   const pickerSelectStyles = {
     inputIOS: {
+      marginRight: 10,
       fontSize: 16,
       paddingVertical: 12,
       paddingHorizontal: 10,
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: 'bold',
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 40,
     fontFamily: 'Arial', 
     
   },

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Touchable, Switch} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Arc3dCenterPoint, MusicNote, Globe, RefreshCircle, PeaceHand } from 'iconoir-react-native';
+import { Icon } from 'iconoir-react-native';
+
 
 //saved tuning
 //left-handed mode
@@ -26,41 +29,45 @@ const UserProfile = () => {
 
       <View className='flex-1 justify-center items-center'>
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
         >
-          <Text className='text-lg'>Saved Tunings</Text>
-          <Text className='text-lg'>{'>'}</Text>
+          <Text className='text-lg px-2'>Saved Tunings</Text>
+          <Arc3dCenterPoint color="black" height={25} width={32} />
         </TouchableOpacity>
 
         <TouchableOpacity disabled={true}
-          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
         >
-          <Text className='text-lg'>Left-handed Mode</Text>
-          <Switch
+          <Text className='text-lg px-2'>Left-handed Mode</Text>
+          <PeaceHand color="black" height={25} width={32} />
+          <View style={{ paddingLeft: 90 }}>
+          <Switch 
             value={leftHandedMode}
             onValueChange={handleToggleSwitch}
+            style={{ paddingLeft: 40 }}
           />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
         >
-          <Text className='text-lg'>Calibrate</Text>
-          <Text className='text-lg'>{'>'}</Text>
+          <Text className='text-lg px-2'>Calibrate</Text>
+          <RefreshCircle color="black" height={25} width={32}/>
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
         >
-          <Text className='text-lg'>Language</Text>
-          <Text className='text-lg'>{'>'}</Text>
+          <Text className='text-lg px-2'>Language</Text>
+          <Globe color="black" height={25} width={32} />
         </TouchableOpacity>
 
         <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full flex-row justify-between items-center'
+          className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
         >
-          <Text className='text-lg'>Note Name Convention</Text>
-          <Text className='text-lg'>{'>'}</Text>
+          <Text className='text-lg px-2'>Note Name Convention</Text>
+          <MusicNote color="black" height={25} width={32} />
         </TouchableOpacity>
       </View>
     </View>

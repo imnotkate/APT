@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hammer, MusicDoubleNote, Settings } from 'iconoir-react-native';
+import { Hammer, Arc3dCenterPoint, Settings } from 'iconoir-react-native';
 import Tools from '../screens/Tools';
 import Tune from '../screens/Tuner';
 import Profile from '../screens/UserProfile';
@@ -13,7 +13,7 @@ const tabs = [
       name: 'Tune',
       screen: Tune,
       options: {
-        tabBarIcon: ({ focused }) => <MusicDoubleNote color="black" height={32} width={32} />
+        tabBarIcon: ({ focused }) => <Arc3dCenterPoint color="black" height={32} width={32} />
       },
     },
     {
