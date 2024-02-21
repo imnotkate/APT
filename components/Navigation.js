@@ -1,5 +1,5 @@
 import React from 'react';
-import { Hammer, MusicDoubleNote, ProfileCircle } from 'iconoir-react-native';
+import { Hammer, MusicDoubleNote, Settings } from 'iconoir-react-native';
 import Tools from '../screens/Tools';
 import Tune from '../screens/Tuner';
 import Profile from '../screens/UserProfile';
@@ -27,7 +27,7 @@ const tabs = [
       name: 'Profile',
       screen: Profile,
       options: {
-        tabBarIcon: ({ focused }) => <ProfileCircle color="black" height={32} width={32} />
+        tabBarIcon: ({ focused }) => <Settings color="black" height={32} width={32} />
       },
     },
   ];

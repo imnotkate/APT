@@ -10,7 +10,7 @@ export default function Login() {
       <View className="bg-white h-full w-full">
         <StatusBar style='light' />
        
-      <View className="h-50% w-full flex justify-around pt-40 pb-10">
+      <View className="h-full w-full flex justify-around pt-20 pb-10">
         <View className="flex items-center">
         <Image
         source={require('../assets/images/APT.png')} // Replace with the actual path to your image
