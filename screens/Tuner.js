@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select'
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import * as Progress from 'react-native-progress';
 import { Picker } from  '@react-native-picker/picker';
 // import React, { useState } from 'react';
 const Tuner = () => {
@@ -109,7 +110,8 @@ const Tuner = () => {
   onAnimationComplete={() => console.log('onAnimationComplete')}
   backgroundColor="#3d5875" /> */}
       <View style={styles.circularContainer}>
-  <AnimatedCircularProgress
+      <Text style={styles.label}>Currently Tuning </Text>
+  {/* <AnimatedCircularProgress
     ref={(ref) => this.circularProgress = ref}
     size={120}
     width={15}
@@ -117,10 +119,12 @@ const Tuner = () => {
     tintColor="#00e0ff"
     onAnimationComplete={() => console.log('onAnimationComplete')}
     backgroundColor="#3d5875"
-  />
+  /> */}<Progress.Bar progress={0.3} width={200} />
+<Progress.Pie progress={0.4} size={50} />
+<Progress.Circle size={30} indeterminate={true} />
   <Text style={styles.stringLetter}>E</Text>
-</View>
-      </View>
+    </View>
+    </View>
     </View>
     
   );
@@ -155,13 +159,14 @@ const styles = StyleSheet.create({
     
   },
   circularContainer: {
-    position: 'relative',
+    position: 'relative'
+    
   },
   stringLetter: {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: [{ translateX: -8 }, { translateY: -8 }], // Adjust based on the size of the letter
+    transform: [{ translateX: 0 }, { translateY: 0 }], // Adjust based on the size of the letter
     fontSize: 16,
     color: 'black',
   },
