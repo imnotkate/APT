@@ -2,9 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Audio } from 'expo-av';
- // Import withNavigation
-// import { useNavigation } from '@react-navigation/native';
-
 
 const Metronome = () => {
     const navigation = useNavigation();
