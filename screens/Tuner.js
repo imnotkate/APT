@@ -91,7 +91,8 @@ const Tuner = () => {
         ))}
       </View>
 
-
+      {/* //if it gets 404 when button clicked on next note it stays on same note  */}
+      
       <View className='items-center p-20 relative'>
       <AnimatedCircularProgress
         ref={(ref) => this.circularProgress = ref}
