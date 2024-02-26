@@ -3,15 +3,15 @@ import { Image, Text, View, TouchableOpacity, TextInput, Button, StyleSheet, Swi
 import RNPickerSelect from 'react-native-picker-select';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import axios from 'axios';
+import { Iconoir } from 'iconoir-react-native';
 
 const Tuner = () => {
   const [selectedTuning, setTuning] = useState('EStandard');
   const [selectedString, setSelectedString] = useState('E2');
   const [tuningProgress, setTuningProgress] = useState(0);
-  
-  // connection to flask webserver 
-  // send msg
- 
+  const [selectedGuitar, setGuitar] = useState('6string');
+
+  const guitars = ['6string', '7string', '8string', '12string'];
   const tunings = ['EStandard', 'DropD', 'OpenD', 'DropC', 'OpenC', 'OpenG', 'DropB', 'OpenE', 'DropA']; 
 
   const stringsData = {
@@ -39,6 +39,12 @@ const Tuner = () => {
     }
   };
 
+  const handleGuitarChange = (value) => {
+    setGuitar(value);
+  }
+
+   // connection to flask webserver 
+  // send msg
   const sendMessageToServer = (string) => {
     const messageData = {
       message: string
@@ -52,7 +58,7 @@ const Tuner = () => {
       flex: 1, // Use flex to take up the full screen
       justifyContent: 'flex-start', // Align children to the start vertically
       alignItems: 'flex-end', // Align children to the end horizontally
-      marginRight: 40
+      top:20
     },
     tuningSetting: {
       flexDirection: 'row', // Layout children in a row
@@ -61,7 +67,7 @@ const Tuner = () => {
       marginRight: 30, // Adjust right spacing to match your needs
     },
     text: {
-      fontSize: 28, // 'text-lg' equivalent
+      fontSize: 22, // 'text-lg' equivalent
       paddingRight: 8, // 'pr-2' equivalent
       justifyContent: 'center', // Center text vertically
       alignContent: 'center', // Center text horizontally
@@ -71,8 +77,9 @@ const Tuner = () => {
       padding: 6, // 'pt-1.5' equivalent
       borderColor: 'red',
       borderWidth: 1,
-      paddingTop: 10,
+      padding: 10,
       width: 90,
+      borderRadius: 25
     },
 
     stringContainer: {
@@ -103,13 +110,26 @@ const Tuner = () => {
 
 
   return (
-    <View className="bg-white h-full w-full">
+    <View className="bg-white h-full w-full bg-white">
 
     <View className='bg-white pt-20 items-center'>
       <Image
         source={require('../assets/images/logosmall.png')} 
-        style={{ width: 70, height: 40, borderRadius: 0, borderColor: 'red', borderWidth: 0, position: 'absolute',  top: 60, left: 20}} />  
+        style={{ width: 130, height: 70, position: 'absolute',  top: 80, left: 30}} />  
     </View> 
+
+
+    <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'flex-end'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 20, marginRight: 30,}}>
+            <View style={{padding: 6, borderColor: 'red', borderWidth: 1, padding: 10, width: 90,borderRadius: 25}}>
+              <RNPickerSelect
+                onValueChange={handleGuitarChange}
+                items={guitars.map(type => ({ label: type, value: type }))}
+                value={selectedGuitar}
+              />
+            </View>
+          </View>
+    </View>
 
     <View style={styles.container}>
           <View style={styles.tuningSetting}>
@@ -122,25 +142,23 @@ const Tuner = () => {
               />
             </View>
           </View>
-        </View>
+    </View>
 
-    <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center', padding: 10  }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Text>{isEnabled ? 'Auto-tuning  ' : 'Autotune is OFF '}</Text>
+    <View style={{ flex: 1, alignItems: 'left', justifyContent: 'left'}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 50 }}>
+      <Text style={{fontSize: 18, paddingLeft: 40, paddingRight: 10}}>AUTO</Text>
         <Switch
           onValueChange={toggleSwitch}
           value={isEnabled}
-          style={{ marginRight: 10 }} // Adjust spacing between the switch and the text as needed
         />
-        
       </View>
     </View>
 
         
 
-  <View style={{ flexDirection: 'row', alignItems: 'center', padding: 20, paddingTop: 150}}>
+  <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 40}}>
         {/* Container for the string circles */}
-        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 10, paddingLeft: 30 }}>
+        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 100, paddingLeft: 40 }}>
           {strings.map((string, index) => (
             <TouchableOpacity
               key={index}
@@ -169,10 +187,10 @@ const Tuner = () => {
         </View>
 
       {/* Container for the guitar head image */}
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center' , paddingRight: 90}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: 80, paddingTop: 40}}>
         <Image
           source={require('../assets/images/guitar-head.jpeg')} // Update with your actual image path
-          style={{ width: 180, height: 400, marginLeft: 20 }} // Adjust size as needed
+          style={{width: 200, height: 440}} // Adjust size as needed
         />
       </View>
     </View>

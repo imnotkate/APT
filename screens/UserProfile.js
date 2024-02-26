@@ -12,9 +12,9 @@ const UserProfile = () => {
   };
 
   const navigation = useNavigation();
-  
+
   return (
-    <View className="h-full w-full flex-1 justify-between bg-white">
+    <View className="h-full w-full flex-1 justify-between bg-grey-50">
       <View className="flex items-center">
         <View className="flex items-center">
           <Text className='text-lg font-bold tracking-wider text-4xl pt-40'>Settings</Text>
