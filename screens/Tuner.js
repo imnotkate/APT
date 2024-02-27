@@ -67,7 +67,6 @@ const Tuner = () => {
   const pickerTextStyle = {
     fontSize: 20, // Adjust the font size as needed
     textAlign: 'center', // Center the text
-    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#de1d35',
@@ -75,7 +74,7 @@ const Tuner = () => {
     padding: 10,
     borderRadius: 25,
     width: 150,
-
+    backgroundColor: '#fff',
   };
 
   const styles = StyleSheet.create({
@@ -133,10 +132,11 @@ const Tuner = () => {
 
 
     {/* Tuning and Instrument buttons */}
-    <View style={{paddingTop:50, flexDirection: 'row', alignItems: 'left', justifyContent: 'left', paddingLeft: 20}}>
+    <View style={{paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
     <RNPickerSelect
       onValueChange={handleTuningChange}
-      items={tunings.map(type => ({ label: type, value: type }))}
+      useNativeAndroidPickerStyle={false}
+      items={tunings.map(type => ({ label: type, value: type, fontSize: 20, color: 'black'}))}  
       value={selectedTuning}
       placeholder={{ label: 'Select Tuning', value: null }}
       style={{ inputAndroid: pickerTextStyle, inputIOS: pickerTextStyle }}
