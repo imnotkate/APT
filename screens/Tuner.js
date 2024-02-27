@@ -9,7 +9,7 @@ const Tuner = () => {
   const [selectedString, setSelectedString] = useState('E2');
   const [tuningProgress, setTuningProgress] = useState(0);
   const [selectedGuitar, setGuitar] = useState('Guitar 6-string');
-  const [selectedInstrument, setInstrument] = useState('Guitar');
+  const [selectedInstrument, setInstrument] = useState('Guitar');   
 
   const instruments = ['Guitar', 'Bass', 'Soprano Ukulele', 'Concert Ukulele', 'Tenor Ukulele', 'Baritone Ukulele', 'Banjo', 'Mandolin', 'Sitar'];
   const guitars = ['Guitar 6-string', 'Guitar 7-string', 'Guitar 8-string', 'Guitar 12-string'];
@@ -117,17 +117,17 @@ const Tuner = () => {
   return (
     <View className="bg-white h-full w-full bg-white">
     {/* Logo and AUTO */}
-    <View style={{ backgroundColor: 'white', paddingTop: 100, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
+    <View style={{ backgroundColor: 'white', paddingTop: 90, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
       <Image
         source={require('../assets/images/logosmall.png')}
-        style={{ width: 150, height: 70, marginLeft: 20}}
+        style={{ width: 160, height: 80, marginLeft: 20}}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30}}>
         <Text style={{ fontSize: 18, marginRight: 10 }}>AUTO</Text>
         <Switch
           value={auto}
           onValueChange={handleToggleSwitch}
-        />
+      />
       </View>
     </View>
 
