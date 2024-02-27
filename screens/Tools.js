@@ -1,32 +1,59 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-
+import { View, StyleSheet, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { MusicDoubleNotePlus, Arc3dCenterPoint } from 'iconoir-react-native';
 
 const Tools = ({ navigation }) => {
+  const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
+  const numColumns = 2; // Number of icons per row in the grid
+  const numRows = 3 ;
+  const iconHeight = screenHeight / numRows - 100;
+  const iconWidth = screenWidth / numColumns - 100; // Adjust the factor as per your need
+
   const tools = [
     {
-      title: 'Metronome',
-      onPress: () => navigation.navigate('Metronome'), // Navigate to MetronomePage on press
+      title: 'Add Custom Tuning',
+      icon: <MusicDoubleNotePlus color="black" height={iconHeight} width={iconWidth}/>,
+      onPress: () => navigation.navigate('CustomTunings'),
     },
     {
       title: 'Metronome',
-      onPress: () => navigation.navigate('Metronome'), // Navigate to MetronomePage on press
+      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
+      onPress: () => navigation.navigate('Metronome'),
     },
     {
       title: 'Metronome',
-      onPress: () => navigation.navigate('Metronome'), // Navigate to MetronomePage on press
+      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
+      onPress: () => navigation.navigate('Metronome'),
+    },
+    {
+      title: 'Metronome',
+      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
+      onPress: () => navigation.navigate('Metronome'),
+    },
+    {
+      title: 'Metronome',
+      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
+      onPress: () => navigation.navigate('Metronome'),
+    },
+    {
+      title: 'Metronome',
+      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
+      onPress: () => navigation.navigate('Metronome'),
     },
     // Add more tools as needed
   ];
 
   return (
-    
     <View style={styles.container}>
-      {tools.map((tool, index) => (
-        <TouchableOpacity key={index} style={styles.toolBlock} onPress={tool.onPress}>
-          <Text style={styles.toolTitle}>{tool.title}</Text>
-        </TouchableOpacity>
-      ))}
+      <View style={styles.gridContainer}>
+        {tools.map((tool, index) => (
+          <TouchableOpacity key={index} style={styles.buttonContainer} onPress={tool.onPress}>
+            {tool.icon}
+            <Text style={styles.title}>{tool.title}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
@@ -34,27 +61,23 @@ const Tools = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    padding: 30,
-    paddingTop: 150,
-
   },
-  toolBlock: {
-    // length: 250, // Adjust width as needed to fit multiple blocks in a row
-    aspectRatio: 1.5, // Maintain square aspect ratio for blocks
-    backgroundColor: 'lightgray',
-    borderRadius: 10,
-    justifyContent: 'center',
+  buttonContainer: {
     alignItems: 'center',
-    marginBottom: 20,
-    width: 300,
-    
-    
+    margin: 10,
   },
-  toolTitle: {
-    fontSize: 18,
+  title: {
+    fontSize: 14,
+    textAlign: 'center',
+    padding: 1,
   },
 });
 
