@@ -67,6 +67,15 @@ const Tuner = () => {
   const pickerTextStyle = {
     fontSize: 20, // Adjust the font size as needed
     textAlign: 'center', // Center the text
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#de1d35',
+    color: '#de1d35',
+    padding: 10,
+    borderRadius: 25,
+    width: 150,
+
   };
 
   const styles = StyleSheet.create({
@@ -103,52 +112,28 @@ const Tuner = () => {
   const [isGuitarPickerVisible, setGuitarPickerVisible] = useState(false);
   const [isTuningPickerVisible, setTuningPickerVisible] = useState(false);
 
+
+
   return (
     <View className="bg-white h-full w-full bg-white">
+    {/* Logo and AUTO */}
+    <View style={{ backgroundColor: 'white', paddingTop: 100, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
+      <Image
+        source={require('../assets/images/logosmall.png')}
+        style={{ width: 150, height: 70, marginLeft: 20}}
+      />
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30}}>
+        <Text style={{ fontSize: 18, marginRight: 10 }}>AUTO</Text>
+        <Switch
+          value={auto}
+          onValueChange={handleToggleSwitch}
+        />
+      </View>
+    </View>
 
-<View style={{ backgroundColor: 'white', paddingTop: 70, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
-  <Image
-    source={require('../assets/images/logosmall.png')}
-    style={{ width: 130, height: 70, marginLeft: 20}}
-  />
-  <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 20}}>
-    <Text style={{ fontSize: 18, marginRight: 10 }}>AUTO</Text>
-    <Switch
-      value={auto}
-      onValueChange={handleToggleSwitch}
-    />
-  </View>
-</View>
 
-<View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', paddingLeft: 10 }}>
-  <TouchableOpacity
-    style={{
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 10,
-      borderRadius: 25,
-      fontSize: 20,
-      width: 190,
-    }}
-    onPress={() => {}}
-  >
-    <Text style={{fontSize: 20}}>{selectedGuitar}</Text>
-    <NavArrowRight color="black" height={25} width={32} style={{ }} />
-  </TouchableOpacity>
-
-  {/* <TouchableOpacity
-    style={{
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 25,
-      fontSize: 20,
-      width: 190,
-    
-    }}
-    onPress={() => {}}
-  >
+    {/* Tuning and Instrument buttons */}
+    <View style={{paddingTop:50, flexDirection: 'row', alignItems: 'left', justifyContent: 'left', paddingLeft: 20}}>
     <RNPickerSelect
       onValueChange={handleTuningChange}
       items={tunings.map(type => ({ label: type, value: type }))}
@@ -156,13 +141,30 @@ const Tuner = () => {
       placeholder={{ label: 'Select Tuning', value: null }}
       style={{ inputAndroid: pickerTextStyle, inputIOS: pickerTextStyle }}
     />
-    <NavArrowDown color="black" height={25} width={32} style={{ marginLeft: 10 }} />
-  </TouchableOpacity> */}
-</View>
+    <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', paddingLeft: 10 }}>
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 10,
+          borderRadius: 25,
+          fontSize: 20,
+          width: 190,
+          borderWidth: 1,
+          borderColor: '#de1d35',
+        }}
+        onPress={() => {}}
+      >
+    <Text style={{fontSize: 20, color: '#de1d35',}}>{selectedGuitar}</Text>
+      </TouchableOpacity>
+      </View>
+      </View>
 
-  <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 20}}>
-        {/* Container for the string circles */}
-        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 100, paddingLeft: 40 }}>
+
+    {/* String buttons */}
+  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 50, paddingLeft: 40 }}>
           {strings.map((string, index) => (
             <TouchableOpacity
               key={index}
@@ -190,11 +192,12 @@ const Tuner = () => {
           ))}
         </View>
 
+
       {/* Container for the guitar head image */}
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: 80, paddingTop: 40}}>
         <Image
           source={require('../assets/images/guitar-head.jpeg')} // Update with your actual image path
-          style={{width: 200, height: 440}} // Adjust size as needed
+          style={{width: 200, height: 460}} // Adjust size as needed
         />
       </View>
     </View>
