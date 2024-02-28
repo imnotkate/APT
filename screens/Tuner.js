@@ -55,13 +55,27 @@ const Tuner = () => {
     setAuto(!auto);
   };
 
+  const [isTuned, setIsTuned] = useState(false);
+
    // connection to flask webserver 
   // send msg
   const sendMessageToServer = (string) => {
     const messageData = {
       message: string
     };
-    axios.post("http://192.168.231.3:5000/tune_string", messageData).then(response => {console.log('msg sent', response.data);}).catch(error => {console.error('error', error);});
+    // axios.post("http://192.168.231.3:5000/tune_string", messageData).then(response => {console.log('msg sent', response.data);}).catch(error => {console.error('error', error);});
+    axios.post("http://192.168.231.3:5000/tune_string", messageData) // Example message
+      .then(response => {
+        if (response.data.message === 'string tuned') {
+          setIsTuned(true);
+        } else {
+          setIsTuned(false);
+        }
+      })
+      .catch(error => {
+        console.error('Error', error);
+        setIsTuned(false); // Assume not tuned if there's an error
+      });
   };
 
   const pickerTextStyle = {
@@ -177,7 +191,9 @@ const Tuner = () => {
                 width: 50,
                 height: 50,
                 borderRadius: 25,
-                backgroundColor: selectedString === string ? '#de1d35' : '#fff',
+                // backgroundColor: selectedString === string ? '#de1d35' : '#fff',
+                // backgroundColor: isTuned ? 'green' : (selectedString === string ? '#de1d35' : '#fff'),
+                backgroundColor: selectedString === string ? (isTuned ? 'green' : '#de1d35') : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -188,6 +204,7 @@ const Tuner = () => {
               <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 18 }}>
                 {string}
               </Text>
+              
             </TouchableOpacity>
           ))}
         </View>

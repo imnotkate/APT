@@ -42,7 +42,7 @@ const Metronome = () => {
     return (
       <View style={styles.container}>
         <Text style={styles.bpmText}>{bpm} BPM</Text>
-        <TouchableOpacity style={styles.button} onPress={handlePlayPause}>
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>{isPlaying ? 'Pause' : 'Play'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}> {/* Return to Tools Page button */}
