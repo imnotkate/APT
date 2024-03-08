@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Image, Text, View, TouchableOpacity, TextInput, Button, StyleSheet, Switch } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
-import { NavArrowDown, NavArrowRight } from 'iconoir-react-native';
+import { Bold, NavArrowDown, NavArrowRight } from 'iconoir-react-native';
 
 const Tuner = () => {
   const [selectedTuning, setTuning] = useState('E Standard');
@@ -63,7 +63,7 @@ const Tuner = () => {
     const messageData = {
       message: string
     };
-    // axios.post("http://192.168.231.3:5000/tune_string", messageData).then(response => {console.log('msg sent', response.data);}).catch(error => {console.error('error', error);});
+    // use pi ip address and port number
     axios.post("http://192.168.231.3:5000/tune_string", messageData) // Example message
       .then(response => {
         if (response.data.message === 'string tuned') {
@@ -128,15 +128,15 @@ const Tuner = () => {
 
 
   return (
-    <View className="bg-white h-full w-full bg-white">
+    <View className="bg-grey h-full w-full">
     {/* Logo and AUTO */}
-    <View style={{ backgroundColor: 'white', paddingTop: 90, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
+    <View style={{paddingTop: 90, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
       <Image
-        source={require('../assets/images/logosmall.png')}
+        source={require('../assets/images/logosmall-removebg-preview.png')}
         style={{ width: 160, height: 80, marginLeft: 20}}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30}}>
-        <Text style={{ fontSize: 18, marginRight: 10 }}>AUTO</Text>
+        <Text style={{ fontSize: 20, marginRight: 10 }}>AUTO</Text>
         <Switch
           value={auto}
           onValueChange={handleToggleSwitch}
@@ -167,10 +167,11 @@ const Tuner = () => {
           width: 190,
           borderWidth: 1,
           borderColor: '#de1d35',
+          backgroundColor: '#fff',
         }}
         onPress={() => {}}
       >
-    <Text style={{fontSize: 20, color: '#de1d35',}}>{selectedGuitar}</Text>
+    <Text style={{fontSize: 20, color: '#de1d35'}}>{selectedGuitar}</Text>
       </TouchableOpacity>
       </View>
       </View>
@@ -191,8 +192,6 @@ const Tuner = () => {
                 width: 50,
                 height: 50,
                 borderRadius: 25,
-                // backgroundColor: selectedString === string ? '#de1d35' : '#fff',
-                // backgroundColor: isTuned ? 'green' : (selectedString === string ? '#de1d35' : '#fff'),
                 backgroundColor: selectedString === string ? (isTuned ? 'green' : '#de1d35') : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -213,7 +212,7 @@ const Tuner = () => {
       {/* Container for the guitar head image */}
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: 80, paddingTop: 40}}>
         <Image
-          source={require('../assets/images/guitar-head.jpeg')} // Update with your actual image path
+          source={require('../assets/images/guitar-head-removebg-preview.png')} // Update with your actual image path
           style={{width: 200, height: 460}} // Adjust size as needed
         />
       </View>
