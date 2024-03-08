@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Switch} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Arc3dCenterPoint, MusicNote, Globe, RefreshCircle, PeaceHand } from 'iconoir-react-native';
 
-const UserProfile = () => {
+const Settings = () => {
   const [leftHandedMode, setLeftHandedMode] = useState(false);
 
   const handleToggleSwitch = () => {
@@ -68,4 +68,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default Settings;

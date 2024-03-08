@@ -2,7 +2,7 @@ import React from 'react';
 import { Hammer, Arc3dCenterPoint, Settings } from 'iconoir-react-native';
 import Tools from '../screens/Tools';
 import Tune from '../screens/Tuner';
-import Profile from '../screens/UserProfile';
+import Setting from '../screens/Settings';
 import { StyleSheet, Animated } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { colors } from '../constants/Theme';
@@ -24,8 +24,8 @@ const tabs = [
       },
     },
     {
-      name: 'Profile',
-      screen: Profile,
+      name: 'Settings',
+      screen: Setting,
       options: {
         tabBarIcon: ({ focused }) => <Settings color="black" height={32} width={32} />
       },
