@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Image, Text, View, TouchableOpacity, TextInput, Button, StyleSheet, Switch } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import RNPickerSelect from 'react-native-picker-select';
+import { Image, Text, View, TouchableOpacity, Button, Switch } from 'react-native';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Tuner = () => {
+
+  const navigation = useNavigation();
+
   const [selectedTuning, setTuning] = useState('E Standard');
   const [selectedString, setSelectedString] = useState('E2');
   const [tuningProgress, setTuningProgress] = useState(0);
@@ -204,7 +206,7 @@ const Tuner = () => {
           borderWidth: 0,
           borderColor: 'transparent',
         }}
-        onPress={() => {}}
+        onPress={() => {navigation.push('Instruments')}}
       >
     <Text style={{fontSize: 20, color: '#fff'}}>{selectedGuitar}</Text>
       </TouchableOpacity>
