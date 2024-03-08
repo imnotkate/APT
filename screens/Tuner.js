@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Image, Text, View, TouchableOpacity, TextInput, Button, StyleSheet, Switch } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
-import { Bold, NavArrowDown, NavArrowRight } from 'iconoir-react-native';
+import { Picker } from '@react-native-picker/picker';
+import { Modal } from 'react-native';
 
 const Tuner = () => {
   const [selectedTuning, setTuning] = useState('E Standard');
@@ -18,7 +20,7 @@ const Tuner = () => {
   const stringsData = {
     'E Standard': ['E2', 'A', 'D', 'G', 'B', 'E4'], 
     'Drop D': ['D2', 'A', 'D3', 'G', 'B', 'E'], 
-    'Open D': ['D2', 'A', 'D3', 'F#', 'A', 'D4'],
+    'Open D': ['D2', 'A2', 'D3', 'F#', 'A3', 'D4'],
     'Drop C': ['C2', 'G', 'C3', 'F', 'A', 'D'],
     'Open C': ['C2', 'G2', 'C3', 'G3', 'C4', 'E'],
     'Open G': ['D2', 'G2', 'D3', 'G3', 'B', 'D4'],
@@ -39,6 +41,8 @@ const Tuner = () => {
       setTuningProgress(tuningProgress + 1);
     }
   };
+
+  const [showTuningModal, setShowTuningModal] = useState(false);
 
   const handleGuitarChange = (value) => {
     setGuitar(value);
@@ -90,41 +94,10 @@ const Tuner = () => {
     width: 150,
     backgroundColor: '#fff',
   };
-
-  const styles = StyleSheet.create({
-    text: {
-      fontSize: 22, // 'text-lg' equivalent
-      paddingRight: 8, // 'pr-2' equivalent
-      justifyContent: 'center', // Center text vertically
-      alignContent: 'center', // Center text horizontally
-      alignItems: 'center',
-    },
-    stringContainer: {
-      // Styles for the string container
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: 10,
-    },
-    stringText: {
-      // Styles for the string text
-    },
-    pointer: {
-      // Styles for the pointer indicator
-      position: 'absolute',
-      right: 0,
-      top: '50%',
-      transform: [{ translateY: -8 }], // Adjust number as needed
-    },
-    pointerText: {
-      // Styles for the pointer text, adjust as needed
-      fontSize: 24,
-    }
-  });
+ 
 
   const [isGuitarPickerVisible, setGuitarPickerVisible] = useState(false);
   const [isTuningPickerVisible, setTuningPickerVisible] = useState(false);
-
 
 
   return (
@@ -136,7 +109,7 @@ const Tuner = () => {
         style={{ width: 160, height: 80, marginLeft: 20}}
       />
       <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30}}>
-        <Text style={{ fontSize: 20, marginRight: 10 }}>AUTO</Text>
+        <Text style={{ fontSize: 20, marginRight: 10, color: '#0e1c36'}}>AUTO</Text>
         <Switch
           value={auto}
           onValueChange={handleToggleSwitch}
@@ -146,15 +119,68 @@ const Tuner = () => {
 
 
     {/* Tuning and Instrument buttons */}
-    <View style={{paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
-    <RNPickerSelect
+    <View style={{flex: 1, paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
+    {/* <Picker
+      selectedValue={selectedTuning}
       onValueChange={handleTuningChange}
-      useNativeAndroidPickerStyle={false}
-      items={tunings.map(type => ({ label: type, value: type, fontSize: 20, color: 'black'}))}  
-      value={selectedTuning}
-      placeholder={{ label: 'Select Tuning', value: null }}
-      style={{ inputAndroid: pickerTextStyle, inputIOS: pickerTextStyle }}
-    />
+      style={pickerTextStyle}
+    >
+      {tunings.map(type => (
+    <Picker.Item key={type} label={type} value={type} />
+  ))}
+</Picker> */}
+
+<TouchableOpacity
+  style={[
+    {
+      flexDirection: 'row',
+      alignItems: 'center', // This will center the text vertically
+      justifyContent: 'center', // This will center the text horizontally
+      backgroundColor: '#de1d35',
+      borderRadius: 25,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 4,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderWidth: 0,
+      borderColor: 'transparent',
+      width: 150,
+    },
+  ]}
+  onPress={() => setShowTuningModal(true)}
+>
+  <Text style={{ color: '#fff', fontSize: 20, textAlign: 'center' }}>
+    {selectedTuning}
+  </Text>
+</TouchableOpacity>
+
+<Modal
+  visible={showTuningModal}
+  animationType="slide"
+  transparent={true}
+>
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+    <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, width: '90%' }}>
+      <Picker
+        selectedValue={selectedTuning}
+        onValueChange={(itemValue) => {
+          handleTuningChange(itemValue);
+          setShowTuningModal(false);
+        }}
+        itemStyle={{ color: '#de1d35', fontSize: 20 }}
+      >
+        {tunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ))}
+      </Picker>
+      <Button title="Cancel" onPress={() => setShowTuningModal(false)} />
+    </View>
+  </View>
+</Modal>
+
     <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', paddingLeft: 10 }}>
       <TouchableOpacity
         style={{
@@ -167,11 +193,20 @@ const Tuner = () => {
           width: 190,
           borderWidth: 1,
           borderColor: '#de1d35',
-          backgroundColor: '#fff',
+          backgroundColor: '#de1d35',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
+          elevation: 4,
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          borderWidth: 0,
+          borderColor: 'transparent',
         }}
         onPress={() => {}}
       >
-    <Text style={{fontSize: 20, color: '#de1d35'}}>{selectedGuitar}</Text>
+    <Text style={{fontSize: 20, color: '#fff'}}>{selectedGuitar}</Text>
       </TouchableOpacity>
       </View>
       </View>
@@ -179,7 +214,7 @@ const Tuner = () => {
 
     {/* String buttons */}
   <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 50, paddingLeft: 40 }}>
+        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 20, paddingLeft: 40 }}>
           {strings.map((string, index) => (
             <TouchableOpacity
               key={index}
@@ -189,18 +224,27 @@ const Tuner = () => {
                 handleTuningProgress();
               }}
               style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
+                width: 52,
+                height: 52,
+                borderRadius: 30,
                 backgroundColor: selectedString === string ? (isTuned ? 'green' : '#de1d35') : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
                 borderColor: '#de1d35',
                 marginBottom: 10, // Add space between circles
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 4,
+                elevation: 4,
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+                borderWidth: 0,
+                borderColor: 'transparent',
               }}
             >
-              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 18 }}>
+              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
               
