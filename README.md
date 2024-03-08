@@ -5,8 +5,8 @@ Open the app and tune!
 
 # Dev
 ```
-git clone https://github.com/imnotkate/APT.git
-cd APT
+git clone https://github.com/imnotkate/AT.git
+cd AT
 npm install 
 npx expo start
 ```
