@@ -1,6 +1,6 @@
-# Auto Pluck 'n' Tune 
-The mobile app called APT that connects to the APT guitar tuner to create a customisable tuning experience. <br>
-Connect the tuner to your guitar, adjusting the tuning pegs accordingly. <br>
+# Auto Tuned
+The mobile app called AT that connects to the AT guitar tuner to create a customisable tuning experience. <br>
+Use our handheld tuner. <br>
 Open the app and tune!
 
 # Dev
