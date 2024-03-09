@@ -10,32 +10,32 @@ function Instruments() {
     const navigation = useNavigation();
 
     const guitars = [
-        { label: '6 strings', value: '6' },
-        { label: '7 strings', value: '7' },
-        { label: '8 strings', value: '8' },
-        { label: '12 strings', value: '12' },
+        { label: '6 strings', value: 'Guitar 6-string' },
+        { label: '7 strings', value: 'Guitar 7-string' },
+        { label: '8 strings', value: 'Guitar 8-string' },
+        { label: '12 strings', value: 'Guitar 12-string' },
       ];
 
       const bass = [
-        { label: '4 strings', value: '4' },
-        { label: '5 strings', value: '5' },
+        { label: '4 strings', value: 'Bass 4-string' },
+        { label: '5 strings', value: 'Bass 5-string' },
       ];
 
       const ukulele = [
-        { label: 'Soprano', value: 's' },
-        { label: 'Concert', value: 'c' },
-        { label: 'Tenor', value: 't' },
-        { label: 'Baritone', value: 'b' },
+        { label: 'Soprano', value: 'Soprano Ukulele' },
+        { label: 'Concert', value: 'Concert Ukulele' },
+        { label: 'Tenor', value: 'Tenor Ukulele' },
+        { label: 'Baritone', value: 'Baritone Ukulele' },
       ];
 
       const mandolin = [
-        { label: '8 strings', value: '8' },
+        { label: '8 strings', value: 'Mandolin 8-string' },
       ];
 
       const banjo = [
-        { label: '4 strings', value: '4' },
-        { label: '5 strings', value: '5' },
-        { label: '6 strings', value: '6' },
+        { label: '4 strings', value: 'Banjo 4-string' },
+        { label: '5 strings', value: 'Banjo 5-string' },
+        { label: '6 strings', value: 'Banjo 6-string' },
       ];
 
       const [value, setValue] = useState(null);
@@ -44,7 +44,7 @@ function Instruments() {
     <View className="bg-grey h-full w-full">
 
         {/* back arrow */}
-      <View className="flex flex-row pt-20 pl-10">
+      <View className="flex flex-row pt-20 pl-5">
         <TouchableOpacity onPress={() => navigation.push('Root')}>
           <ArrowLeft color="black" height={30} width={30} />
         </TouchableOpacity>
@@ -107,13 +107,13 @@ function Instruments() {
         <View className="flex justify-center flex-column">
             <Dropdown
             style={{margin: 16,
-                height: 50,
+                height: 60,
                 borderBottomColor: 'gray',
                 borderBottomWidth: 0.5,}}
-            placeholderStyle={{fontSize: 16}}
-            selectedTextStyle={{fontSize: 16}}
-            iconStyle={{ width: 20,
-                height: 20,}}
+            placeholderStyle={{fontSize: 18}}
+            selectedTextStyle={{fontSize: 18}}
+            iconStyle={{ width: 30,
+                height: 30,}}
             data={guitars}
             maxHeight={300}
             labelField="label"
@@ -126,13 +126,13 @@ function Instruments() {
         />
         <Dropdown
             style={{margin: 16,
-                height: 50,
+                height: 60,
                 borderBottomColor: 'gray',
                 borderBottomWidth: 0.5,}}
-            placeholderStyle={{fontSize: 16}}
-            selectedTextStyle={{fontSize: 16}}
-            iconStyle={{ width: 20,
-                height: 20,}}
+            placeholderStyle={{fontSize: 18}}
+            selectedTextStyle={{fontSize: 18}}
+            iconStyle={{ width: 30,
+                height: 30,}}
             data={bass}
             maxHeight={300}
             labelField="label"
@@ -145,13 +145,13 @@ function Instruments() {
         />
         <Dropdown
             style={{margin: 16,
-                height: 50,
+                height: 60,
                 borderBottomColor: 'gray',
                 borderBottomWidth: 0.5,}}
-            placeholderStyle={{fontSize: 16}}
-            selectedTextStyle={{fontSize: 16}}
-            iconStyle={{ width: 20,
-                height: 20,}}
+            placeholderStyle={{fontSize: 18}}
+            selectedTextStyle={{fontSize: 18}}
+            iconStyle={{ width: 30,
+                height: 30,}}
             data={ukulele}
             maxHeight={300}
             labelField="label"
@@ -164,13 +164,13 @@ function Instruments() {
         />
         <Dropdown
             style={{margin: 16,
-                height: 50,
+                height: 60,
                 borderBottomColor: 'gray',
                 borderBottomWidth: 0.5,}}
-            placeholderStyle={{fontSize: 16}}
-            selectedTextStyle={{fontSize: 16}}
-            iconStyle={{ width: 20,
-                height: 20,}}
+            placeholderStyle={{fontSize: 18}}
+            selectedTextStyle={{fontSize: 18}}
+            iconStyle={{ width: 30,
+                height: 30,}}
             data={mandolin}
             maxHeight={300}
             labelField="label"
@@ -183,13 +183,13 @@ function Instruments() {
         />
         <Dropdown
             style={{margin: 16,
-                height: 50,
+                height: 60,
                 borderBottomColor: 'gray',
                 borderBottomWidth: 0.5,}}
-            placeholderStyle={{fontSize: 16}}
-            selectedTextStyle={{fontSize: 16}}
-            iconStyle={{ width: 20,
-                height: 20,}}
+            placeholderStyle={{fontSize: 18}}
+            selectedTextStyle={{fontSize: 18}}
+            iconStyle={{ width: 30,
+                height: 30,}}
             data={banjo}
             maxHeight={300}
             labelField="label"
