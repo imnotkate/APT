@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { Image, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { ArrowLeft } from 'iconoir-react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect} from '@react-navigation/native';
 import ThreePlusThreeHeadImage from '../assets/images/3+3head.jpg';
 import SixHeadImage from '../assets/images/6head.jpg';
 import { Dropdown } from 'react-native-element-dropdown';
 
 function Instruments() {
   const navigation = useNavigation();
+
+  const [selectedHead, setSelectedHead] = useState('6-in-line'); // Add state for selected guitar head
+
+  const handleHeadSelect = (headType) => {
+    setSelectedHead(headType);
+    navigation.setParams({ selectedHead: headType }); // Update the navigation params
+  };
+
+  const navigateToTuner = () => {
+    navigation.navigate('Tune', { head: { selectedHead } });
+  };
+
 
   const guitars = [
     { label: '6 strings', value: 'Guitar 6-string' },
@@ -44,7 +56,7 @@ function Instruments() {
     <View className="bg-grey h-full w-full">
       {/* Back arrow */}
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 60, paddingLeft: 20 }}>
-        <TouchableOpacity onPress={() => navigation.push('Root')}>
+        <TouchableOpacity  onPress={navigateToTuner}>
           <ArrowLeft color="#000" height={30} width={30} />
         </TouchableOpacity>
       </View>
@@ -59,7 +71,9 @@ function Instruments() {
               shadowOpacity: 0.2,
               shadowRadius: 4,
               elevation: 4,
+              opacity: selectedHead === '3+3' ? 1 : 0.5, // Apply opacity based on selected head
             }}
+            onPress={() => handleHeadSelect('3+3')} // Call the handleHeadSelect function with '3+3' as the argument
           >
             <Image
               source={ThreePlusThreeHeadImage}
@@ -72,7 +86,7 @@ function Instruments() {
               }}
             />
           </TouchableOpacity>
-          <Text style={{ paddingTop: 5, fontWeight: 'bold', color: '#000' }}>3+3</Text>
+          <Text style={{ paddingTop: 5, color: '#000' }}>3+3</Text>
         </View>
 
         <View style={{ alignItems: 'center', padding: 20 }}>
@@ -83,7 +97,9 @@ function Instruments() {
               shadowOpacity: 0.2,
               shadowRadius: 4,
               elevation: 4,
+              opacity: selectedHead === '6-in-line' ? 1 : 0.5, // Apply opacity based on selected head
             }}
+            onPress={() => handleHeadSelect('6-in-line')} // Call the handleHeadSelect function with '6-in-line' as the argument
           >
             <Image
               source={SixHeadImage}
@@ -96,7 +112,7 @@ function Instruments() {
               }}
             />
           </TouchableOpacity>
-          <Text style={{ paddingTop: 5, fontWeight: 'bold', color: '#000' }}>6-in-line</Text>
+          <Text style={{ paddingTop: 5, color: '#000' }}>6-in-line</Text>
         </View>
       </View>
 
@@ -121,13 +137,12 @@ function Instruments() {
             placeholderStyle={{
                 fontSize: 16,
                 color: '#de1d35',
-                fontWeight: 'bold',
                 marginLeft: 16, // Add margin to the left
               }}
               contentContainerStyle={{
                 justifyContent: 'center', // Centers the content vertically
               }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35', fontWeight: 'bold' }}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35' }}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12}}
             data={guitars}
             maxHeight={300}
@@ -159,13 +174,12 @@ function Instruments() {
             placeholderStyle={{
                 fontSize: 16,
                 color: '#de1d35',
-                fontWeight: 'bold',
                 marginLeft: 16, // Add margin to the left
               }}
               contentContainerStyle={{
                 justifyContent: 'center', // Centers the content vertically
               }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35', fontWeight: 'bold' }}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35', }}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12  }}
             data={bass}
             maxHeight={300}
@@ -197,13 +211,12 @@ function Instruments() {
             placeholderStyle={{
                 fontSize: 16,
                 color: '#de1d35',
-                fontWeight: 'bold',
                 marginLeft: 16, // Add margin to the left
               }}
               contentContainerStyle={{
                 justifyContent: 'center', // Centers the content vertically
               }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35', fontWeight: 'bold'}}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35'}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12  }}
             data={ukulele}
             maxHeight={300}
@@ -235,13 +248,12 @@ function Instruments() {
             placeholderStyle={{
                 fontSize: 16,
                 color: '#de1d35',
-                fontWeight: 'bold',
                 marginLeft: 16, // Add margin to the left
               }}
               contentContainerStyle={{
                 justifyContent: 'center', // Centers the content vertically
               }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35', fontWeight: 'bold'}}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35'}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12 }}
             data={mandolin}
             maxHeight={300}
@@ -273,13 +285,12 @@ function Instruments() {
             placeholderStyle={{
                 fontSize: 16,
                 color: '#de1d35',
-                fontWeight: 'bold',
                 marginLeft: 16, // Add margin to the left
               }}
               contentContainerStyle={{
                 justifyContent: 'center', // Centers the content vertically
               }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35', fontWeight: 'bold'}}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35'}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333' , marginRight: 12 }}
             data={banjo}
             maxHeight={300}

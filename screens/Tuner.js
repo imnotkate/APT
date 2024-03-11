@@ -4,13 +4,35 @@ import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import ThreePlusThreeHeadImage from '../assets/images/3plus3guitar.png';
+import SixHeadImage from '../assets/images/guitar-head-removebg-preview.png';
 
-const Tuner = () => {
+function Tuner({ route }) {
+
+  const { head } = route.params || {};
+  const { selectedHead } = head || {};
+
+  const renderGuitarHead = () => {
+    switch (selectedHead) {
+      case '3+3':
+        return <Image source={ThreePlusThreeHeadImage} style={{ width: 200, height: 460,  }} />;
+      case '6-in-line':
+        return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
+      case '7-string':
+        return null;
+      case '8-string':
+        return null;
+      case '12-string':
+        return null;
+      default:
+        return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
+    }
+  };
 
   const navigation = useNavigation();
 
   const [selectedTuning, setTuning] = useState('E Standard');
-  const [selectedString, setSelectedString] = useState('E2');
+  const [selectedString, setSelectedString] = useState(null);
   const [tuningProgress, setTuningProgress] = useState(0);
   const [selectedGuitar, setGuitar] = useState('Guitar 6-string');
   const [selectedInstrument, setInstrument] = useState('Guitar');   
@@ -55,15 +77,17 @@ const Tuner = () => {
     setInstrument(value);
   }
 
-  const [auto, setAuto] = useState(false);
 
   const handleToggleSwitch = () => {
     setAuto(!auto);
   };
 
+  const [auto, setAuto] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
   const [isTuned, setIsTuned] = useState(false);
+  const [flashing, setFlashing] = useState(false);
 
-   // connection to flask webserver 
+  // connection to flask webserver 
   // send msg
   const sendMessageToServer = (string) => {
     const messageData = {
@@ -72,17 +96,66 @@ const Tuner = () => {
     // use pi ip address and port number
     axios.post("http://192.168.231.3:5000/tune_string", messageData) // Example message
       .then(response => {
-        if (response.data.message === 'string tuned') {
+        // if (response.data.message === 'string tuned') {
+        //   setIsTuned(true);
+        // } else {
+        //   setIsTuned(false);
+        // }
+        if (response.status === 409) {
+          //already tuning
+        } else if (response.status === 202) {
+          //string tuned
           setIsTuned(true);
-        } else {
+          setSelectedString(string);
+        } 
+        else {
+          //if a random response is received
           setIsTuned(false);
         }
       })
       .catch(error => {
-        console.error('Error', error);
         setIsTuned(false); // Assume not tuned if there's an error
       });
   };
+
+  const tuneStringsAutomatically = async () => {
+    const stringsToTune = ['E2', 'A', 'D', 'G', 'B', 'E4']; // Add all your strings
+
+    let currentIndex = 0;
+    const maxIterations = 3; // Number of times to flash green for each string
+
+    const intervalId = setInterval( async () => {
+      if (currentIndex >= stringsToTune.length) {
+        //all strings tuned so flash green
+        clearInterval(intervalId);
+        setFlashing(true);
+        setTimeout(() => {
+          setFlashing(false);
+        }, 1000); // Adjust the time as needed
+        return;
+  }
+
+  useEffect(() => {
+    if (auto) {
+      tuneStringsAutomatically();
+    } else {
+      clearInterval(intervalId); // Clear the interval if auto mode is turned off
+    }
+  }, [auto]);
+
+  const currentString = stringsToTune[currentIndex];
+  await sendAndTuneString(currentString);
+
+    if (isTuned) {
+      // String is tuned, move to the next one
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      // Handle if the string is not tuned, retry or handle as needed
+    }
+  }, 2000); // Adjust the time as needed
+
+  setIntervalId(intervalId);
+};
 
   const pickerTextStyle = {
     fontSize: 20, // Adjust the font size as needed
@@ -229,7 +302,9 @@ const Tuner = () => {
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: selectedString === string ? (isTuned ? 'green' : '#de1d35') : '#fff',
+                backgroundColor: selectedString === string
+                ? (isTuned ? (flashing ? 'green' : '#fff') : '#de1d35')
+                : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -257,10 +332,7 @@ const Tuner = () => {
 
       {/* Container for the guitar head image */}
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: 80, paddingTop: 40}}>
-        <Image
-          source={require('../assets/images/guitar-head-removebg-preview.png')} // Update with your actual image path
-          style={{width: 200, height: 460}} // Adjust size as needed
-        />
+      {renderGuitarHead()}
       </View>
     </View>
 
