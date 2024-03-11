@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { OpenBook, Arc3dCenterPoint, Repeat, Metro, Learning, Spotify } from 'iconoir-react-native';
+import { OpenBook, Arc3dCenterPoint, Refresh, Metro, Learning, Spotify } from 'iconoir-react-native';
 
 const Tools = ({ navigation }) => {
   const tools = [
@@ -12,7 +12,7 @@ const Tools = ({ navigation }) => {
     {
       title: 'String Winder',
       onPress: () => navigation.navigate('StringWinder'), // Navigate to MetronomePage on press
-      icon: <Repeat color={'#de1d35'} height={40} width={40} />,
+      icon: <Refresh color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'Metronome',
@@ -47,7 +47,7 @@ const Tools = ({ navigation }) => {
     <View style={styles.container}>
       {tools.map((tool, index) => (
         <TouchableOpacity key={index} style={styles.toolBlock} >
-          <TouchableOpacity>{tool.icon}</TouchableOpacity>
+          <View>{tool.icon}</View>
           <Text style={styles.toolTitle}>{tool.title}</Text>
         </TouchableOpacity>
       ))}
