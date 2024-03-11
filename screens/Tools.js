@@ -4,7 +4,6 @@ import { OpenBook, Arc3dCenterPoint, Refresh, Metro, Learning, Spotify } from 'i
 import { useNavigation } from '@react-navigation/native';
 
 const Tools = () => {
-
   const navigation = useNavigation();
 
   const tools = [

@@ -1,76 +1,17 @@
+import React, { useState } from 'react';
+import { Image, Text, View, TouchableOpacity, Button, Switch } from 'react-native';
+import axios from 'axios';
+import { Picker } from '@react-native-picker/picker';
+import { Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import ThreePlusThreeHeadImage from '../assets/images/3plus3guitar.png';
+import SixHeadImage from '../assets/images/guitar-head-removebg-preview.png';
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Audio } from 'expo-av';
+function Metronome() {
+  return (
+    <Text style={{color: 'black'}}>Metronome</Text>
+    
+  )
+}
 
-const Metronome = () => {
-    const navigation = useNavigation();
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [bpm, setBpm] = useState(120);
-    const [sound, setSound] = useState();
-  
-    useEffect(() => {
-      return () => {
-        if (sound) {
-          sound.unloadAsync();
-        }
-      };
-    }, [sound]);
-  
-    const handlePlayPause = async () => {
-      if (isPlaying) {
-        clearInterval(interval);
-        setIsPlaying(false);
-      } else {
-        const soundObject = new Audio.Sound();
-        await soundObject.loadAsync(require('../click.mp3')); // Make sure you have the sound file in your project
-        setSound(soundObject);
-        setIsPlaying(true);
-        playSound();
-        const interval = setInterval(playSound, 60000 / bpm);
-      }
-    };
-  
-    const playSound = async () => {
-      try {
-        await sound.replayAsync();
-      } catch (error) {
-        console.log('Error playing sound:', error);
-      }
-    };
-  
-    return (
-      <View style={styles.container}>
-        <Text style={styles.bpmText}>{bpm} BPM</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>{isPlaying ? 'Pause' : 'Play'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}> {/* Return to Tools Page button */}
-        <Text style={styles.buttonText}>Return to Tools Page</Text>
-      </TouchableOpacity>
-        {/* Add additional UI components as needed */}
-      </View>
-    );
-  };
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    bpmText: {
-      fontSize: 24,
-      marginBottom: 20,
-    },
-    button: {
-      padding: 10,
-      backgroundColor: 'lightblue',
-      borderRadius: 10,
-    },
-    buttonText: {
-      fontSize: 18,
-    },
-});
-
-export default Metronome;
+export default Metronome
