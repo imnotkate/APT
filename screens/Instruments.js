@@ -196,9 +196,9 @@ function Instruments() {
             placeholder="Bass"
             value={value}
             scrollEnabled={true}
-            // onChange={item => {
-            // setValue(item.value);
-            // }}
+            onChange={item => {
+            setValue(item.value);
+            }}
           />
           <Dropdown
             style={{
@@ -230,9 +230,9 @@ function Instruments() {
             placeholder="Ukulele"
             value={value}
             scrollEnabled={true}
-            // onChange={item => {
-            // setValue(item.value);
-            // }}
+            onChange={item => {
+            setValue(item.value);
+            }}
           />
           <Dropdown
             style={{
@@ -264,9 +264,9 @@ function Instruments() {
             placeholder="Mandolin"
             value={value}
             scrollEnabled={true}
-            // onChange={item => {
-            // setValue(item.value);
-            // }}
+            onChange={item => {
+            setValue(item.value);
+            }}
           />
           <Dropdown
             style={{
@@ -298,9 +298,9 @@ function Instruments() {
             placeholder="Banjo"
             value={value}
             scrollEnabled={true}
-            // onChange={item => {
-            // setValue(item.value);
-            // }}
+            onChange={item => {
+            setValue(item.value);
+            }}
           />
         </View>
       </ScrollView>
