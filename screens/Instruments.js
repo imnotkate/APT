@@ -9,45 +9,54 @@ import { Dropdown } from 'react-native-element-dropdown';
 function Instruments() {
   const navigation = useNavigation();
 
-  const [selectedHead, setSelectedHead] = useState('6-in-line'); // Add state for selected guitar head
+  const [selectedHead, setSelectedHead] = useState(
+    navigation.getState().params?.selectedHead || '6-in-line'
+  );
 
-  const handleHeadSelect = (headType) => {
-    setSelectedHead(headType);
-    navigation.setParams({ selectedHead: headType }); // Update the navigation params
+  const [selectedInstrument, setSelectedInstrument] = useState(
+    navigation.getState().params?.selectedInstrument || 'Guitar 6-string'
+  );
+
+  const navigateToTuner = (selectedHead) => {
+    navigation.navigate('Tune', { selectedHead, selectedInstrument });
   };
 
-  const navigateToTuner = () => {
-    navigation.navigate('Tune', { head: { selectedHead } });
-  };
-
+  useFocusEffect(
+    React.useCallback(() => {
+      const { selectedHead } = navigation.getState().params || {};
+      const { selectedInstrument } = navigation.getState().params || {};
+      setSelectedHead(selectedHead || '6-in-line');
+      setSelectedInstrument(selectedInstrument || 'Guitar 6-string');
+    }, [navigation])
+  );
 
   const guitars = [
-    { label: '6 strings', value: 'Guitar 6-string' },
-    { label: '7 strings', value: 'Guitar 7-string' },
-    { label: '8 strings', value: 'Guitar 8-string' },
-    { label: '12 strings', value: 'Guitar 12-string' },
+    { label: 'Guitar 6-string', value: '6-in-line' },
+    { label: 'Guitar 7-string', value: '7-string' },
+    { label: 'Guitar 8-string', value: '8-string' },
+    { label: 'Guitar 12-string', value: '12-string' },
   ];
 
   const bass = [
-    { label: '4 strings', value: 'Bass 4-string' },
-    { label: '5 strings', value: 'Bass 5-string' },
+    { label: 'Bass 4-string', value: 'Bass 4-string' },
+    { label: 'Bass 5-string', value: 'Bass 5-string' },
   ];
 
   const ukulele = [
-    { label: 'Soprano', value: 'Soprano Ukulele' },
-    { label: 'Concert', value: 'Concert Ukulele' },
-    { label: 'Tenor', value: 'Tenor Ukulele' },
-    { label: 'Baritone', value: 'Baritone Ukulele' },
+    { label: 'Ukulele Soprano', value: 'Soprano Ukulele' },
+    { label: 'Ukulele Concert', value: 'Concert Ukulele' },
+    { label: 'Ukulele Tenor', value: 'Tenor Ukulele' },
+    { label: 'Ukulele Baritone', value: 'Baritone Ukulele' },
   ];
 
   const mandolin = [
-    { label: '8 strings', value: 'Mandolin 8-string' },
+    { label: 'Mandolin 8-string', value: 'Mandolin 8-string' },
   ];
 
   const banjo = [
-    { label: '4 strings', value: 'Banjo 4-string' },
-    { label: '5 strings', value: 'Banjo 5-string' },
-    { label: '6 strings', value: 'Banjo 6-string' },
+    { label: 'Banjo 4-string', value: 'Banjo 4-string' },
+    { label: 'Banjo 5-string', value: 'Banjo 5-string' },
+    { label: 'Banjo 6-string', value: 'Banjo 6-string' },
   ];
 
   const [value, setValue] = useState(null);
@@ -56,7 +65,7 @@ function Instruments() {
     <View className="bg-grey h-full w-full">
       {/* Back arrow */}
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 60, paddingLeft: 20 }}>
-        <TouchableOpacity  onPress={navigateToTuner}>
+        <TouchableOpacity>
           <ArrowLeft color="#000" height={30} width={30} />
         </TouchableOpacity>
       </View>
@@ -73,7 +82,7 @@ function Instruments() {
               elevation: 4,
               opacity: selectedHead === '3+3' ? 1 : 0.5, // Apply opacity based on selected head
             }}
-            onPress={() => handleHeadSelect('3+3')} // Call the handleHeadSelect function with '3+3' as the argument
+            onPress={() => navigateToTuner('3+3')} // Call the handleHeadSelect function with '3+3' as the argument
           >
             <Image
               source={ThreePlusThreeHeadImage}
@@ -99,7 +108,7 @@ function Instruments() {
               elevation: 4,
               opacity: selectedHead === '6-in-line' ? 1 : 0.5, // Apply opacity based on selected head
             }}
-            onPress={() => handleHeadSelect('6-in-line')} // Call the handleHeadSelect function with '6-in-line' as the argument
+            onPress={() => navigateToTuner('6-in-line')} // Call the handleHeadSelect function with '6-in-line' as the argument
           >
             <Image
               source={SixHeadImage}
@@ -139,10 +148,7 @@ function Instruments() {
                 color: '#de1d35',
                 marginLeft: 16, // Add margin to the left
               }}
-              contentContainerStyle={{
-                justifyContent: 'center', // Centers the content vertically
-              }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35' }}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35', marginLeft: 16}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12}}
             data={guitars}
             maxHeight={300}
@@ -151,9 +157,14 @@ function Instruments() {
             placeholder="Guitar"
             value={value}
             scrollEnabled={true}
-            // onChange={item => {
-            // setValue(item.value);
-            // }}
+            onChange={(item) => {
+              if (item.value !== value) { // Check if the selected value is different from the current value
+                setSelectedHead(item.value);
+                setSelectedInstrument(item.label);
+                setValue(item.value); // Update the value state only if the selected value is different
+                navigation.setParams({ selectedHead: item.value, selectedInstrument: item.label}); // Update the navigation params
+                navigateToTuner(item.value, item.label);
+              }}}
           />
           <Dropdown
             style={{
@@ -176,10 +187,7 @@ function Instruments() {
                 color: '#de1d35',
                 marginLeft: 16, // Add margin to the left
               }}
-              contentContainerStyle={{
-                justifyContent: 'center', // Centers the content vertically
-              }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35', }}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35', marginLeft: 16}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12  }}
             data={bass}
             maxHeight={300}
@@ -213,10 +221,7 @@ function Instruments() {
                 color: '#de1d35',
                 marginLeft: 16, // Add margin to the left
               }}
-              contentContainerStyle={{
-                justifyContent: 'center', // Centers the content vertically
-              }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35'}}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35', marginLeft: 16}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12  }}
             data={ukulele}
             maxHeight={300}
@@ -250,10 +255,7 @@ function Instruments() {
                 color: '#de1d35',
                 marginLeft: 16, // Add margin to the left
               }}
-              contentContainerStyle={{
-                justifyContent: 'center', // Centers the content vertically
-              }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35'}}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35', marginLeft: 16}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333', marginRight: 12 }}
             data={mandolin}
             maxHeight={300}
@@ -287,10 +289,7 @@ function Instruments() {
                 color: '#de1d35',
                 marginLeft: 16, // Add margin to the left
               }}
-              contentContainerStyle={{
-                justifyContent: 'center', // Centers the content vertically
-              }}
-            selectedTextStyle={{ fontSize: 16, color: '#de1d35'}}
+            selectedTextStyle={{ fontSize: 16, color: '#de1d35', marginLeft: 16}}
             iconStyle={{ width: 24, height: 24, tintColor: '#333333' , marginRight: 12 }}
             data={banjo}
             maxHeight={300}

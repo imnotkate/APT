@@ -6,11 +6,13 @@ import { Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ThreePlusThreeHeadImage from '../assets/images/3plus3guitar.png';
 import SixHeadImage from '../assets/images/guitar-head-removebg-preview.png';
+import SevenString from '../assets/images/7string-removebg-preview.png';
+import EightString from '../assets/images/8string-removebg-preview.png';
+import TwelveString from '../assets/images/12-removebg-preview.png';
 
 function Tuner({ route }) {
 
-  const { head } = route.params || {};
-  const { selectedHead } = head || {};
+  const { selectedHead, selectedInstrument } = route.params || {};
 
   const renderGuitarHead = () => {
     switch (selectedHead) {
@@ -19,11 +21,11 @@ function Tuner({ route }) {
       case '6-in-line':
         return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
       case '7-string':
-        return null;
+        return <Image source={SevenString} style={{ width: 230, height: 460 }} />;;
       case '8-string':
-        return null;
+        return <Image source={EightString} style={{ width: 230, height: 460 }} />;;
       case '12-string':
-        return null;
+        return <Image source={TwelveString} style={{ width: 230, height: 460 }} />;;
       default:
         return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
     }
@@ -34,11 +36,7 @@ function Tuner({ route }) {
   const [selectedTuning, setTuning] = useState('E Standard');
   const [selectedString, setSelectedString] = useState(null);
   const [tuningProgress, setTuningProgress] = useState(0);
-  const [selectedGuitar, setGuitar] = useState('Guitar 6-string');
-  const [selectedInstrument, setInstrument] = useState('Guitar');   
-
-  const instruments = ['Guitar', 'Bass', 'Soprano Ukulele', 'Concert Ukulele', 'Tenor Ukulele', 'Baritone Ukulele', 'Banjo', 'Mandolin', 'Sitar'];
-  const guitars = ['Guitar 6-string', 'Guitar 7-string', 'Guitar 8-string', 'Guitar 12-string'];
+  
   const tunings = ['E Standard', 'Drop D', 'Open D', 'Drop C', 'Open C', 'Open G', 'Drop B', 'Open E', 'Drop A']; 
 
   const stringsData = {
@@ -67,16 +65,6 @@ function Tuner({ route }) {
   };
 
   const [showTuningModal, setShowTuningModal] = useState(false);
-
-  const handleGuitarChange = (value) => {
-    setGuitar(value);
-    setGuitarPickerVisible(false);
-  }
-
-  const handleInstrumentChange = (value) => {
-    setInstrument(value);
-  }
-
 
   const handleToggleSwitch = () => {
     setAuto(!auto);
@@ -195,16 +183,6 @@ function Tuner({ route }) {
 
     {/* Tuning and Instrument buttons */}
     <View style={{flex: 1, paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
-    {/* <Picker
-      selectedValue={selectedTuning}
-      onValueChange={handleTuningChange}
-      style={pickerTextStyle}
-    >
-      {tunings.map(type => (
-    <Picker.Item key={type} label={type} value={type} />
-  ))}
-</Picker> */}
-
 <TouchableOpacity
   style={[
     {
@@ -283,7 +261,7 @@ function Tuner({ route }) {
         }}
         onPress={() => {navigation.push('Instruments')}}
       >
-    <Text style={{fontSize: 20, color: '#fff'}}>{selectedGuitar}</Text>
+    <Text style={{fontSize: 20, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
       </View>
       </View>
