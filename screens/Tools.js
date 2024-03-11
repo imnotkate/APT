@@ -1,8 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { OpenBook, Arc3dCenterPoint, Refresh, Metro, Learning, Spotify } from 'iconoir-react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const Tools = ({ navigation }) => {
+
+const Tools = () => {
+  const navigation = useNavigation();
+
   const tools = [
     {
       title: 'Custom Tunings',
@@ -16,7 +20,7 @@ const Tools = ({ navigation }) => {
     },
     {
       title: 'Metronome',
-      onPress: () => navigation.navigate('Metronome'), // Navigate to MetronomePage on press
+      onPress: () => navigation.push('Instruments'), // Navigate to MetronomePage on press
       icon: <Metro color={'#de1d35'} height={40} width={40} />,
     },
     {
