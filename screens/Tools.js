@@ -3,8 +3,8 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { OpenBook, Arc3dCenterPoint, Refresh, Metro, Learning, Spotify } from 'iconoir-react-native';
 import { useNavigation } from '@react-navigation/native';
 
-
 const Tools = () => {
+
   const navigation = useNavigation();
 
   const tools = [
@@ -20,7 +20,7 @@ const Tools = () => {
     },
     {
       title: 'Metronome',
-      onPress: () => navigation.push('Instruments'), // Navigate to MetronomePage on press
+      onPress: () => navigation.navigate('Metronome'), // Navigate to MetronomePage on press
       icon: <Metro color={'#de1d35'} height={40} width={40} />,
     },
     {
@@ -50,7 +50,7 @@ const Tools = () => {
 
     <View style={styles.container}>
       {tools.map((tool, index) => (
-        <TouchableOpacity key={index} style={styles.toolBlock} >
+        <TouchableOpacity key={index} style={styles.toolBlock} onPress={tool.onPress}>
           <View>{tool.icon}</View>
           <Text style={styles.toolTitle}>{tool.title}</Text>
         </TouchableOpacity>

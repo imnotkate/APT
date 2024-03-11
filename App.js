@@ -6,6 +6,7 @@ import Register from './screens/Register';
 import TabNavigator from './components/Navigation';
 import Instruments from './screens/Instruments'
 import Tuner from './screens/Tuner';
+import Metronome from './screens/Metronome';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <>
             <Stack.Screen name="Root" component={TabNavigator} />
             <Stack.Screen name="Instruments" component={Instruments}/>
+            <Stack.Screen name='Metronome' component={Metronome} />
           </>
         ) : (
           <>
