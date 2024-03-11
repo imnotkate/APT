@@ -17,7 +17,7 @@ function Instruments() {
     navigation.getState().params?.selectedInstrument || 'Guitar 6-string'
   );
 
-  const navigateToTuner = (selectedHead) => {
+  const navigateToTuner = (selectedHead, selectedInstrument) => {
     navigation.navigate('Tune', { selectedHead, selectedInstrument });
   };
 
