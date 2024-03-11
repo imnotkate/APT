@@ -20,7 +20,7 @@ const Tools = () => {
     },
     {
       title: 'Metronome',
-      onPress: () => navigation.push('Metronome'), // Navigate to MetronomePage on press
+      onPress: () => navigation.push('Instruments'), // Navigate to MetronomePage on press
       icon: <Metro color={'#de1d35'} height={40} width={40} />,
     },
     {
