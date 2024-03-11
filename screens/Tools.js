@@ -1,33 +1,57 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-
+import { OpenBook, Arc3dCenterPoint, Repeat, Metro, Learning, Spotify } from 'iconoir-react-native';
 
 const Tools = ({ navigation }) => {
   const tools = [
     {
       title: 'Custom Tunings',
       onPress: () => navigation.navigate('CustomTunings'), // Navigate to MetronomePage on press
+      icon: <Arc3dCenterPoint color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'String Winder',
-      onPress: () => navigation.navigate('Winder'), // Navigate to MetronomePage on press
+      onPress: () => navigation.navigate('StringWinder'), // Navigate to MetronomePage on press
+      icon: <Repeat color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'Metronome',
       onPress: () => navigation.navigate('Metronome'), // Navigate to MetronomePage on press
+      icon: <Metro color={'#de1d35'} height={40} width={40} />,
     },
-    // Add more tools as needed
+    {
+      title: 'Chord Library',
+      onPress: () => navigation.navigate('ChordLib'), // Navigate to MetronomePage on press
+      icon: <OpenBook color={'#de1d35'} height={40} width={40} />,
+    },
+    {
+      title: 'Ear Trainer',
+      onPress: () => navigation.navigate('EarTrainer'), // Navigate to MetronomePage on press####
+      icon: <Learning color={'#de1d35'} height={40} width={40} />,
+    },
+    {
+      title: 'Spotify',
+      onPress: () => navigation.navigate('EarTrainer'), // Navigate to MetronomePage on press####
+      icon: <Spotify color={'#de1d35'} height={40} width={40} />,
+    },
   ];
 
   return (
-    
+    <View classnName="bg-grey, w-full, h-full">
+
+    <View className="flex items-center">
+    <Text style={{fontSize: 38, paddingTop: 100, fontWeight: 'bold', color: '#0e1c36'}}>Tools</Text>
+    </View>
+
+
     <View style={styles.container}>
-      <Text style={{fontSize: 38, paddingTop: 30, paddingBottom: 90, fontWeight: 'bold', color: '#0e1c36'}}>Tools</Text>
       {tools.map((tool, index) => (
         <TouchableOpacity key={index} style={styles.toolBlock} >
+          <TouchableOpacity>{tool.icon}</TouchableOpacity>
           <Text style={styles.toolTitle}>{tool.title}</Text>
         </TouchableOpacity>
       ))}
+    </View>
     </View>
   );
 };
@@ -38,18 +62,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    padding: 30,
-    paddingTop: 100,
+    paddingTop: 40,
   },
   toolBlock: {
-    // length: 250, // Adjust width as needed to fit multiple blocks in a row
-    aspectRatio: 1.75, // Maintain square aspect ratio for blocks
     backgroundColor: 'white',
     borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
-    width: 300,
+    margin: 10,
+    height: 160,
+    width: 160,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -57,9 +79,10 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   toolTitle: {
-    fontSize: 18,
-    color: '#de1d35'
-  },
+    fontSize: 16,
+    color: '#de1d35', 
+    paddingTop: 10,
+   },
 });
 
 export default Tools;
