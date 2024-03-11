@@ -42,15 +42,15 @@ function Tuner({ route }) {
   const tunings = ['E Standard', 'Drop D', 'Open D', 'Drop C', 'Open C', 'Open G', 'Drop B', 'Open E', 'Drop A']; 
 
   const stringsData = {
-    'E Standard': ['E2', 'A', 'D', 'G', 'B', 'E4'], 
-    'Drop D': ['D2', 'A', 'D3', 'G', 'B', 'E'], 
-    'Open D': ['D2', 'A2', 'D3', 'F#', 'A3', 'D4'],
-    'Drop C': ['C2', 'G', 'C3', 'F', 'A', 'D'],
-    'Open C': ['C2', 'G2', 'C3', 'G3', 'C4', 'E'],
-    'Open G': ['D2', 'G2', 'D3', 'G3', 'B', 'D4'],
-    'Drop B': ['B1', 'Gb', 'B2', 'E', 'Ab', 'Db'],
-    'Open E': ['E2', 'B2', 'E3', 'G#', 'B3', 'E4'],
-    'Drop A': ['A1', 'E', 'A2', 'D', 'F#', 'B'],
+    'E Standard': ['E4', 'B', 'G', 'D', 'A', 'E2'], 
+    'Drop D': ['E', 'B', 'G', 'D3', 'A', 'D2'],
+    'Open D': ['D4', 'A3', 'F#', 'D3', 'A2', 'D2'], 
+    'Drop C': ['D', 'A', 'F', 'C3', 'G', 'C2'],
+    'Open C': ['E', 'C4', 'G3', 'C3', 'G2', 'C2'],
+    'Open G': ['D4', 'B', 'G3', 'D3', 'G2', 'D2'],
+    'Drop B': ['Db', 'Ab', 'E', 'B2', 'Gb', 'B1'],
+    'Open E': ['E4', 'B3', 'G#', 'E3', 'B2', 'E2'],
+    'Drop A': ['B', 'F#', 'D', 'A2', 'E', 'A1'],
   };
   const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
  
