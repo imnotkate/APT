@@ -14,6 +14,11 @@ function Tuner({ route }) {
 
   const { selectedHead, selectedInstrument } = route.params || {};
 
+  const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
+  const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
+  const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
+  const twelveTunings = ['Standard', 'Open G', 'D Modal', 'Drop D', 'Open C', 'Drop A', 'Split', 'Open E', 'Full Step Down'];
+
   const renderGuitarHead = () => {
     switch (selectedHead) {
       case '3+3':
@@ -31,16 +36,35 @@ function Tuner({ route }) {
     }
   };
 
+  const renderTunings = () => {
+    switch (selectedInstrument) {
+      case 'Guitar 6-string':
+        return tunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Guitar 7-string':
+        return sevenTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Guitar 8-string':
+        return eightTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Guitar 12-string':
+        return twelveTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      default:
+        return tunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+    }
+  };
   const navigation = useNavigation();
 
   const [selectedTuning, setTuning] = useState('Standard');
   const [selectedString, setSelectedString] = useState(null);
   const [tuningProgress, setTuningProgress] = useState(0);
-  
-  const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
-  const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
-  const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
-  const twelveTunings = ['Standard', 'Open G', 'D Modal', 'Drop D', 'Open C', 'Drop A', 'Split', 'Open E', 'Full Step Down'];
 
   const stringsData = {
     'Standard': ['E4', 'B', 'G', 'D', 'A', 'E2'], 
@@ -83,7 +107,7 @@ function Tuner({ route }) {
     'Dobro Open G': ['G4', 'D4', 'G3', 'B2', 'D2', 'G1'],
   };
 
-  const sevenStringsDate = {
+  const sevenStringsData = {
     'Standard': ['B2', 'E4', 'A3', 'D3', 'G2', 'B1', 'E1'],
     'Open G': ['B2', 'D4', 'G3', 'B3', 'D3', 'G2', 'B1'],
     'D Modal': ['B2', 'D4', 'A3', 'D3', 'G2', 'B1', 'E1'],
@@ -101,7 +125,7 @@ function Tuner({ route }) {
     'Thirds': ['B2', 'E4', 'A3', 'D3', 'G2', 'B1', 'E1'],
   };
 
-  const eightStringsDate = {
+  const eightStringsData = {
     'Standard': ['F#1', 'B2', 'E4', 'A3', 'D3', 'G2', 'B1', 'E1'],
     'F': ['F1', 'B2', 'E4', 'A3', 'D3', 'G2', 'B1', 'E1'],
     'Drop E': ['E1', 'B2', 'E4', 'A3', 'D3', 'G2', 'B1', 'E1'],
@@ -109,7 +133,7 @@ function Tuner({ route }) {
     'Drop D': ['D1', 'B2', 'E4', 'A3', 'D3', 'G2', 'B1', 'E1'],
   };
 
-  const twelveStringsDate = {
+  const twelveStringsData = {
     'Standard': ['E4', 'E4', 'B3', 'B3', 'G3', 'G3', 'D3', 'D3', 'A2', 'A2', 'E2', 'E1'],
     'Open G': ['D4', 'D4', 'B3', 'B3', 'G3', 'G3', 'D3', 'D3', 'G2', 'G2', 'D2', 'D1'],
     'D Modal': ['D4', 'D4', 'A3', 'A3', 'D3', 'D3', 'G2', 'G2', 'A2', 'A2', 'D2', 'D1'],
@@ -122,7 +146,13 @@ function Tuner({ route }) {
   };
   
 
-  const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
+  // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
+  const strings = {
+    'Guitar 6-string': stringsData[selectedTuning] || [],
+    'Guitar 7-string': sevenStringsData[selectedTuning] || [],
+    'Guitar 8-string': eightStringsData[selectedTuning] || [],
+    'Guitar 12-string': twelveStringsData[selectedTuning] || [],
+  }[selectedInstrument] || stringsData[selectedTuning] || [];
  
   const handleTuningChange = (value) => {
     setTuning(value);
@@ -298,9 +328,7 @@ function Tuner({ route }) {
         }}
         itemStyle={{ color: '#de1d35', fontSize: 20 }}
       >
-        {tunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ))}
+        {renderTunings()}
       </Picker>
       <Button title="Cancel" onPress={() => setShowTuningModal(false)} />
     </View>
@@ -376,7 +404,6 @@ function Tuner({ route }) {
               <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
-              
             </TouchableOpacity>
           ))}
         </View>
