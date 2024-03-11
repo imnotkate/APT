@@ -223,6 +223,7 @@ function Tuner({ route }) {
       borderWidth: 0,
       borderColor: 'transparent',
       width: 150,
+      height: 50,
     },
   ]}
   onPress={() => setShowTuningModal(true)}
@@ -266,6 +267,7 @@ function Tuner({ route }) {
           borderRadius: 25,
           fontSize: 20,
           width: 190,
+          height: 50,
           borderWidth: 1,
           borderColor: '#de1d35',
           backgroundColor: '#de1d35',
