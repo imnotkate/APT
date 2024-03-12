@@ -1,28 +1,19 @@
 import React, { useState } from 'react';
-import { Image, Text, View, TouchableOpacity, Button, Switch, StyleSheet } from 'react-native';
-import axios from 'axios';
-import { Picker } from '@react-native-picker/picker';
-import { Modal } from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { ArrowLeft } from 'iconoir-react-native';
-
+import click1 from '../assets/clickrecordings/click1.mp3';
+import click2 from '../assets/clickrecordings/click2.mp3';
 
 function Metronome() {
   const [bpm, setBpm] = useState(140);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
   const [tempoText, setTempoText] = useState('Allegro');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [buttonText, setButtonText] = useState('Start');
+
   const navigation = useNavigation();
-
-  state = {
-    value: [120],
-  };
-
-  multiSliderValuesChange = (values) => {
-    this.setState({
-        values,
-    });
-  } 
 
   const updateTempoText = () => {
     let tempo = '';
@@ -81,6 +72,22 @@ function Metronome() {
 
   const decreaseBeatsPerMeasure = () => {
     setBeatsPerMeasure(beatsPerMeasure => Math.max(beatsPerMeasure - 1, 1));
+  }
+
+  const updateBPMSlider = (values) => {
+    setBpm(values[0]);
+    updateTempoText();
+  }
+
+  const playMetronome = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      setButtonText('Start');
+    } else {
+      setIsPlaying(true);
+      setButtonText('Stop');
+      // playClick1();
+    }
   }
 
   const styles = StyleSheet.create({
@@ -223,8 +230,9 @@ function Metronome() {
           </TouchableOpacity>
           <View>
                 <MultiSlider
-                    values={[140]}
+                    values={[bpm]}
                     sliderLength={280}
+                    onValuesChange={(values) => updateBPMSlider(values)}
                     min={20}
                     max={280}
                     step={1}
@@ -236,8 +244,8 @@ function Metronome() {
         </View>
 
         {/* Start/Stop */}
-        <TouchableOpacity style={styles.startStopButton}>
-          <Text style={styles.startStopButtonText}>Start</Text>
+        <TouchableOpacity style={styles.startStopButton} onPress={() => {playMetronome();}}>
+          <Text style={styles.startStopButtonText}>{buttonText}</Text>
         </TouchableOpacity>
 
         {/* Measures */}
