@@ -12,7 +12,7 @@ export default function Login() {
       <View className="h-full w-full flex justify-around pt-20 pb-10">
         <View className="flex items-center">
         <Image
-        source={require('../assets/images/newlogo.png')} // Replace with the actual path to your image
+        source={require('../assets/images/APT.png')} // Replace with the actual path to your image
         style={{ width: 400, height: 400 }} />      
         </View>
 
