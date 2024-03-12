@@ -83,6 +83,11 @@ function Metronome() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      alignItems: 'left',
+      justifyContent: 'left',
+    },
+    metronomeContainer: {
+      flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -187,8 +192,16 @@ function Metronome() {
   });
   return (
     <View style={styles.container}>
+      {/* Logo */}
+      <View style={{paddingTop: 90, flexDirection: 'row', alignItems: 'left', paddingLeft: 10 }}>
+        <Image
+          source={require('../assets/images/logosmall-removebg-preview.png')}
+          style={{ width: 160, height: 80, marginLeft: 20}}
+        />
+      </View>
+
       {/* Metronome */}
-      <View> 
+      <View style={styles.metronomeContainer}> 
         {/* BPM Display */}
         <View style={styles.bpmDisplay}> 
           <Text style={styles.bpmText} > {bpm} </Text>
@@ -207,7 +220,7 @@ function Metronome() {
           </TouchableOpacity>
           {/* <View>
                 <MultiSlider
-                    values={bpm}
+                    values={this.state.values[0]}
                     sliderLength={280}
                     onValuesChange={this.multiSliderValuesChange}
                     min={20}
