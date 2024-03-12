@@ -231,7 +231,7 @@ function Metronome() {
           <View>
                 <MultiSlider
                     values={[bpm]}
-                    sliderLength={280}
+                    sliderLength={250}
                     onValuesChange={(values) => updateBPMSlider(values)}
                     min={20}
                     max={280}
