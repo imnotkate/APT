@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Text, View, TouchableOpacity, Button, Switch, StyleSheet } from 'react-native';
-import axios from 'axios';
-import { Picker } from '@react-native-picker/picker';
-import { Modal } from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { ArrowLeft } from 'iconoir-react-native';
@@ -13,16 +10,6 @@ function Metronome() {
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
   const [tempoText, setTempoText] = useState('Allegro');
   const navigation = useNavigation();
-
-  state = {
-    value: [120],
-  };
-
-  multiSliderValuesChange = (values) => {
-    this.setState({
-        values,
-    });
-  } 
 
   const updateTempoText = () => {
     let tempo = '';
@@ -81,6 +68,11 @@ function Metronome() {
 
   const decreaseBeatsPerMeasure = () => {
     setBeatsPerMeasure(beatsPerMeasure => Math.max(beatsPerMeasure - 1, 1));
+  }
+
+  const updateBPMSlider = (values) => {
+    setBpm(values[0]);
+    updateTempoText();
   }
 
   const styles = StyleSheet.create({
@@ -223,8 +215,9 @@ function Metronome() {
           </TouchableOpacity>
           <View>
                 <MultiSlider
-                    values={[140]}
+                    values={[bpm]}
                     sliderLength={280}
+                    onValuesChange={(values) => updateBPMSlider(values)}
                     min={20}
                     max={280}
                     step={1}
