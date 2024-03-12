@@ -5,11 +5,14 @@ import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import { ArrowLeft } from 'iconoir-react-native';
+
 
 function Metronome() {
   const [bpm, setBpm] = useState(140);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
   const [tempoText, setTempoText] = useState('Allegro');
+  const navigation = useNavigation();
 
   state = {
     value: [120],
@@ -83,8 +86,8 @@ function Metronome() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: 'left',
-      justifyContent: 'left',
+      width: '100%',
+      height: '100%',
     },
     metronomeContainer: {
       flex: 1,
@@ -193,11 +196,11 @@ function Metronome() {
   return (
     <View style={styles.container}>
       {/* Logo */}
-      <View style={{paddingTop: 90, flexDirection: 'row', alignItems: 'left', paddingLeft: 10 }}>
-        <Image
-          source={require('../assets/images/logosmall-removebg-preview.png')}
-          style={{ width: 160, height: 80, marginLeft: 20}}
-        />
+      <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 90, paddingLeft: 10 }}>
+          <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
+            <ArrowLeft color="#de1d35" height={30} width={30} />
+          </TouchableOpacity>
+          <Text style={{fontSize: 38, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20}}>Metronome</Text>
       </View>
 
       {/* Metronome */}
