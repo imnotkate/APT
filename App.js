@@ -19,7 +19,7 @@ function App() {
           <>
             <Stack.Screen name="Root" component={TabNavigator} />
             <Stack.Screen name="Instruments" component={Instruments}/>
-            <Stack.Screen name='Metronome' component={Metronome} />
+            <Stack.Screen name="Metronome" component={Metronome} />
           </>
         ) : (
           <>
