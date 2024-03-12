@@ -8,21 +8,6 @@ const Tools = () => {
 
   const tools = [
     {
-      title: 'Add Custom Tuning',
-      icon: <MusicDoubleNotePlus color="black" height={iconHeight} width={iconWidth}/>,
-      onPress: () => navigation.navigate('CustomTunings'),
-    },
-    {
-      title: 'Metronome',
-      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
-      onPress: () => navigation.navigate('Metronome'),
-    },
-    {
-      title: 'Metronome',
-      icon: <Arc3dCenterPoint color="black" height={iconHeight} width = {iconWidth} />,
-      onPress: () => navigation.navigate('Metronome'),
-    },
-    {
       title: 'Custom Tunings',
       onPress: () => navigation.navigate('CustomTunings'), // Navigate to MetronomePage on press
       icon: <Arc3dCenterPoint color={'#de1d35'} height={40} width={40} />,
@@ -77,11 +62,6 @@ const Tools = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
