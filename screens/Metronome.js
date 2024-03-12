@@ -221,16 +221,15 @@ function Metronome() {
           <TouchableOpacity style={styles.tempoButtonMinus} onPress={() => {decreaseBPM();}}> 
             <Text style={styles.tempoButtonText}>-</Text>
           </TouchableOpacity>
-          {/* <View>
+          <View>
                 <MultiSlider
-                    values={this.state.values[0]}
+                    values={[140]}
                     sliderLength={280}
-                    onValuesChange={this.multiSliderValuesChange}
                     min={20}
                     max={280}
                     step={1}
                 />
-          </View> */}
+          </View>
           <TouchableOpacity style={styles.tempoButtonPlus} onPress={() => {increaseBPM();}}>
             <Text style={styles.tempoButtonText}>+</Text>
           </TouchableOpacity>
