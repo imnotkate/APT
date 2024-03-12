@@ -4,7 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './screens/Login';
 import Register from './screens/Register';
 import TabNavigator from './components/Navigation';
-import Metronome from './screens/Metronome'
+import Instruments from './screens/Instruments'
+import Tuner from './screens/Tuner';
+import Metronome from './screens/Metronome';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -16,7 +18,8 @@ function App() {
         {isAuthenticated ? (
           <>
             <Stack.Screen name="Root" component={TabNavigator} />
-            <Stack.Screen name="Metronome" component={Metronome}/>
+            <Stack.Screen name="Instruments" component={Instruments}/>
+            <Stack.Screen name="Metronome" component={Metronome} />
           </>
         ) : (
           <>
