@@ -113,7 +113,8 @@ function Metronome() {
     },
     bpmUnit: {
       fontSize: 48, 
-      marginLeft: 5,
+      fontWeight: 'bold',
+      marginLeft: -15,
     },
     tempoText: {
       marginBottom: 20,
