@@ -4,10 +4,10 @@ import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ThreePlusThreeHeadImage from '../assets/images/3plus3guitar.png';
-import SixHeadImage from '../assets/images/guitar-head-removebg-preview.png';
-import SevenString from '../assets/images/7string-removebg-preview.png';
-import EightString from '../assets/images/8string-removebg-preview.png';
+import ThreePlusThreeHeadImage from '../assets/images/3+3-removebg.png';
+import SixHeadImage from '../assets/images/6inline-removebg-preview.png';
+import SevenString from '../assets/images/7string-removebg.png';
+import EightString from '../assets/images/8string-removebg.png';
 import TwelveString from '../assets/images/12-removebg-preview.png';
 
 function Tuner({ route }) {
