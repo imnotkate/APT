@@ -383,7 +383,7 @@ function Tuner({ route }) {
                 height: 52,
                 borderRadius: 30,
                 backgroundColor: selectedString === string
-                ? (isTuned ? (flashing ? 'green' : '#fff') : '#de1d35')
+                ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
                 : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -415,7 +415,7 @@ function Tuner({ route }) {
       </View>
     </View>
 
-      </View>
+    </View>
      
   );
 };
