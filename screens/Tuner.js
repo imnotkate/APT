@@ -8,11 +8,13 @@ import ThreePlusThreeHeadImage from '../assets/images/3+3-removebg.png';
 import SixHeadImage from '../assets/images/6inline-removebg-preview.png';
 import SevenString from '../assets/images/7string-removebg.png';
 import EightString from '../assets/images/8string-removebg.png';
-import TwelveString from '../assets/images/12-removebg-preview.png';
+import TwelveString from '../assets/images/12string-removebg-preview.png';
 
 function Tuner({ route }) {
 
   const { selectedHead, selectedInstrument } = route.params || {};
+
+  const defaultInstrument = <Image source={SixHeadImage} style={{ width: 240, height: 450, marginLeft: 70 }} />
 
   const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
   const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
@@ -22,18 +24,42 @@ function Tuner({ route }) {
   const renderGuitarHead = () => {
     switch (selectedHead) {
       case '3+3':
-        return <Image source={ThreePlusThreeHeadImage} style={{ width: 200, height: 460,  }} />;
+        return <Image source={ThreePlusThreeHeadImage} style={{ width: 220, height: 440,  }} />;
       case '6-in-line':
-        return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
+        return defaultInstrument;
       case '7-string':
-        return <Image source={SevenString} style={{ width: 230, height: 460 }} />;;
+        return <Image source={SevenString} style={{ width: 190, height: 450, marginLeft: 60 }} />;;
       case '8-string':
-        return <Image source={EightString} style={{ width: 230, height: 460 }} />;;
+        return <Image source={EightString} style={{ width: 240, height: 460 }} />;;
       case '12-string':
         return <Image source={TwelveString} style={{ width: 230, height: 460 }} />;;
       default:
-        return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
+        return defaultInstrument;
     }
+  };
+
+  const getPaddingRight = () => {
+    const guitarType = selectedHead;
+    return guitarType === '8-string' || guitarType === '3+3' || guitarType === '12-string' ? 40 :
+           guitarType === '6-in-line' ? 80 :
+           guitarType === '7-string' ? 90 :
+           80 ; // Default value if none of the conditions match
+  };
+
+  const getPaddingLeft = () => {
+    const guitarType = selectedHead;
+    return guitarType === '8-string' || guitarType === '3+3' || guitarType === '12-string' ? 30 :
+           guitarType === '6-in-line' ? 50 :
+            guitarType === '7-string' ? 60 :
+           50 ; // Default value if none of the conditions match
+  };
+
+  const getPaddingBottom = () => {
+    const guitarType = selectedHead;
+    return guitarType === '8-string' || guitarType === '3+3' || guitarType === '12-string' ? 30 :
+           guitarType === '6-in-line' ? 20 :
+            guitarType === '7-string' ? 0 :
+           20 ; // Default value if none of the conditions match
   };
 
   const renderTunings = () => {
@@ -369,7 +395,7 @@ function Tuner({ route }) {
 
     {/* String buttons */}
   <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 20, paddingLeft: 40 }}>
+        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom(), paddingLeft: getPaddingLeft() }}>
           {strings.map((string, index) => (
             <TouchableOpacity
               key={index}
@@ -410,7 +436,7 @@ function Tuner({ route }) {
 
 
       {/* Container for the guitar head image */}
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: 80, paddingTop: 40}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: getPaddingRight(), paddingTop: 40}}>
       {renderGuitarHead()}
       </View>
     </View>
