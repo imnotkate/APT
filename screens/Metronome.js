@@ -110,10 +110,12 @@ function Metronome() {
     bpmText: {
       fontSize: 48, 
       fontWeight: 'bold',
+      color: '#de1d35',
     },
     bpmUnit: {
       fontSize: 48, 
       fontWeight: 'bold',
+      color: '#de1d35',
       marginLeft: -15,
     },
     tempoText: {
@@ -122,6 +124,7 @@ function Metronome() {
     tempoTextStyle: {
       fontSize: 18,
       textAlign: 'center',
+      color: '#de1d35',
     },
     tempoSettings: {
       flexDirection: 'row', 
