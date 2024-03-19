@@ -1,10 +1,28 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Linking, Alert} from 'react-native';
 import { OpenBook, Arc3dCenterPoint, Refresh, Metro, Learning, Spotify } from 'iconoir-react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Tools = () => {
   const navigation = useNavigation();
+
+  const handleOpenSpotify = async () => {
+    const spotifyUrl = 'spotify://';
+  
+    try {
+      await Linking.openURL(spotifyUrl);
+    } catch (err) {
+      const webUrl = 'https://www.spotify.com';
+      Alert.alert(
+        'Open Spotify in the browser',
+        'The Spotify app is not installed. Do you want to open the website?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Open', onPress: () => Linking.openURL(webUrl) },
+        ]
+      );
+    }
+  };
 
   const tools = [
     {
@@ -34,7 +52,7 @@ const Tools = () => {
     },
     {
       title: 'Spotify',
-      onPress: () => navigation.navigate('EarTrainer'), // Navigate to MetronomePage on press####
+      onPress: handleOpenSpotify, // Navigate to MetronomePage on press####
       icon: <Spotify color={'#de1d35'} height={40} width={40} />,
     },
   ];
