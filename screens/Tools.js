@@ -15,7 +15,7 @@ const Tools = () => {
       const webUrl = 'https://www.spotify.com';
       Alert.alert(
         'Open Spotify in the browser',
-        'Spotify app is not installed. Do you want to open the website?',
+        'The Spotify app is not installed. Do you want to open the website?',
         [
           { text: 'Cancel', style: 'cancel' },
           { text: 'Open', onPress: () => Linking.openURL(webUrl) },
