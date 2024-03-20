@@ -30,7 +30,7 @@ function Tuner({ route }) {
               flashing={flashing}
               handleStringClick={handleStringClick}
             />
-            <Image source={ThreePlusThreeHeadImage} style={{ width: 220, height: 420 }} />
+            <Image source={ThreePlusThreeHeadImage} style={{ width: 240, height: 400 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
@@ -50,7 +50,7 @@ function Tuner({ route }) {
               flashing={flashing}
               handleStringClick={handleStringClick}
             />
-            <Image source={EightString} style={{ width: 240, height: 460 }} />
+            <Image source={EightString} style={{ width: 230, height: 470 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
@@ -92,7 +92,7 @@ function Tuner({ route }) {
               handleStringClick={handleStringClick}
             />
             </View>
-            <Image source={SixHeadImage} style={{ width: 220, height: 440 }} />
+            <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
           </View>
         );
       case '7-string':
@@ -107,7 +107,7 @@ function Tuner({ route }) {
               handleStringClick={handleStringClick}
             />
             </View>
-            <Image source={SevenString} style={{ width: 190, height: 450 }} />
+            <Image source={SevenString} style={{ width: 210, height: 480 }} />
           </View>
         );
 
@@ -123,7 +123,7 @@ function Tuner({ route }) {
               handleStringClick={handleStringClick}
             />
             </View>
-            <Image source={SixHeadImage} style={{ width: 220, height: 440 }} />
+            <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
           </View>
         );
     }
@@ -146,8 +146,8 @@ function Tuner({ route }) {
   const getPaddingBottom = () => {
     const guitarType = selectedHead;
     return guitarType === '6-in-line' ? 60 :
-            guitarType === '7-string' ? 20 :
-            guitarType === '3+3' ? 150 :
+            guitarType === '7-string' ? 10 :
+            guitarType === '3+3' ? 130 :
            60 ; // Default value if none of the conditions match
   };
 
@@ -318,7 +318,7 @@ function Tuner({ route }) {
   }[selectedInstrument] || stringsData[selectedTuning] || [];
 
   const StringButtonsRight = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
-    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 10, paddingBottom: getPaddingBottom() }}>
+    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(0, strings.length / 2).map((string, index) => (
         <TouchableOpacity
           key={index}
@@ -359,7 +359,7 @@ function Tuner({ route }) {
   
   // Component for rendering string buttons on the right side
   const StringButtonsLeft = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
-    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 10, paddingBottom: getPaddingBottom() }}>
+    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(strings.length / 2).map((string, index) => (
         <TouchableOpacity
           key={index}
