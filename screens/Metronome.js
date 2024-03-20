@@ -5,6 +5,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { ArrowLeft } from 'iconoir-react-native';
 import click1 from '../assets/clickrecordings/click1.mp3';
 import click2 from '../assets/clickrecordings/click2.mp3';
+import Sound from 'react-native-sound';
 
 function Metronome() {
   const [bpm, setBpm] = useState(140);
@@ -14,6 +15,16 @@ function Metronome() {
   const [buttonText, setButtonText] = useState('Start');
 
   const navigation = useNavigation();
+
+  const IsAndroid = Platform.OS === 'android';
+
+  const click1Sound = new Sound(click1, Sound.MAIN_BUNDLE, (error) => {
+    // Handle error if needed
+  })
+
+  const playClick1 = () => {
+    click1Sound.play();
+  }
 
   const updateTempoText = () => {
     let tempo = '';
@@ -248,7 +259,7 @@ function Metronome() {
         </View>
 
         {/* Start/Stop */}
-        <TouchableOpacity style={styles.startStopButton} onPress={() => {playMetronome();}}>
+        <TouchableOpacity style={styles.startStopButton} onPress={() => {playClick1();}}>
           <Text style={styles.startStopButtonText}>{buttonText}</Text>
         </TouchableOpacity>
 
