@@ -65,9 +65,9 @@ function Instruments() {
     <View className="bg-grey h-full w-full">
       {/* Back arrow */}
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 60, paddingLeft: 20 }}>
-        <TouchableOpacity>
-          <ArrowLeft color="#000" height={30} width={30} />
-        </TouchableOpacity>
+      <TouchableOpacity style={{marginRight: 20, marginLeft: 10}} onPress={() => {navigation.push('Root');}}>
+            <ArrowLeft color="#de1d35" height={30} width={30} />
+          </TouchableOpacity>
       </View>
 
       {/* Guitar head styles */}

@@ -4,16 +4,15 @@ import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ThreePlusThreeHeadImage from '../assets/images/3plus3guitar.png';
-import SixHeadImage from '../assets/images/guitar-head-removebg-preview.png';
-import SevenString from '../assets/images/7string-removebg-preview.png';
-import EightString from '../assets/images/8string-removebg-preview.png';
-import TwelveString from '../assets/images/12-removebg-preview.png';
+import ThreePlusThreeHeadImage from '../assets/images/3+3-removebg.png';
+import SixHeadImage from '../assets/images/6inline-removebg-preview.png';
+import SevenString from '../assets/images/7string-removebg.png';
+import EightString from '../assets/images/8string-removebg.png';
+import TwelveString from '../assets/images/12string-removebg-preview.png';
 
 function Tuner({ route }) {
 
   const { selectedHead, selectedInstrument } = route.params || {};
-
   const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
   const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
   const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
@@ -22,18 +21,182 @@ function Tuner({ route }) {
   const renderGuitarHead = () => {
     switch (selectedHead) {
       case '3+3':
-        return <Image source={ThreePlusThreeHeadImage} style={{ width: 200, height: 460,  }} />;
-      case '6-in-line':
-        return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
-      case '7-string':
-        return <Image source={SevenString} style={{ width: 230, height: 460 }} />;;
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <StringButtonsLeft
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            <Image source={ThreePlusThreeHeadImage} style={{ width: 240, height: 400 }} />
+            <StringButtonsRight
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+          </View>
+        );
       case '8-string':
-        return <Image source={EightString} style={{ width: 230, height: 460 }} />;;
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <StringButtonsLeft
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            <Image source={EightString} style={{ width: 230, height: 470 }} />
+            <StringButtonsRight
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+          </View>
+        );
       case '12-string':
-        return <Image source={TwelveString} style={{ width: 230, height: 460 }} />;;
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <StringButtonsLeft
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            <Image source={TwelveString} style={{ width: 230, height: 460 }} />
+            <StringButtonsRight
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+          </View>
+        );
+      case '6-in-line':
+        return (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <StringsInLine
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            </View>
+            <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
+          </View>
+        );
+      case '7-string':
+        return (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <StringsInLine
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            </View>
+            <Image source={SevenString} style={{ width: 210, height: 480 }} />
+          </View>
+        );
+
       default:
-        return <Image source={SixHeadImage} style={{ width: 200, height: 460 }} />;
+        return (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <StringsInLine
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            </View>
+            <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
+          </View>
+        );
     }
+  };
+
+  const getPaddingRight = () => {
+    const guitarType = selectedHead;
+    return guitarType === '6-in-line' ? 25 :
+           guitarType === '7-string' ? 30 :
+           25 ; // Default value if none of the conditions match
+  };
+
+  const getPaddingLeft = () => {
+    const guitarType = selectedHead;
+    return guitarType === '6-in-line' ? 50 :
+            guitarType === '7-string' ? 60 :
+           50 ; // Default value if none of the conditions match
+  };
+
+  const getPaddingBottom = () => {
+    const guitarType = selectedHead;
+    return guitarType === '6-in-line' ? 60 :
+            guitarType === '7-string' ? 10 :
+            guitarType === '3+3' ? 130 :
+           60 ; // Default value if none of the conditions match
+  };
+
+  const StringsInLine = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom(), paddingLeft: getPaddingLeft(), paddingRight: getPaddingRight() }}>
+          {strings.map((string, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                setSelectedString(string);
+                sendMessageToServer(string);
+                handleTuningProgress();
+                handleStringClick(string);
+              }}
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: 30,
+                backgroundColor: selectedString === string
+                ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
+                : '#fff',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderColor: '#de1d35',
+                marginBottom: 10, // Add space between circles
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 4,
+                elevation: 4,
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+                borderWidth: 0,
+                borderColor: 'transparent',
+              }}
+            >
+              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+                {string}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+  );
+
+  const handleStringClick = (string) => {
+    setSelectedString(string);
+    sendMessageToServer(string);
+    handleTuningProgress();
   };
 
   const renderTunings = () => {
@@ -153,6 +316,87 @@ function Tuner({ route }) {
     'Guitar 8-string': eightStringsData[selectedTuning] || [],
     'Guitar 12-string': twelveStringsData[selectedTuning] || [],
   }[selectedInstrument] || stringsData[selectedTuning] || [];
+
+  const StringButtonsRight = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
+      {strings.slice(0, strings.length / 2).map((string, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => {setSelectedString(string);
+            sendMessageToServer(string);
+            handleTuningProgress();
+            handleStringClick(string);}}
+          style={{
+            width: 52,
+            height: 52,
+            borderRadius: 30,
+            backgroundColor: selectedString === string
+              ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
+              : '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: '#de1d35',
+            marginBottom: 10,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 4,
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            borderWidth: 0,
+            borderColor: 'transparent',
+          }}
+        >
+          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+            {string}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+  
+  // Component for rendering string buttons on the right side
+  const StringButtonsLeft = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
+      {strings.slice(strings.length / 2).map((string, index) => (
+        <TouchableOpacity
+          key={index}
+          onPress={() => {setSelectedString(string);
+            sendMessageToServer(string);
+            handleTuningProgress();
+            handleStringClick(string);}}
+          style={{
+            width: 52,
+            height: 52,
+            borderRadius: 30,
+            backgroundColor: selectedString === string
+              ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
+              : '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: '#de1d35',
+            marginBottom: 10,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+            elevation: 4,
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            borderWidth: 0,
+            borderColor: 'transparent',
+          }}
+        >
+          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+            {string}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
  
   const handleTuningChange = (value) => {
     setTuning(value);
@@ -186,11 +430,6 @@ function Tuner({ route }) {
     // use pi ip address and port number
     axios.post("http://192.168.231.3:5000/tune_string", messageData) // Example message
       .then(response => {
-        // if (response.data.message === 'string tuned') {
-        //   setIsTuned(true);
-        // } else {
-        //   setIsTuned(false);
-        // }
         if (response.status === 409) {
           //already tuning
         } else if (response.status === 202) {
@@ -207,6 +446,9 @@ function Tuner({ route }) {
         setIsTuned(false); // Assume not tuned if there's an error
       });
   };
+
+  //send 205 stop tuning 
+  //post to /stop_tuning
 
   const tuneStringsAutomatically = async () => {
     const stringsToTune = ['E2', 'A', 'D', 'G', 'B', 'E4']; // Add all your strings
@@ -366,56 +608,11 @@ function Tuner({ route }) {
       </View>
       </View>
 
-
-    {/* String buttons */}
-  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: 20, paddingLeft: 40 }}>
-          {strings.map((string, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => {
-                setSelectedString(string);
-                sendMessageToServer(string);
-                handleTuningProgress();
-              }}
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: 30,
-                backgroundColor: selectedString === string
-                ? (isTuned ? (flashing ? 'green' : '#fff') : '#de1d35')
-                : '#fff',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderWidth: 1,
-                borderColor: '#de1d35',
-                marginBottom: 10, // Add space between circles
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.2,
-                shadowRadius: 4,
-                elevation: 4,
-                paddingVertical: 10,
-                paddingHorizontal: 10,
-                borderWidth: 0,
-                borderColor: 'transparent',
-              }}
-            >
-              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
-                {string}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-
       {/* Container for the guitar head image */}
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', alignItems: 'center', paddingRight: 80, paddingTop: 40}}>
       {renderGuitarHead()}
-      </View>
-    </View>
+        
 
-      </View>
+    </View>
      
   );
 };
