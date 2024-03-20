@@ -610,7 +610,8 @@ function Tuner({ route }) {
 
       {/* Container for the guitar head image */}
       {renderGuitarHead()}
-    
+        
+
     </View>
      
   );
