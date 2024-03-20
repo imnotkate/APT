@@ -27,12 +27,12 @@ const Tools = () => {
   const tools = [
     {
       title: 'Custom Tunings',
-      onPress: () => navigation.navigate('CustomTunings'), // Navigate to MetronomePage on press
+      onPress: () => navigation.navigate('CustomTunings'), // Navigate to CustomTunings on press
       icon: <Arc3dCenterPoint color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'String Winder',
-      onPress: () => navigation.navigate('StringWinder'), // Navigate to MetronomePage on press
+      onPress: () => navigation.navigate('StringWinder'), // Navigate to StringWinder on press
       icon: <Refresh color={'#de1d35'} height={40} width={40} />,
     },
     {
@@ -42,17 +42,17 @@ const Tools = () => {
     },
     {
       title: 'Chord Library',
-      onPress: () => navigation.navigate('ChordLib'), // Navigate to MetronomePage on press
+      onPress: () => navigation.navigate('ChordLib'), // Navigate to ChordLib on press
       icon: <OpenBook color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'Ear Trainer',
-      onPress: () => navigation.navigate('EarTrainer'), // Navigate to MetronomePage on press####
+      onPress: () => navigation.navigate('EarTrainer'), // Navigate to EarTrainer on press
       icon: <Learning color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'Spotify',
-      onPress: handleOpenSpotify, // Navigate to MetronomePage on press####
+      onPress: handleOpenSpotify, // open Spotify on press
       icon: <Spotify color={'#de1d35'} height={40} width={40} />,
     },
   ];
