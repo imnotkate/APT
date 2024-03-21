@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Text, View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { ArrowLeft } from 'iconoir-react-native';
 import click1 from '../assets/clickrecordings/click1.mp3';
 import click2 from '../assets/clickrecordings/click2.mp3';
-// import Sound from 'react-native-sound';
+import { Audio } from 'expo-av';
+
+// Sound.setCategory('Playback');
+
+// var click1Sound = new Sound(click1, (error) => {
+//   // Handle error if needed
+//   if (error) {
+//     console.log('failed to load the sound', error);
+//     return;
+//   }
+//   // if loaded successfully
+//   console.log(
+//     'duration in seconds: ' +
+//      click1Sound.getDuration() +
+//       'number of channels: ' +
+//       click1Sound.getNumberOfChannels(),
+//   );
+// })
 
 function Metronome() {
   const [bpm, setBpm] = useState(140);
@@ -13,18 +30,28 @@ function Metronome() {
   const [tempoText, setTempoText] = useState('Allegro');
   const [isPlaying, setIsPlaying] = useState(false);
   const [buttonText, setButtonText] = useState('Start');
+  const [sound, setSound] = useState();
 
   const navigation = useNavigation();
 
-  // const IsAndroid = Platform.OS === 'android';
+  async function playSound() {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync( require('../assets/clickrecordings/click1.mp3')
+    );
+    setSound(sound);
 
-  // const click1Sound = new Sound(click1, Sound.MAIN_BUNDLE, (error) => {
-  //   // Handle error if needed
-  // })
+    console.log('Playing Sound');
+    await sound.playAsync();
+  }
 
-  // const playClick1 = () => {
-  //   click1Sound.play();
-  // }
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   const updateTempoText = () => {
     let tempo = '';
@@ -259,7 +286,7 @@ function Metronome() {
         </View>
 
         {/* Start/Stop */}
-        <TouchableOpacity style={styles.startStopButton} onPress={() => {playMetronome();}}>
+        <TouchableOpacity style={styles.startStopButton} onPress={() => {playSound();}}>
           <Text style={styles.startStopButtonText}>{buttonText}</Text>
         </TouchableOpacity>
 
