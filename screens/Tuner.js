@@ -9,6 +9,8 @@ import SixHeadImage from '../assets/images/6inline-removebg-preview.png';
 import SevenString from '../assets/images/7string-removebg.png';
 import EightString from '../assets/images/8string-removebg.png';
 import TwelveString from '../assets/images/12string-removebg-preview.png';
+import Bass4String from '../assets/images/bass-4-string.png';
+import UkeSop from '../assets/images/KoAloha.png';
 
 function Tuner({ route }) {
 
@@ -17,6 +19,8 @@ function Tuner({ route }) {
   const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
   const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
   const twelveTunings = ['Standard', 'Open G', 'D Modal', 'Drop D', 'Open C', 'Drop A', 'Split', 'Open E', 'Full Step Down'];
+  const ukeSopTunings = ['Standard', 'Low G'];
+  const bass4StringTunings = ['Standard', 'Drop D'];
 
   const renderGuitarHead = () => {
     switch (selectedHead) {
@@ -110,7 +114,46 @@ function Tuner({ route }) {
             <Image source={SevenString} style={{ width: 210, height: 480 }} />
           </View>
         );
-
+      case 'Bass 4-string':
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <StringButtonsLeft
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            <Image source={Bass4String} style={{ width: 285, height: 450 }} />
+            <StringButtonsRight
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+          </View>
+        );
+      case 'Soprano Ukulele':
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <StringButtonsLeft
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+            <Image source={UkeSop} style={{ width: 260, height: 460 }} />
+            <StringButtonsRight
+              strings={strings}
+              selectedString={selectedString}
+              isTuned={isTuned}
+              flashing={flashing}
+              handleStringClick={handleStringClick}
+            />
+          </View>
+        );
       default:
         return (
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -217,10 +260,19 @@ function Tuner({ route }) {
         return twelveTunings.map(type => (
           <Picker.Item key={type} label={type} value={type} />
         ));
+      case 'Bass 4-string':
+        return bass4StringTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Ukulele Soprano':
+        return ukeSopTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
       default:
         return tunings.map(type => (
           <Picker.Item key={type} label={type} value={type} />
         ));
+      
     }
   };
   const navigation = useNavigation();
@@ -308,13 +360,23 @@ const twelveStringsData = {
   'Full Step Down': ['C1', 'C2', 'A3', 'A3', 'F3', 'F4', 'C3', 'C4', 'G2', 'G3', 'C2', 'C1'],
 };
   
+const bass4StringData = {
+  'Standard': ['E1', 'A1', 'D2', 'G2'],
+  'Drop D': ['D1', 'A1', 'D2', 'G2'],
+};
 
+const ukeSopData = {
+  'Standard': ['G4', 'C4', 'E4', 'A4'],
+  'Low G': ['G3', 'C4', 'E4', 'A4'],
+};
   // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
   const strings = {
     'Guitar 6-string': stringsData[selectedTuning] || [],
     'Guitar 7-string': sevenStringsData[selectedTuning] || [],
     'Guitar 8-string': eightStringsData[selectedTuning] || [],
     'Guitar 12-string': twelveStringsData[selectedTuning] || [],
+    'Bass 4-string': bass4StringData[selectedTuning] || [],
+    'Ukulele Soprano': ukeSopData[selectedTuning] || [],
   }[selectedInstrument] || stringsData[selectedTuning] || [];
 
   const StringButtonsRight = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
