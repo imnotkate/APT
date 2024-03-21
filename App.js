@@ -8,6 +8,7 @@ import Instruments from './screens/Instruments'
 import Tuner from './screens/Tuner';
 import Metronome from './screens/Metronome';
 const Stack = createNativeStackNavigator();
+import ChordLib from './screens/ChordLib';
 
 function App() {
   const isAuthenticated = true; // Replace with your authentication logic
@@ -20,6 +21,7 @@ function App() {
             <Stack.Screen name="Root" component={TabNavigator} />
             <Stack.Screen name="Instruments" component={Instruments}/>
             <Stack.Screen name="Metronome" component={Metronome } />
+            <Stack.Screen name="ChordLib" component={ChordLib} />
           </>
         ) : (
           <>

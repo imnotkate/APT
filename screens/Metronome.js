@@ -5,6 +5,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { ArrowLeft } from 'iconoir-react-native';
 import click1 from '../assets/clickrecordings/click1.mp3';
 import click2 from '../assets/clickrecordings/click2.mp3';
+// import Sound from 'react-native-sound';
 
 function Metronome() {
   const [bpm, setBpm] = useState(140);
@@ -14,6 +15,16 @@ function Metronome() {
   const [buttonText, setButtonText] = useState('Start');
 
   const navigation = useNavigation();
+
+  // const IsAndroid = Platform.OS === 'android';
+
+  // const click1Sound = new Sound(click1, Sound.MAIN_BUNDLE, (error) => {
+  //   // Handle error if needed
+  // })
+
+  // const playClick1 = () => {
+  //   click1Sound.play();
+  // }
 
   const updateTempoText = () => {
     let tempo = '';
@@ -206,7 +217,7 @@ function Metronome() {
   });
   return (
     <View style={styles.container}>
-      {/* Logo */}
+      {/* Title and Back Arrow */}
       <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 90, paddingLeft: 10 }}>
           <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
             <ArrowLeft color="#de1d35" height={30} width={30} />
