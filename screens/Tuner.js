@@ -12,6 +12,9 @@ import TwelveString from '../assets/images/12string-removebg-preview.png';
 import Bass4String from '../assets/images/bass-4-string.png';
 import UkeSop from '../assets/images/uksop.png';
 
+import { SERVER_IP } from '../config.js';
+
+
 function Tuner({ route }) {
 
   const { selectedHead, selectedInstrument } = route.params || {};
@@ -522,7 +525,7 @@ const ukeSopData = {
       string: index
     };
     // use pi ip address and port number
-    axios.post("http://192.168.4.3:5000/tune_string", messageData) // Example message
+    axios.post(`${SERVER_IP}/tune_string`, messageData)
       .then(response => {
         if (response.status === 409) {
           //already tuning
