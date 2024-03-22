@@ -14,12 +14,40 @@
     const [selectedChord, setSelectedChord] = useState("major");
     const [showKeysModal, setShowKeysModal] = useState(false);
     const [showChordsModal, setShowChordsModal] = useState(false);
-    const [showFlats, setShowFlats] = useState(false);
-
-    
-    
+    const [showFlats, setShowFlats] = useState(false);  
 
     const chords = ['major', 'minor', '5', '7', 'maj7', 'm7'];
+
+    const handleFlatsToggle = () => {
+      setShowFlats(!showFlats);
+      if (showFlats) {
+        setSelectedKeys(["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]);
+        if (selectedKey == 'C#') {
+          setSelectedKey('Db');
+        }else if (selectedKey == 'D#') {
+          setSelectedKey('Eb');
+        }else if (selectedKey == 'F#') {
+          setSelectedKey('Gb');
+        }else if (selectedKey == 'G#') {
+          setSelectedKey('Ab');
+        }else if (selectedKey == 'A#') {
+          setSelectedKey('Bb');
+        }
+      } else {
+        setSelectedKeys(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]);
+        if (selectedKey == 'Db') {
+          setSelectedKey('C#');
+        }else if (selectedKey == 'Eb') {
+          setSelectedKey('D#');
+        } else if (selectedKey == 'Gb') {
+          setSelectedKey('F#');
+        } else if (selectedKey == 'Ab') {
+          setSelectedKey('G#');
+        }else if (selectedKey == 'Bb') {
+          setSelectedKey('A#');
+        }
+      }
+    }
     
     const renderKeys = () => {
       return keys.map((key, index) => (
@@ -36,72 +64,72 @@
     const renderChordChart = () => {
       if (selectedChord == 'major'){
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingRight: 40}}>
                     <ChordChart
                         chordKey={selectedKey}
                         color="black"
-                        showTuning
-                        width={200}
-                        height={200}
+                        //showTuning
+                        width={450}
+                        height={450}
                     />
           </View>
         );
       } else if (selectedChord == 'minor'){
         const chordName = selectedKey + 'm';
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingRight: 40 }}>
                     <ChordChart
                         chordKey={chordName}
                         color="black"
-                        showTuning
-                        width={200}
-                        height={200}
+                        //showTuning
+                        width={450}
+                        height={450}
                     />
           </View>
         );
       } else if (selectedChord == '5'){
         const chordName = selectedKey + '5';
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingRight: 40 }}>
                     <ChordChart
                         chordKey={chordName}
                         color="black"
-                        showTuning
-                        width={200}
-                        height={200}
+                        //showTuning
+                        width={450}
+                        height={450}
                     />
           </View>
         );
       } else if (selectedChord == '7'){
         const chordName = selectedKey + '7';
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingRight: 40 }}>
                     <ChordChart
                         chordKey={chordName}
                         color="black"
-                        showTuning
-                        width={200}
-                        height={200}
+                        //showTuning
+                        width={450}
+                        height={450}
                     />
           </View>
         );
       } else if (selectedChord == 'maj7'){
         const chordName = selectedKey + 'maj7';
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingRight: 40 }}>
                     <ChordChart
                         chordKey={chordName}
                         color="black"
-                        showTuning
-                        width={200}
-                        height={200}
+                        //showTuning
+                        width={450}
+                        height={450}
                     />
           </View>
         );
       } else if (selectedChord == 'm7'){
         const chordName = selectedKey + 'm7';
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingRight: 40 }}>
                     <ChordChart
                         chordKey={chordName}
                         color="black"
@@ -133,10 +161,42 @@
               <ArrowLeft color="#de1d35" height={30} width={30} />
             </TouchableOpacity>
             <Text style={{fontSize: 25, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20, paddingLeft: 20}}>Chord Library</Text>
+            <View style={{paddingLeft: 20}}>
+            <TouchableOpacity
+              onPress={() => {
+                handleFlatsToggle();
+              }}
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: 30,
+                backgroundColor: '#fff',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderColor: '#de1d35',
+                marginBottom: 10, // Add space between circles
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.2,
+                shadowRadius: 4,
+                elevation: 4,
+                paddingVertical: 10,
+                paddingHorizontal: 10,
+                borderWidth: 0,
+                borderColor: 'transparent',
+                paddingLeft: 10,
+              }}
+            >
+              <Text style={{color: '#de1d35', fontSize: 20 }}>
+                {showFlats ? '♭' : '♯'}
+              </Text>
+            </TouchableOpacity>
+            </View>
         </View>
 
         {/* Key and Chord Buttons */}
-        <View style={{paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 40, paddingBottom: 30}}>
+        <View style={{paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 50, paddingBottom: 30}}>
           <TouchableOpacity
             style={[
               {
