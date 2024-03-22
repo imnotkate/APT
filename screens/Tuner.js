@@ -209,9 +209,9 @@ case 'Bass 4-string':
               key={index}
               onPress={() => {
                 setSelectedString(string);
-                sendMessageToServer(string, selectedInstrument);
+                sendMessageToServer(string, selectedInstrument, index);
                 handleTuningProgress();
-                handleStringClick(string);
+                handleStringClick(string, index);
               }}
               style={{
                 width: 52,
@@ -244,9 +244,9 @@ case 'Bass 4-string':
         </View>
   );
 
-  const handleStringClick = (string) => {
+  const handleStringClick = (string, index) => {
     setSelectedString(string);
-    sendMessageToServer(string, selectedInstrument);
+    sendMessageToServer(string, selectedInstrument, index);
     handleTuningProgress();
   };
 
@@ -416,9 +416,9 @@ const ukeSopData = {
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string, selectedInstrument);
+            sendMessageToServer(string, selectedInstrument, index);
             handleTuningProgress();
-            handleStringClick(string);}}
+            handleStringClick(string, index);}}
           style={{
             width: 52,
             height: 52,
@@ -457,9 +457,9 @@ const ukeSopData = {
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string, selectedInstrument);
+            sendMessageToServer(string, selectedInstrument, index);
             handleTuningProgress();
-            handleStringClick(string);}}
+            handleStringClick(string, index);}}
           style={{
             width: 52,
             height: 52,
@@ -514,12 +514,15 @@ const ukeSopData = {
   const [isTuned, setIsTuned] = useState(false);
   const [flashing, setFlashing] = useState(false);
 
+
+
   // connection to flask webserver 
   // send msg
-  const sendMessageToServer = (string, selectedInstrument) => {
+  const sendMessageToServer = (string, selectedInstrument, index) => {
     const messageData = {
       message: string,
-      instrument: selectedInstrument
+      instrument: selectedInstrument,
+      stringNumber: index
     };
     // use pi ip address and port number
     axios.post("http://192.168.4.3:5000/tune_string", messageData) // Example message
