@@ -209,7 +209,7 @@ case 'Bass 4-string':
               key={index}
               onPress={() => {
                 setSelectedString(string);
-                sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
+                sendMessageToServer(string, selectedInstrument, strings.length-index-1);
                 handleTuningProgress();
                 handleStringClick(string, selectedTuning.indexOf(string));
               }}
@@ -245,9 +245,6 @@ case 'Bass 4-string':
   );
 
   const handleStringClick = (string, index) => {
-    setSelectedString(string);
-    sendMessageToServer(string, selectedInstrument, index);
-    handleTuningProgress();
   };
 
   const renderTunings = () => {
@@ -400,8 +397,6 @@ const ukeSopData = {
 'Low G':['Bb4', 'D4', 'F4', 'Bb4'],
 'Fiji C': ['G4', 'G4', 'C4', 'E4']
 };
-
-
   // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
   const strings = {
     'Guitar 6-string': stringsData[selectedTuning] || [],
@@ -418,7 +413,7 @@ const ukeSopData = {
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
+            sendMessageToServer(string, selectedInstrument, index+strings.length/2);
             handleTuningProgress();
             handleStringClick(string, selectedTuning.indexOf(string));}}
           style={{
@@ -452,14 +447,14 @@ const ukeSopData = {
     </View>
   );
   
-  // Component for rendering string buttons on the right side
+  // Component for rendering string buttons on the left side
   const StringButtonsLeft = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(strings.length / 2).map((string, index) => (
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
+            sendMessageToServer(string, selectedInstrument, strings.length/2-index-1);
             handleTuningProgress();
             handleStringClick(string, selectedTuning.indexOf(string));}}
           style={{
@@ -524,7 +519,7 @@ const ukeSopData = {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
-      stringNumber: index
+      string: index
     };
     // use pi ip address and port number
     axios.post("http://192.168.4.3:5000/tune_string", messageData) // Example message
