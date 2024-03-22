@@ -8,11 +8,16 @@
   function ChordLib() {
     const navigation = useNavigation();
 
-    const keys = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const [keys, setSelectedKeys] = useState(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]);
+    
     const [selectedKey, setSelectedKey] = useState("C");
     const [selectedChord, setSelectedChord] = useState("major");
     const [showKeysModal, setShowKeysModal] = useState(false);
     const [showChordsModal, setShowChordsModal] = useState(false);
+    const [showFlats, setShowFlats] = useState(false);
+
+    
+    
 
     const chords = ['major', 'minor', '5', '7', 'maj7', 'm7'];
     
