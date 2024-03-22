@@ -29,157 +29,84 @@
     };
 
     const renderChordChart = () => {
-      if (selectedKey == 'C'){
-        switch (selectedChord){
-          case 'major':
-            return (
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ChordChart
-                      chordKey="C"
-                      color="black"
-                      showTuning
-                      width={200}
-                      height={200}
-                  />
-                </View>
-            );
-          case 'minor':
-            return (
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ChordChart
-                      chordKey="Cm"
-                      color="black"
-                      showTuning
-                      width={200}
-                      height={200}
-                  />
-              </View>
-            );
-          case '5':
-            return (
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ChordChart
-                      chordKey="C5"
-                      color="black"
-                      showTuning
-                      width={200}
-                      height={200}
-                  />
-              </View>
-            );
-          case '7':
-            return (
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ChordChart
-                      chordKey="C7"
-                      color="black"
-                      showTuning
-                      width={200}
-                      height={200}
-                  />
-              </View>
-            );
-          case 'maj7':
-            return (
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ChordChart
-                      chordKey="Cmaj7"
-                      color="black"
-                      showTuning
-                      width={200}
-                      height={200}
-                  />
-              </View>
-            );
-          case 'm7':
-            return (
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ChordChart
-                      chordKey="Cm7"
-                      color="black"
-                      showTuning
-                      width={200}
-                      height={200}
-                  />
-              </View>
-            );
+      if (selectedChord == 'major'){
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <ChordChart
+                        chordKey={selectedKey}
+                        color="black"
+                        showTuning
+                        width={200}
+                        height={200}
+                    />
+          </View>
+        );
+      } else if (selectedChord == 'minor'){
+        const chordName = selectedKey + 'm';
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <ChordChart
+                        chordKey={chordName}
+                        color="black"
+                        showTuning
+                        width={200}
+                        height={200}
+                    />
+          </View>
+        );
+      } else if (selectedChord == '5'){
+        const chordName = selectedKey + '5';
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <ChordChart
+                        chordKey={chordName}
+                        color="black"
+                        showTuning
+                        width={200}
+                        height={200}
+                    />
+          </View>
+        );
+      } else if (selectedChord == '7'){
+        const chordName = selectedKey + '7';
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <ChordChart
+                        chordKey={chordName}
+                        color="black"
+                        showTuning
+                        width={200}
+                        height={200}
+                    />
+          </View>
+        );
+      } else if (selectedChord == 'maj7'){
+        const chordName = selectedKey + 'maj7';
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <ChordChart
+                        chordKey={chordName}
+                        color="black"
+                        showTuning
+                        width={200}
+                        height={200}
+                    />
+          </View>
+        );
+      } else if (selectedChord == 'm7'){
+        const chordName = selectedKey + 'm7';
+        return (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <ChordChart
+                        chordKey={chordName}
+                        color="black"
+                        showTuning
+                        width={200}
+                        height={200}
+                    />
+          </View>
+        );
       }
-    } else if (selectedKey == 'C#'){
-      switch (selectedChord){
-        case 'major':
-          return (
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <ChordChart
-                    chordKey="C#"
-                    color="black"
-                    showTuning
-                    width={200}
-                    height={200}
-                />
-              </View>
-          );
-        case 'minor':
-          return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <ChordChart
-                    chordKey="C#m"
-                    color="black"
-                    showTuning
-                    width={200}
-                    height={200}
-                />
-            </View>
-          );
-        case '5':
-          return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <ChordChart
-                    chordKey="C#5"
-                    color="black"
-                    showTuning
-                    width={200}
-                    height={200}
-                />
-            </View>
-          );
-        case '7':
-          return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <ChordChart
-                    chordKey="C#7"
-                    color="black"
-                    showTuning
-                    width={200}
-                    height={200}
-                />
-            </View>
-          );
-        case 'maj7':
-          return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <ChordChart
-                    chordKey="C#maj7"
-                    color="black"
-                    showTuning
-                    width={200}
-                    height={200}
-                />
-            </View>
-          );
-        case 'm7':
-          return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <ChordChart
-                    chordKey="C#m7"
-                    color="black"
-                    showTuning
-                    width={200}
-                    height={200}
-                />
-            </View>
-          );
-      }
-    } 
     
   }
   
