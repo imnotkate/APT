@@ -494,9 +494,11 @@ const ukeSopData = {
   // connection to flask webserver 
   // send msg
   const sendMessageToServer = (string, selectedInstrument) => {
+    string_number = selectedTuning.indexOf(string);
     const messageData = {
       message: string,
-      instrument: selectedInstrument
+      instrument: selectedInstrument,
+      string: string_number
     };
     // use pi ip address and port number
     axios.post("http://192.168.4.3:5000/tune_string", messageData) // Example message
