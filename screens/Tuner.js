@@ -10,7 +10,7 @@ import SevenString from '../assets/images/7string-removebg.png';
 import EightString from '../assets/images/8string-removebg.png';
 import TwelveString from '../assets/images/12string-removebg-preview.png';
 import Bass4String from '../assets/images/bass-4-string.png';
-import UkeSop from '../assets/images/KoAloha.png';
+import UkeSop from '../assets/images/uksop.png';
 
 function Tuner({ route }) {
 
@@ -54,7 +54,7 @@ function Tuner({ route }) {
               flashing={flashing}
               handleStringClick={handleStringClick}
             />
-            <Image source={EightString} style={{ width: 230, height: 470 }} />
+            <Image source={EightString} style={{ width: 220, height: 460 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
@@ -114,24 +114,19 @@ function Tuner({ route }) {
             <Image source={SevenString} style={{ width: 210, height: 480 }} />
           </View>
         );
-      case 'Bass 4-string':
+case 'Bass 4-string':
         return (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            <StringButtonsLeft
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <StringsInLine
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
               flashing={flashing}
               handleStringClick={handleStringClick}
             />
-            <Image source={Bass4String} style={{ width: 285, height: 450 }} />
-            <StringButtonsRight
-              strings={strings}
-              selectedString={selectedString}
-              isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
-            />
+            </View>
+            <Image source={Bass4String} style={{ width: 250, height: 430 }} />
           </View>
         );
       case 'Soprano Ukulele':
@@ -144,7 +139,7 @@ function Tuner({ route }) {
               flashing={flashing}
               handleStringClick={handleStringClick}
             />
-            <Image source={UkeSop} style={{ width: 260, height: 460 }} />
+            <Image source={UkeSop} style={{ width: 260, height: 410 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
@@ -176,6 +171,7 @@ function Tuner({ route }) {
     const guitarType = selectedHead;
     return guitarType === '6-in-line' ? 25 :
            guitarType === '7-string' ? 30 :
+           guitarType === 'Bass 4-string' ? 5 :
            25 ; // Default value if none of the conditions match
   };
 
@@ -190,8 +186,20 @@ function Tuner({ route }) {
     const guitarType = selectedHead;
     return guitarType === '6-in-line' ? 60 :
             guitarType === '7-string' ? 10 :
-            guitarType === '3+3' ? 130 :
+            guitarType === '3+3' ? 70 :
+            guitarType === 'Bass 4-string' ? 80 :
+            guitarType === '8-string' ? 40 :
            60 ; // Default value if none of the conditions match
+  };
+
+  const getMargin = () => {
+    const guitarType = selectedHead;
+    return  guitarType === '12-string' ? 10 :
+            guitarType === '3+3' ? 30 :
+            guitarType === 'Bass 4-string' ? 50 :
+            guitarType === '8-string' ? 30 :
+            guitarType === 'Soprano Ukulele' ? 30 :
+           10 ; // Default value if none of the conditions match
   };
 
   const StringsInLine = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
@@ -201,7 +209,7 @@ function Tuner({ route }) {
               key={index}
               onPress={() => {
                 setSelectedString(string);
-                sendMessageToServer(string);
+                sendMessageToServer(string, selectedInstrument);
                 handleTuningProgress();
                 handleStringClick(string);
               }}
@@ -238,7 +246,7 @@ function Tuner({ route }) {
 
   const handleStringClick = (string) => {
     setSelectedString(string);
-    sendMessageToServer(string);
+    sendMessageToServer(string, selectedInstrument);
     handleTuningProgress();
   };
 
@@ -272,7 +280,7 @@ function Tuner({ route }) {
         return tunings.map(type => (
           <Picker.Item key={type} label={type} value={type} />
         ));
-      
+
     }
   };
   const navigation = useNavigation();
@@ -375,17 +383,17 @@ const ukeSopData = {
     'Guitar 7-string': sevenStringsData[selectedTuning] || [],
     'Guitar 8-string': eightStringsData[selectedTuning] || [],
     'Guitar 12-string': twelveStringsData[selectedTuning] || [],
-    'Bass 4-string': bass4StringData[selectedTuning] || [],
+'Bass 4-string': bass4StringData[selectedTuning] || [],
     'Ukulele Soprano': ukeSopData[selectedTuning] || [],
   }[selectedInstrument] || stringsData[selectedTuning] || [];
 
   const StringButtonsRight = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
-      {strings.slice(0, strings.length / 2).map((string, index) => (
+      {strings.slice(0, strings.length / 2).reverse().map((string, index) => (
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string);
+            sendMessageToServer(string, selectedInstrument);
             handleTuningProgress();
             handleStringClick(string);}}
           style={{
@@ -399,7 +407,7 @@ const ukeSopData = {
             justifyContent: 'center',
             borderWidth: 1,
             borderColor: '#de1d35',
-            marginBottom: 10,
+            marginBottom: getMargin(),
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.2,
@@ -426,7 +434,7 @@ const ukeSopData = {
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string);
+            sendMessageToServer(string, selectedInstrument);
             handleTuningProgress();
             handleStringClick(string);}}
           style={{
@@ -440,7 +448,7 @@ const ukeSopData = {
             justifyContent: 'center',
             borderWidth: 1,
             borderColor: '#de1d35',
-            marginBottom: 10,
+            marginBottom: getMargin(),
             shadowColor: '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.2,
@@ -485,12 +493,13 @@ const ukeSopData = {
 
   // connection to flask webserver 
   // send msg
-  const sendMessageToServer = (string) => {
+  const sendMessageToServer = (string, selectedInstrument) => {
     const messageData = {
-      message: string
+      message: string,
+      instrument: selectedInstrument
     };
     // use pi ip address and port number
-    axios.post("http://192.168.231.3:5000/tune_string", messageData) // Example message
+    axios.post("http://192.168.4.3:5000/tune_string", messageData) // Example message
       .then(response => {
         if (response.status === 409) {
           //already tuning
@@ -612,7 +621,7 @@ const ukeSopData = {
   ]}
   onPress={() => setShowTuningModal(true)}
 >
-  <Text style={{ color: '#fff', fontSize: 20, textAlign: 'center' }}>
+  <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center' }}>
     {selectedTuning}
   </Text>
 </TouchableOpacity>
@@ -630,7 +639,7 @@ const ukeSopData = {
           handleTuningChange(itemValue);
           setShowTuningModal(false);
         }}
-        itemStyle={{ color: '#de1d35', fontSize: 20 }}
+        itemStyle={{ color: '#de1d35', fontSize: 18 }}
       >
         {renderTunings()}
       </Picker>
@@ -657,7 +666,7 @@ const ukeSopData = {
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.2,
           shadowRadius: 4,
-          elevation: 4,
+          elevation: 4, 
           paddingVertical: 10,
           paddingHorizontal: 20,
           borderWidth: 0,
@@ -665,7 +674,7 @@ const ukeSopData = {
         }}
         onPress={() => {navigation.push('Instruments')}}
       >
-    <Text style={{fontSize: 20, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
+    <Text style={{fontSize: 18, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
       </View>
       </View>

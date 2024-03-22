@@ -5,7 +5,6 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import TabNavigator from './components/Navigation';
 import Instruments from './screens/Instruments'
-import Tuner from './screens/Tuner';
 import Metronome from './screens/Metronome';
 const Stack = createNativeStackNavigator();
 import ChordLib from './screens/ChordLib';
