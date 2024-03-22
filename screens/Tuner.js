@@ -209,7 +209,7 @@ case 'Bass 4-string':
               key={index}
               onPress={() => {
                 setSelectedString(string);
-                sendMessageToServer(string, selectedInstrument, index);
+                sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
                 handleTuningProgress();
                 handleStringClick(string, index);
               }}
@@ -244,9 +244,9 @@ case 'Bass 4-string':
         </View>
   );
 
-  const handleStringClick = (string, index) => {
+  const handleStringClick = (string) => {
     setSelectedString(string);
-    sendMessageToServer(string, selectedInstrument, index);
+    sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
     handleTuningProgress();
   };
 
@@ -400,6 +400,8 @@ const ukeSopData = {
 'Low G':['Bb4', 'D4', 'F4', 'Bb4'],
 'Fiji C': ['G4', 'G4', 'C4', 'E4']
 };
+
+
   // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
   const strings = {
     'Guitar 6-string': stringsData[selectedTuning] || [],
@@ -416,7 +418,7 @@ const ukeSopData = {
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string, selectedInstrument, index);
+            sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
             handleTuningProgress();
             handleStringClick(string, index);}}
           style={{
@@ -457,7 +459,7 @@ const ukeSopData = {
         <TouchableOpacity
           key={index}
           onPress={() => {setSelectedString(string);
-            sendMessageToServer(string, selectedInstrument, index);
+            sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
             handleTuningProgress();
             handleStringClick(string, index);}}
           style={{
