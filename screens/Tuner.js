@@ -211,7 +211,7 @@ case 'Bass 4-string':
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
                 handleTuningProgress();
-                handleStringClick(string, index);
+                handleStringClick(string, selectedTuning.indexOf(string));
               }}
               style={{
                 width: 52,
@@ -244,9 +244,9 @@ case 'Bass 4-string':
         </View>
   );
 
-  const handleStringClick = (string) => {
+  const handleStringClick = (string, index) => {
     setSelectedString(string);
-    sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
+    sendMessageToServer(string, selectedInstrument, index);
     handleTuningProgress();
   };
 
@@ -420,7 +420,7 @@ const ukeSopData = {
           onPress={() => {setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
             handleTuningProgress();
-            handleStringClick(string, index);}}
+            handleStringClick(string, selectedTuning.indexOf(string));}}
           style={{
             width: 52,
             height: 52,
@@ -461,7 +461,7 @@ const ukeSopData = {
           onPress={() => {setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, selectedTuning.indexOf(string));
             handleTuningProgress();
-            handleStringClick(string, index);}}
+            handleStringClick(string, selectedTuning.indexOf(string));}}
           style={{
             width: 52,
             height: 52,
