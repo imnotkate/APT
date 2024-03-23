@@ -16,8 +16,8 @@ import { SERVER_IP } from '../config.js';
 
 
 function Tuner({ route }) {
-
-  const { selectedHead, selectedInstrument } = route.params || {};
+  const { selectedHead, selectedInstrument: initialSelectedInstrument } = route.params || {};
+  const [selectedInstrument, setSelectedInstrument] = useState(initialSelectedInstrument || 'Guitar 6-string');
   const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
   const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
   const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
@@ -214,7 +214,7 @@ case 'Bass 4-string':
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
                 handleTuningProgress();
-                handleStringClick(string, selectedTuning.indexOf(string));
+                handleStringClick(string, index);
               }}
               style={{
                 width: 52,
@@ -418,7 +418,7 @@ const ukeSopData = {
           onPress={() => {setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, index+strings.length/2);
             handleTuningProgress();
-            handleStringClick(string, selectedTuning.indexOf(string));}}
+            handleStringClick(string, index);}}
           style={{
             width: 52,
             height: 52,
@@ -459,7 +459,7 @@ const ukeSopData = {
           onPress={() => {setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, strings.length/2-index-1);
             handleTuningProgress();
-            handleStringClick(string, selectedTuning.indexOf(string));}}
+            handleStringClick(string, index);}}
           style={{
             width: 52,
             height: 52,
