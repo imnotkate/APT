@@ -14,12 +14,12 @@ import UkeSop from '../assets/images/uksop.png';
 
 import { SERVER_IP } from '../config.js';
 
-//IMPLEMENT AUTO TUNING
 // If the button is selected, it's red.
 // If it's not selected and tuned, it's green.
 // If it's not selected and not tuned, it's white.
 //IF GREEN STRING IS SELECTED, IT TURNS RED AGAIN AND RETUNES
 
+//IMPLEMENT AUTO TUNING
 //if other instrument selected dont keep previous string selected
 //disable all buttons when auto tuning is on
 
