@@ -14,6 +14,15 @@ import UkeSop from '../assets/images/uksop.png';
 
 import { SERVER_IP } from '../config.js';
 
+//IMPLEMENT AUTO TUNING
+// If the button is selected, it's red.
+// If it's not selected and tuned, it's green.
+// If it's not selected and not tuned, it's white.
+//IF GREEN STRING IS SELECTED, IT TURNS RED AGAIN AND RETUNES
+
+//if other instrument selected dont keep previous string selected
+//disable all buttons when auto tuning is on
+
 
 function Tuner({ route }) {
 
@@ -38,16 +47,12 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={ThreePlusThreeHeadImage} style={{ width: 240, height: 400 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -58,16 +63,12 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={EightString} style={{ width: 220, height: 460 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -78,16 +79,12 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={TwelveString} style={{ width: 230, height: 460 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -99,8 +96,6 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
@@ -115,7 +110,6 @@ function Tuner({ route }) {
               selectedString={selectedString}
               isTuned={isTuned}
               flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={SevenString} style={{ width: 210, height: 480 }} />
@@ -130,7 +124,6 @@ case 'Bass 4-string':
               selectedString={selectedString}
               isTuned={isTuned}
               flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={Bass4String} style={{ width: 250, height: 430 }} />
@@ -144,7 +137,6 @@ case 'Bass 4-string':
               selectedString={selectedString}
               isTuned={isTuned}
               flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={UkeSop} style={{ width: 260, height: 410 }} />
             <StringButtonsRight
@@ -152,7 +144,6 @@ case 'Bass 4-string':
               selectedString={selectedString}
               isTuned={isTuned}
               flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -165,7 +156,6 @@ case 'Bass 4-string':
               selectedString={selectedString}
               isTuned={isTuned}
               flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
@@ -209,24 +199,23 @@ case 'Bass 4-string':
            10 ; // Default value if none of the conditions match
   };
 
-  const StringsInLine = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+  const StringsInLine = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom(), paddingLeft: getPaddingLeft(), paddingRight: getPaddingRight() }}>
           {strings.map((string, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => {
+                setIsTuned(false);
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
                 handleTuningProgress();
-                handleStringClick(string, selectedTuning.indexOf(string));
               }}
               style={{
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: selectedString === string
-                ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
-                : '#fff',
+                backgroundColor: selectedString === string ? '#de1d35' // Red if selected
+                : (isTuned ? 'green' : '#fff'),
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -243,16 +232,13 @@ case 'Bass 4-string':
                 borderColor: 'transparent',
               }}
             >
-              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+              <Text style={{ color: selectedString === string ? '#fff' || isTuned === true : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
   );
-
-  const handleStringClick = (string, index) => {
-  };
 
   const renderTunings = () => {
     switch (selectedInstrument) {
@@ -414,22 +400,23 @@ const ukeSopData = {
     'Ukulele Soprano': ukeSopData[selectedTuning] || [],
   }[selectedInstrument] || stringsData[selectedTuning] || [];
 
-  const StringButtonsRight = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+  const StringButtonsRight = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(0, strings.length / 2).reverse().map((string, index) => (
         <TouchableOpacity
           key={index}
-          onPress={() => {setSelectedString(string);
+          onPress={() => {
+            setIsTuned(false);
+            setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, index+strings.length/2);
             handleTuningProgress();
-            handleStringClick(string, selectedTuning.indexOf(string));}}
+      }}
           style={{
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string
-              ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
-              : '#fff',
+            backgroundColor: selectedString === string ? '#de1d35' // Red if selected
+            : (isTuned ? 'green' : '#fff'),
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -446,7 +433,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || isTuned === true ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -455,22 +442,23 @@ const ukeSopData = {
   );
   
   // Component for rendering string buttons on the left side
-  const StringButtonsLeft = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+  const StringButtonsLeft = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(strings.length / 2).map((string, index) => (
         <TouchableOpacity
           key={index}
-          onPress={() => {setSelectedString(string);
+          onPress={() => {
+            setIsTuned(false);
+            setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, strings.length/2-index-1);
             handleTuningProgress();
-            handleStringClick(string, selectedTuning.indexOf(string));}}
+           }}
           style={{
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string
-              ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
-              : '#fff',
+            backgroundColor: selectedString === string ? '#de1d35' // Red if selected
+            : (isTuned ? 'green' : '#fff'),
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -487,7 +475,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || isTuned === true ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -511,14 +499,15 @@ const ukeSopData = {
 
   const handleToggleSwitch = () => {
     setAuto(!auto);
+    if (auto === true) {
+      tuneStringsAutomatically(selectedInstrument, selectedTuning);
+      //disable all buttons
+
+    }
   };
 
   const [auto, setAuto] = useState(false);
-  const [intervalId, setIntervalId] = useState(null);
   const [isTuned, setIsTuned] = useState(false);
-  const [flashing, setFlashing] = useState(false);
-
-
 
   // connection to flask webserver 
   // send msg
@@ -551,43 +540,28 @@ const ukeSopData = {
   //send 205 stop tuning 
   //post to /stop_tuning
 
-  const tuneStringsAutomatically = async () => {
-    const stringsToTune = ['E2', 'A', 'D', 'G', 'B', 'E4']; // Add all your strings
+  const tuneStringsAutomatically = (selectedInstrument, selectedTuning) => {
 
-    let currentIndex = 0;
-    const maxIterations = 3; // Number of times to flash green for each string
+    // tunings
+    const strings = {
+      'Guitar 6-string': stringsData[selectedTuning] || [],
+      'Guitar 7-string': sevenStringsData[selectedTuning] || [],
+      'Guitar 8-string': eightStringsData[selectedTuning] || [],
+      'Guitar 12-string': twelveStringsData[selectedTuning] || [],
+      'Bass 4-string': bass4StringData[selectedTuning] || [],
+      'Ukulele Soprano': ukeSopData[selectedTuning] || [],
+    }[selectedInstrument] || stringsData[selectedTuning] || [];
 
-    const intervalId = setInterval( async () => {
-      if (currentIndex >= stringsToTune.length) {
-        //all strings tuned so flash green
-        clearInterval(intervalId);
-        setFlashing(true);
-        setTimeout(() => {
-          setFlashing(false);
-        }, 1000); // Adjust the time as needed
-        return;
-  }
+    // Loop through each string and send a message to the server
+    for (let i = 0; i < strings.length; i++) {
+      const string = strings[i];
+     sendMessageToServer(string, selectedInstrument, i);
+    } 
+     // Loop through each string and send a message to the server
+  //    strings.forEach((string, index) => {
+  //     sendMessageToServer(string, selectedInstrument, index);
+  // });
 
-  useEffect(() => {
-    if (auto) {
-      tuneStringsAutomatically();
-    } else {
-      clearInterval(intervalId); // Clear the interval if auto mode is turned off
-    }
-  }, [auto]);
-
-  const currentString = stringsToTune[currentIndex];
-  await sendAndTuneString(currentString);
-
-    if (isTuned) {
-      // String is tuned, move to the next one
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // Handle if the string is not tuned, retry or handle as needed
-    }
-  }, 2000); // Adjust the time as needed
-
-  setIntervalId(intervalId);
 };
 
   const pickerTextStyle = {
