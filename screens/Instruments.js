@@ -6,16 +6,11 @@ import ThreePlusThreeHeadImage from '../assets/images/3+3head.jpg';
 import SixHeadImage from '../assets/images/6head.jpg';
 import { Dropdown } from 'react-native-element-dropdown';
 
-function Instruments() {
+function Instruments({route}) {
   const navigation = useNavigation();
 
-  const [selectedHead, setSelectedHead] = useState(
-    navigation.getState().params?.selectedHead || '6-in-line'
-  );
-
-  const [selectedInstrument, setSelectedInstrument] = useState(
-    navigation.getState().params?.selectedInstrument || 'Guitar 6-string'
-  );
+  const [selectedHead, setSelectedHead] = useState(route.params.selectedHead);
+  const [selectedInstrument, setSelectedInstrument] = useState(route.params.selectedInstrument);
 
   const navigateToTuner = (selectedHead, selectedInstrument) => {
     navigation.navigate('Tune', { selectedHead, selectedInstrument });
@@ -23,10 +18,8 @@ function Instruments() {
 
   useFocusEffect(
     React.useCallback(() => {
-      const { selectedHead } = navigation.getState().params || {};
-      const { selectedInstrument } = navigation.getState().params || {};
-      setSelectedHead(selectedHead || '6-in-line');
-      setSelectedInstrument(selectedInstrument || 'Guitar 6-string');
+      setSelectedHead(selectedHead);
+      setSelectedInstrument(selectedInstrument);
     }, [navigation])
   );
 
@@ -65,7 +58,7 @@ function Instruments() {
     <View className="bg-grey h-full w-full">
       {/* Back arrow */}
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 60, paddingLeft: 20 }}>
-      <TouchableOpacity style={{marginRight: 20, marginLeft: 10}} onPress={() => {navigation.push('Root');}}>
+      <TouchableOpacity style={{marginRight: 20, marginLeft: 10}} onPress={() => {console.log(selectedHead, selectedInstrument), navigation.navigate('Tune', {selectedHead, selectedInstrument});}}>
             <ArrowLeft color="#de1d35" height={30} width={30} />
           </TouchableOpacity>
       </View>

@@ -733,7 +733,7 @@ const ukeSopData = {
           borderWidth: 0,
           borderColor: 'transparent',
         }}
-        onPress={() => {navigation.push('Instruments')}}
+        onPress={() => {navigation.push('Instruments', {selectedHead, selectedInstrument})}}
       >
     <Text style={{fontSize: 18, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
