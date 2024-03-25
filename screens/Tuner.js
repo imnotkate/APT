@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Text, View, TouchableOpacity, Button, Switch } from 'react-native';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -109,7 +109,6 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
             />
             </View>
             <Image source={SevenString} style={{ width: 210, height: 480 }} />
@@ -123,7 +122,6 @@ case 'Bass 4-string':
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
             />
             </View>
             <Image source={Bass4String} style={{ width: 250, height: 430 }} />
@@ -136,14 +134,12 @@ case 'Bass 4-string':
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
             />
             <Image source={UkeSop} style={{ width: 260, height: 410 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
             />
           </View>
         );
@@ -155,7 +151,6 @@ case 'Bass 4-string':
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
             />
             </View>
             <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
@@ -205,7 +200,6 @@ case 'Bass 4-string':
             <TouchableOpacity
               key={index}
               onPress={() => {
-                setIsTuned(false);
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
                 handleTuningProgress();
@@ -215,7 +209,7 @@ case 'Bass 4-string':
                 height: 52,
                 borderRadius: 30,
                 backgroundColor: selectedString === string ? '#de1d35' // Red if selected
-                : (isTuned ? 'green' : '#fff'),
+                : '#fff', //(isTuned ? 'green' : '#fff'),
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -232,7 +226,7 @@ case 'Bass 4-string':
                 borderColor: 'transparent',
               }}
             >
-              <Text style={{ color: selectedString === string ? '#fff' || isTuned === true : '#de1d35', fontSize: 16 }}>
+              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
             </TouchableOpacity>
@@ -415,8 +409,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35' // Red if selected
-            : (isTuned ? 'green' : '#fff'),
+            backgroundColor: selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -433,7 +426,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string || isTuned === true ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -457,8 +450,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35' // Red if selected
-            : (isTuned ? 'green' : '#fff'),
+            backgroundColor: selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -475,7 +467,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string || isTuned === true ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -496,18 +488,21 @@ const ukeSopData = {
   };
 
   const [showTuningModal, setShowTuningModal] = useState(false);
+  const [auto, setAuto] = useState(false);
 
   const handleToggleSwitch = () => {
     setAuto(!auto);
-    if (auto === true) {
-      tuneStringsAutomatically(selectedInstrument, selectedTuning);
-      //disable all buttons
-
-    }
   };
 
-  const [auto, setAuto] = useState(false);
+  useEffect(() => {
+    if (auto) {
+      tuneStringsAutomatically(selectedInstrument, selectedTuning, setIsTuned, setSelectedString);
+    }
+  }, [auto, selectedInstrument, selectedTuning, setIsTuned, setSelectedString]);
+
+  
   const [isTuned, setIsTuned] = useState(false);
+  const [status, setStatus] = useState(null); // Status message from the server
 
   // connection to flask webserver 
   // send msg
@@ -522,27 +517,61 @@ const ukeSopData = {
       .then(response => {
         if (response.status === 409) {
           //already tuning
+          setStatus(409)
         } else if (response.status === 202) {
           //string tuned
           setIsTuned(true);
-          setSelectedString(string);
+          setSelectedString(string); 
+          setStatus(202);
+
         } 
         else {
           //if a random response is received
           setIsTuned(false);
+          setStatus(1000);
         }
+        
       })
       .catch(error => {
         setIsTuned(false); // Assume not tuned if there's an error
       });
   };
 
+  const sendMessageToServerAsync = (string, selectedInstrument, index, setIsTuned, setSelectedString) => {
+    const messageData = {
+      message: string,
+      instrument: selectedInstrument,
+      string: index
+    };
+  
+    return axios.post(`${SERVER_IP}/tune_string`, messageData)
+      .then(response => {
+        if (response.status === 409) {
+          // Already tuning
+          setStatus(409);
+        } else if (response.status === 202) {
+          // String tuned
+          setIsTuned(true);
+          setSelectedString(string);
+          setStatus(202);
+        } else {
+          // If a random response is received
+          setIsTuned(false);
+          setStatus(1000);
+        }
+        return response.status;
+      })
+      .catch(error => {
+        setIsTuned(false); // Assume not tuned if there's an error
+        console.error('Error:', error);
+        throw error; // Re-throw the error to be caught by the calling code
+      });
+  };
+
   //send 205 stop tuning 
   //post to /stop_tuning
 
-  const tuneStringsAutomatically = (selectedInstrument, selectedTuning) => {
-
-    // tunings
+  const tuneStringsAutomatically = async (selectedInstrument, selectedTuning, setIsTuned, setSelectedString) => {
     const strings = {
       'Guitar 6-string': stringsData[selectedTuning] || [],
       'Guitar 7-string': sevenStringsData[selectedTuning] || [],
@@ -551,18 +580,19 @@ const ukeSopData = {
       'Bass 4-string': bass4StringData[selectedTuning] || [],
       'Ukulele Soprano': ukeSopData[selectedTuning] || [],
     }[selectedInstrument] || stringsData[selectedTuning] || [];
+    
+    //const stringsReversed = strings.reverse(); // Reverse the strings array
 
-    // Loop through each string and send a message to the server
     for (let i = 0; i < strings.length; i++) {
-      const string = strings[i];
-     sendMessageToServer(string, selectedInstrument, i);
-    } 
-     // Loop through each string and send a message to the server
-  //    strings.forEach((string, index) => {
-  //     sendMessageToServer(string, selectedInstrument, index);
-  // });
-
-};
+      //const string = stringsReversed[i];
+      let status;
+  
+      do {
+        status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString);
+        console.log(`Status for string ${string}: ${status}`);
+      } while (status !== 202); // Keep sending requests until a 202 is received
+    }
+  };
 
   const pickerTextStyle = {
     fontSize: 20, // Adjust the font size as needed
