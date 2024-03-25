@@ -581,10 +581,10 @@ const ukeSopData = {
       'Ukulele Soprano': ukeSopData[selectedTuning] || [],
     }[selectedInstrument] || stringsData[selectedTuning] || [];
     
-    //const stringsReversed = strings.reverse(); // Reverse the strings array
+    const stringsReversed = strings.reverse(); // Reverse the strings array
 
     for (let i = 0; i < strings.length; i++) {
-      //const string = stringsReversed[i];
+      const string = stringsReversed[i];
       let status;
   
       do {
