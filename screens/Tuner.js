@@ -44,6 +44,8 @@ function Tuner({ route }) {
 
   const { isLeftHanded } = useLeftHanded();
 
+  const [tunedStrings, setTunedStrings] = useState([]);
+  
   const renderGuitarHead = () => {
     switch (selectedHead) {
       case '3+3':
@@ -216,7 +218,7 @@ case 'Bass 4-string':
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: selectedString === string && isTuned ? 'green': selectedString === string ? '#de1d35' : '#fff',
+                backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) ? 'green': selectedString === string ? '#de1d35' : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -233,7 +235,7 @@ case 'Bass 4-string':
                 borderColor: 'transparent',
               }}
             >
-              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+              <Text style={{ color: selectedString === string || tunedStrings.includes(string) ? '#fff' : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
             </TouchableOpacity>
@@ -454,7 +456,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35': isTuned ? 'green' : '#fff',
+            backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) ? 'green': selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -471,7 +473,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || tunedStrings.includes(string) ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -496,7 +498,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35' : '#fff',
+            backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) ? 'green': selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -513,7 +515,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || tunedStrings.includes(string) ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -576,7 +578,7 @@ const ukeSopData = {
           setIsTuned(true);
           setSelectedString(string); 
           setStatus(202);
-
+          setTunedStrings([...tunedStrings, string]);
         } 
         else {
           //if a random response is received
@@ -590,7 +592,7 @@ const ukeSopData = {
       });
   };
 
-  const sendMessageToServerAsync = (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
+  const sendMessageToServerAsync = async (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
@@ -776,7 +778,11 @@ const ukeSopData = {
           borderWidth: 0,
           borderColor: 'transparent',
         }}
-        onPress={() => {navigation.push('Instruments', {selectedHead, selectedInstrument})}}
+        onPress={() => {
+          setTunedStrings([]);
+          setSelectedString(null);
+          navigation.push('Instruments', {selectedHead, selectedInstrument});
+        }}
       >
     <Text style={{fontSize: 18, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
