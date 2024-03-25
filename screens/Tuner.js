@@ -198,8 +198,10 @@ case 'Bass 4-string':
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom(), paddingLeft: getPaddingLeft(), paddingRight: getPaddingRight() }}>
           {strings.map((string, index) => (
             <TouchableOpacity
+              disabled={buttonsDisabled}
               key={index}
               onPress={() => {
+                setIsTuned(false);
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
                 handleTuningProgress();
@@ -208,8 +210,7 @@ case 'Bass 4-string':
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: selectedString === string ? '#de1d35' // Red if selected
-                : '#fff', //(isTuned ? 'green' : '#fff'),
+                backgroundColor: selectedString === string && isTuned ? 'green': selectedString === string ? '#de1d35' : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -398,6 +399,7 @@ const ukeSopData = {
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(0, strings.length / 2).reverse().map((string, index) => (
         <TouchableOpacity
+          disabled={buttonsDisabled}
           key={index}
           onPress={() => {
             setIsTuned(false);
@@ -409,7 +411,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35' : '#fff',
+            backgroundColor: selectedString === string ? '#de1d35': isTuned ? 'green' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -439,6 +441,7 @@ const ukeSopData = {
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(strings.length / 2).map((string, index) => (
         <TouchableOpacity
+        disabled={buttonsDisabled}
           key={index}
           onPress={() => {
             setIsTuned(false);
@@ -489,14 +492,21 @@ const ukeSopData = {
 
   const [showTuningModal, setShowTuningModal] = useState(false);
   const [auto, setAuto] = useState(false);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const handleToggleSwitch = () => {
     setAuto(!auto);
+    setButtonsDisabled(!auto);
   };
 
   useEffect(() => {
     if (auto) {
+
       tuneStringsAutomatically(selectedInstrument, selectedTuning, setIsTuned, setSelectedString);
+    } else {
+      // stop tuning
+
+
     }
   }, [auto, selectedInstrument, selectedTuning, setIsTuned, setSelectedString]);
 
@@ -537,13 +547,14 @@ const ukeSopData = {
       });
   };
 
-  const sendMessageToServerAsync = (string, selectedInstrument, index, setIsTuned, setSelectedString) => {
+  const sendMessageToServerAsync = (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
-      string: index
+      string: index,
+      stop: stopVar
     };
-  
+
     return axios.post(`${SERVER_IP}/tune_string`, messageData)
       .then(response => {
         if (response.status === 409) {
@@ -554,7 +565,11 @@ const ukeSopData = {
           setIsTuned(true);
           setSelectedString(string);
           setStatus(202);
-        } else {
+        } else if (response.status === 500) {
+          // Stop tuning
+          setStatus(500);
+        }
+        else {
           // If a random response is received
           setIsTuned(false);
           setStatus(1000);
@@ -582,13 +597,23 @@ const ukeSopData = {
     }[selectedInstrument] || stringsData[selectedTuning] || [];
     
     const stringsReversed = strings.reverse(); // Reverse the strings array
+    let stopVar = false;
 
     for (let i = 0; i < strings.length; i++) {
+      stopVar = auto ? false : true;
+
+      if(status === 500) {
+        break;
+      }
+
       const string = stringsReversed[i];
       let status;
   
       do {
-        status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString);
+        if(status === 500) {
+          break;
+        }
+        status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopVar);
         console.log(`Status for string ${string}: ${status}`);
       } while (status !== 202); // Keep sending requests until a 202 is received
     }
@@ -633,6 +658,7 @@ const ukeSopData = {
     {/* Tuning and Instrument buttons */}
     <View style={{flex: 1, paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
 <TouchableOpacity
+  disabled={buttonsDisabled}
   style={[
     {
       flexDirection: 'row',
@@ -684,6 +710,7 @@ const ukeSopData = {
 
     <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', paddingLeft: 10 }}>
       <TouchableOpacity
+        disabled={buttonsDisabled}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
