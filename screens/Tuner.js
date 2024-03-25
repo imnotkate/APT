@@ -14,6 +14,9 @@ import UkeSop from '../assets/images/uksop.png';
 
 import { SERVER_IP } from '../config.js';
 
+
+import { useLeftHanded } from './Context';
+
 // If the button is selected, it's red.
 // If it's not selected and tuned, it's green.
 // If it's not selected and not tuned, it's white.
@@ -22,6 +25,7 @@ import { SERVER_IP } from '../config.js';
 //IMPLEMENT AUTO TUNING
 //if other instrument selected dont keep previous string selected
 //disable all buttons when auto tuning is on
+
 
 
 function Tuner({ route }) {
@@ -37,6 +41,8 @@ function Tuner({ route }) {
   const twelveTunings = ['Standard', 'Open G', 'D Modal', 'Drop D', 'Open C', 'Drop A', 'Split', 'Open E', 'Full Step Down'];
   const ukeSopTunings = ['Standard', 'Low G'];
   const bass4StringTunings = ['Standard', 'Drop D'];
+
+  const { isLeftHanded } = useLeftHanded();
 
   const renderGuitarHead = () => {
     switch (selectedHead) {
@@ -315,6 +321,37 @@ case 'Bass 4-string':
     'Dobro Open G': ['G4', 'G1', 'D2', 'B1', 'G3', 'D4']
 };
 
+
+// const stringsData = {
+//   'Standard': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2'],
+//   'Drop D': ['E4', 'B3', 'G3', 'D3', 'A2', 'D2'],
+//   'Double Drop D': ['D4', 'B3', 'G3', 'D3', 'A2', 'D2'],
+//   'D Modal': ['D4', 'A3', 'G3', 'D3', 'A2', 'D2'],
+//   'Double Daddy': ['D4','A3','D3','D3','A2','D2'],
+//   'Drop C#': ['D#4', 'A#3', 'F#3', 'C#3', 'G#2', 'C#2'],
+//   'Drop C': ['D4', 'A3', 'F3', 'C3', 'G2', 'C2'],
+//   'Drop B': ['C#4', 'G#3', 'E3', 'B2', 'F#2', 'B1'],
+//   'Drop A': ['B3', 'F#3', 'D3', 'A2', 'E2', 'A1'],
+//   'Open C': ['E4', 'C4', 'G3', 'C3', 'G2', 'C2'],
+//   'Open E': ['E4', 'B3', 'G#3', 'E3', 'B2', 'E2'],
+//   'Open F': ['F4', 'A3', 'F3', 'C3', 'F2', 'C2'],
+//   'Open G': ['D4', 'B3', 'G3', 'D3', 'G2', 'D2'],
+//   'Open A': ['E4', 'A3', 'E3', 'C#3', 'A2', 'E2'],
+//   'Open D': ['E4', 'A3', 'E3', 'C#3', 'A2', 'E2'],
+//   'Open Am':   ['E4', 'C4', 'A3', 'E3', 'A2', 'E2'],
+//   'Open Em':   ['E4' ,'B3', 'G3', 'E3', 'B2', 'E2']
+
+
+
+
+
+
+
+
+  
+  
+// };
+
 const sevenStringsData = {
   'Standard': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1'],
 'Open G': ['D4', 'G3', 'D3', 'G2', 'D2', 'B1', 'B2'],
@@ -386,7 +423,7 @@ const ukeSopData = {
 'Fiji C': ['G4', 'G4', 'C4', 'E4']
 };
   // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
-  const strings = {
+  let strings = {
     'Guitar 6-string': stringsData[selectedTuning] || [],
     'Guitar 7-string': sevenStringsData[selectedTuning] || [],
     'Guitar 8-string': eightStringsData[selectedTuning] || [],
@@ -394,6 +431,12 @@ const ukeSopData = {
 'Bass 4-string': bass4StringData[selectedTuning] || [],
     'Ukulele Soprano': ukeSopData[selectedTuning] || [],
   }[selectedInstrument] || stringsData[selectedTuning] || [];
+  
+
+  if (isLeftHanded){
+    strings = strings.slice().reverse();
+  }
+
 
   const StringButtonsRight = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>

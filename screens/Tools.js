@@ -2,13 +2,11 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Linking, Alert} from 'react-native';
 import { OpenBook, Arc3dCenterPoint, Refresh, Metro, Learning, Spotify } from 'iconoir-react-native';
 import { useNavigation } from '@react-navigation/native';
-
 const Tools = () => {
   const navigation = useNavigation();
 
   const handleOpenSpotify = async () => {
-    const spotifyUrl = 'spotify://';
-  
+    const spotifyUrl = 'spotify://'; 
     try {
       await Linking.openURL(spotifyUrl);
     } catch (err) {
@@ -22,6 +20,9 @@ const Tools = () => {
         ]
       );
     }
+  };
+  const handleEarTrainerPress = () => {
+    navigation.navigate('EarTrainer');
   };
 
   const tools = [
@@ -47,7 +48,7 @@ const Tools = () => {
     },
     {
       title: 'Ear Trainer',
-      onPress: () => navigation.navigate('EarTrainer'), // Navigate to EarTrainer on press
+      onPress: (handleEarTrainerPress), // Navigate to EarTrainer on press
       icon: <Learning color={'#de1d35'} height={40} width={40} />,
     },
     {
