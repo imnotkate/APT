@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Text, View, TouchableOpacity, Button, Switch } from 'react-native';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -14,11 +14,27 @@ import UkeSop from '../assets/images/uksop.png';
 
 import { SERVER_IP } from '../config.js';
 
+
 import { useLeftHanded } from './Context';
 
+// If the button is selected, it's red.
+// If it's not selected and tuned, it's green.
+// If it's not selected and not tuned, it's white.
+//IF GREEN STRING IS SELECTED, IT TURNS RED AGAIN AND RETUNES
+
+//IMPLEMENT AUTO TUNING
+//if other instrument selected dont keep previous string selected
+//disable all buttons when auto tuning is on
+
+
+
 function Tuner({ route }) {
-  const { selectedHead, selectedInstrument: initialSelectedInstrument } = route.params || {};
-  const [selectedInstrument, setSelectedInstrument] = useState(initialSelectedInstrument || 'Guitar 6-string');
+
+  const { selectedHead = '6-in-line', selectedInstrument = 'Guitar 6-string' } = route.params || {};
+  // const { selectedHead, selectedInstrument: initialSelectedInstrument } = route.params || {};
+  // const [selectedInstrument, setSelectedInstrument] = useState(initialSelectedInstrument || 'Guitar 6-string');
+
+
   const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
   const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
   const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
@@ -37,16 +53,12 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={ThreePlusThreeHeadImage} style={{ width: 240, height: 400 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -57,16 +69,12 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={EightString} style={{ width: 220, height: 460 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -77,16 +85,12 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={TwelveString} style={{ width: 230, height: 460 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -98,8 +102,6 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
@@ -113,8 +115,6 @@ function Tuner({ route }) {
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={SevenString} style={{ width: 210, height: 480 }} />
@@ -128,8 +128,6 @@ case 'Bass 4-string':
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={Bass4String} style={{ width: 250, height: 430 }} />
@@ -142,16 +140,12 @@ case 'Bass 4-string':
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             <Image source={UkeSop} style={{ width: 260, height: 410 }} />
             <StringButtonsRight
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
           </View>
         );
@@ -163,8 +157,6 @@ case 'Bass 4-string':
               strings={strings}
               selectedString={selectedString}
               isTuned={isTuned}
-              flashing={flashing}
-              handleStringClick={handleStringClick}
             />
             </View>
             <Image source={SixHeadImage} style={{ width: 220, height: 450 }} />
@@ -208,24 +200,23 @@ case 'Bass 4-string':
            10 ; // Default value if none of the conditions match
   };
 
-  const StringsInLine = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+  const StringsInLine = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom(), paddingLeft: getPaddingLeft(), paddingRight: getPaddingRight() }}>
           {strings.map((string, index) => (
             <TouchableOpacity
+              disabled={buttonsDisabled}
               key={index}
               onPress={() => {
+                setIsTuned(false);
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
                 handleTuningProgress();
-                handleStringClick(string, index);
               }}
               style={{
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: selectedString === string
-                ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
-                : '#fff',
+                backgroundColor: selectedString === string && isTuned ? 'green': selectedString === string ? '#de1d35' : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -249,9 +240,6 @@ case 'Bass 4-string':
           ))}
         </View>
   );
-
-  const handleStringClick = (string, index) => {
-  };
 
   const renderTunings = () => {
     switch (selectedInstrument) {
@@ -450,22 +438,23 @@ const ukeSopData = {
   }
 
 
-  const StringButtonsRight = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+  const StringButtonsRight = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(0, strings.length / 2).reverse().map((string, index) => (
         <TouchableOpacity
+          disabled={buttonsDisabled}
           key={index}
-          onPress={() => {setSelectedString(string);
+          onPress={() => {
+            setIsTuned(false);
+            setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, index+strings.length/2);
             handleTuningProgress();
-            handleStringClick(string, index);}}
+      }}
           style={{
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string
-              ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
-              : '#fff',
+            backgroundColor: selectedString === string ? '#de1d35': isTuned ? 'green' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -491,22 +480,23 @@ const ukeSopData = {
   );
   
   // Component for rendering string buttons on the left side
-  const StringButtonsLeft = ({ strings, selectedString, isTuned, flashing, handleStringClick }) => (
+  const StringButtonsLeft = ({ strings, selectedString, isTuned }) => (
     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: getPaddingBottom() }}>
       {strings.slice(strings.length / 2).map((string, index) => (
         <TouchableOpacity
+        disabled={buttonsDisabled}
           key={index}
-          onPress={() => {setSelectedString(string);
+          onPress={() => {
+            setIsTuned(false);
+            setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, strings.length/2-index-1);
             handleTuningProgress();
-            handleStringClick(string, index);}}
+           }}
           style={{
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string
-              ? (isTuned ? (flashing ? 'green' : 'green') : '#de1d35')
-              : '#fff',
+            backgroundColor: selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -544,17 +534,28 @@ const ukeSopData = {
   };
 
   const [showTuningModal, setShowTuningModal] = useState(false);
+  const [auto, setAuto] = useState(false);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const handleToggleSwitch = () => {
     setAuto(!auto);
+    setButtonsDisabled(!auto);
   };
 
-  const [auto, setAuto] = useState(false);
-  const [intervalId, setIntervalId] = useState(null);
+  useEffect(() => {
+    if (auto) {
+
+      tuneStringsAutomatically(selectedInstrument, selectedTuning, setIsTuned, setSelectedString);
+    } else {
+      // stop tuning
+
+
+    }
+  }, [auto, selectedInstrument, selectedTuning, setIsTuned, setSelectedString]);
+
+  
   const [isTuned, setIsTuned] = useState(false);
-  const [flashing, setFlashing] = useState(false);
-
-
+  const [status, setStatus] = useState(null); // Status message from the server
 
   // connection to flask webserver 
   // send msg
@@ -569,62 +570,97 @@ const ukeSopData = {
       .then(response => {
         if (response.status === 409) {
           //already tuning
+          setStatus(409)
         } else if (response.status === 202) {
           //string tuned
           setIsTuned(true);
-          setSelectedString(string);
+          setSelectedString(string); 
+          setStatus(202);
+
         } 
         else {
           //if a random response is received
           setIsTuned(false);
+          setStatus(1000);
         }
+        
       })
       .catch(error => {
         setIsTuned(false); // Assume not tuned if there's an error
       });
   };
 
+  const sendMessageToServerAsync = (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
+    const messageData = {
+      message: string,
+      instrument: selectedInstrument,
+      string: index,
+      stop: stopVar
+    };
+
+    return axios.post(`${SERVER_IP}/tune_string`, messageData)
+      .then(response => {
+        if (response.status === 409) {
+          // Already tuning
+          setStatus(409);
+        } else if (response.status === 202) {
+          // String tuned
+          setIsTuned(true);
+          setSelectedString(string);
+          setStatus(202);
+        } else if (response.status === 500) {
+          // Stop tuning
+          setStatus(500);
+        }
+        else {
+          // If a random response is received
+          setIsTuned(false);
+          setStatus(1000);
+        }
+        return response.status;
+      })
+      .catch(error => {
+        setIsTuned(false); // Assume not tuned if there's an error
+        console.error('Error:', error);
+        throw error; // Re-throw the error to be caught by the calling code
+      });
+  };
+
   //send 205 stop tuning 
   //post to /stop_tuning
 
-  const tuneStringsAutomatically = async () => {
-    const stringsToTune = ['E2', 'A', 'D', 'G', 'B', 'E4']; // Add all your strings
+  const tuneStringsAutomatically = async (selectedInstrument, selectedTuning, setIsTuned, setSelectedString) => {
+    const strings = {
+      'Guitar 6-string': stringsData[selectedTuning] || [],
+      'Guitar 7-string': sevenStringsData[selectedTuning] || [],
+      'Guitar 8-string': eightStringsData[selectedTuning] || [],
+      'Guitar 12-string': twelveStringsData[selectedTuning] || [],
+      'Bass 4-string': bass4StringData[selectedTuning] || [],
+      'Ukulele Soprano': ukeSopData[selectedTuning] || [],
+    }[selectedInstrument] || stringsData[selectedTuning] || [];
+    
+    const stringsReversed = strings.reverse(); // Reverse the strings array
+    let stopVar = false;
 
-    let currentIndex = 0;
-    const maxIterations = 3; // Number of times to flash green for each string
+    for (let i = 0; i < strings.length; i++) {
+      stopVar = auto ? false : true;
 
-    const intervalId = setInterval( async () => {
-      if (currentIndex >= stringsToTune.length) {
-        //all strings tuned so flash green
-        clearInterval(intervalId);
-        setFlashing(true);
-        setTimeout(() => {
-          setFlashing(false);
-        }, 1000); // Adjust the time as needed
-        return;
-  }
+      if(status === 500) {
+        break;
+      }
 
-  useEffect(() => {
-    if (auto) {
-      tuneStringsAutomatically();
-    } else {
-      clearInterval(intervalId); // Clear the interval if auto mode is turned off
+      const string = stringsReversed[i];
+      let status;
+  
+      do {
+        if(status === 500) {
+          break;
+        }
+        status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopVar);
+        console.log(`Status for string ${string}: ${status}`);
+      } while (status !== 202); // Keep sending requests until a 202 is received
     }
-  }, [auto]);
-
-  const currentString = stringsToTune[currentIndex];
-  await sendAndTuneString(currentString);
-
-    if (isTuned) {
-      // String is tuned, move to the next one
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // Handle if the string is not tuned, retry or handle as needed
-    }
-  }, 2000); // Adjust the time as needed
-
-  setIntervalId(intervalId);
-};
+  };
 
   const pickerTextStyle = {
     fontSize: 20, // Adjust the font size as needed
@@ -665,6 +701,7 @@ const ukeSopData = {
     {/* Tuning and Instrument buttons */}
     <View style={{flex: 1, paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
 <TouchableOpacity
+  disabled={buttonsDisabled}
   style={[
     {
       flexDirection: 'row',
@@ -716,6 +753,7 @@ const ukeSopData = {
 
     <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'flex-start', flexDirection: 'column', paddingLeft: 10 }}>
       <TouchableOpacity
+        disabled={buttonsDisabled}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -738,7 +776,7 @@ const ukeSopData = {
           borderWidth: 0,
           borderColor: 'transparent',
         }}
-        onPress={() => {navigation.push('Instruments')}}
+        onPress={() => {navigation.push('Instruments', {selectedHead, selectedInstrument})}}
       >
     <Text style={{fontSize: 18, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
