@@ -133,9 +133,9 @@
                     <ChordChart
                         chordKey={chordName}
                         color="black"
-                        showTuning
-                        width={200}
-                        height={200}
+                        //showTuning
+                        width={450}
+                        height={450}
                     />
           </View>
         );
@@ -189,7 +189,7 @@
               }}
             >
               <Text style={{color: '#de1d35', fontSize: 20 }}>
-                {showFlats ? '♭' : '♯'}
+                {showFlats ? '♯' : '♭'}
               </Text>
             </TouchableOpacity>
             </View>
