@@ -122,7 +122,9 @@ function Metronome() {
       setIsPlaying(false);
       setButtonText('Start');
     } else {
-      setIsPlaying(true);
+      setIsPlaying(true);<TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
+      <ArrowLeft color="#de1d35" height={30} width={30} />
+    </TouchableOpacity>
       setButtonText('Stop');
       // playClick1();
     }
@@ -286,7 +288,7 @@ function Metronome() {
         </View>
 
         {/* Start/Stop */}
-        <TouchableOpacity style={styles.startStopButton} onPress={() => {playSound();}}>
+        <TouchableOpacity style={styles.startStopButton} onPress={() => {playMetronome();}}>
           <Text style={styles.startStopButtonText}>{buttonText}</Text>
         </TouchableOpacity>
 
