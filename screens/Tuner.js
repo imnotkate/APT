@@ -565,7 +565,8 @@ const ukeSopData = {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
-      string: index
+      string: index,
+      stop: false
     };
     // use pi ip address and port number
     axios.post(`${SERVER_IP}/tune_string`, messageData)
@@ -661,6 +662,15 @@ const ukeSopData = {
         status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopVar);
         console.log(`Status for string ${string}: ${status}`);
       } while (status !== 202); // Keep sending requests until a 202 is received
+
+  
+      if (status === 202) {
+        console.log("got here")
+        console.log(tunedStrings)
+        setTunedStrings([...tunedStrings, string]);
+        console.log(tunedStrings)
+      }
+
     }
   };
 
