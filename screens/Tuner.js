@@ -333,20 +333,12 @@ const stringsData = {
   'Standard': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2'],
   'Drop D': ['E4', 'B3', 'G3', 'D3', 'A2', 'D2'],
   'Double Drop D': ['D4', 'B3', 'G3', 'D3', 'A2', 'D2'],
-  'D Modal': ['D4', 'A3', 'G3', 'D3', 'A2', 'D2'],
-  'Double Daddy': ['D4','A3','D3','D3','A2','D2'],
-  'Drop C#': ['D#4', 'A#3', 'F#3', 'C#3', 'G#2', 'C#2'],
-  'Drop C': ['D4', 'A3', 'F3', 'C3', 'G2', 'C2'],
   'Drop B': ['C#4', 'G#3', 'E3', 'B2', 'F#2', 'B1'],
   'Drop A': ['B3', 'F#3', 'D3', 'A2', 'E2', 'A1'],
-  'Open C': ['E4', 'C4', 'G3', 'C3', 'G2', 'C2'],
-  'Open E': ['E4', 'B3', 'G#3', 'E3', 'B2', 'E2'],
-  'Open F': ['F4', 'A3', 'F3', 'C3', 'F2', 'C2'],
   'Open G': ['D4', 'B3', 'G3', 'D3', 'G2', 'D2'],
   'Open A': ['E4', 'A3', 'E3', 'C#3', 'A2', 'E2'],
   'Open D': ['E4', 'A3', 'E3', 'C#3', 'A2', 'E2'],
-  'Open Am':  ['E4', 'C4', 'A3', 'E3', 'A2', 'E2'],
-  'Open Em':  ['E4' ,'B3', 'G3', 'E3', 'B2', 'E2']
+  'DADGAD': ['D4', 'A3', 'G3', 'D3', 'A2', 'D2'],
 }
 
 const sevenStringsData = {
