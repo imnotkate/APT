@@ -105,12 +105,6 @@ const Settings = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
-        >
-          <Text className='text-lg px-1' style={{color: '#0e1c36'}}>Calibrate</Text>
-          <RefreshCircle color="black" height={25} width={32}/>
-        </TouchableOpacity>
 
         <TouchableOpacity
           className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
@@ -194,7 +188,7 @@ const Settings = () => {
                     setSelectedNoteConvention(itemValue);
                     setShowNoteConventionsModal(false);
                   }}
-                  itemStyle={{ color: '#de1d35', fontSize: 20 }}
+                  itemStyle={{ color: '#000', fontSize: 20 }}
                 >
                   {renderNoteConventions()}
                 </Picker>

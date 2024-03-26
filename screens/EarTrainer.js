@@ -71,15 +71,16 @@ const EarTrainer = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       
-      <View style={styles.header}>
-      <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 90, paddingLeft: 10, marginBottom: 50}}>
+          <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
             <ArrowLeft color="#de1d35" height={30} width={30} />
           </TouchableOpacity>
-        <Text style={styles.title}>Ear Trainer</Text>
+          <Text style={{fontSize: 38, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20}}>Ear Trainer</Text>
       </View>
+
       <View style={styles.scoreContainer}>
         <Text style={styles.score}>Score</Text>
         <AnimatedNumbers
@@ -117,29 +118,33 @@ const EarTrainer = () => {
         </TouchableOpacity>
         <Text style={styles.attempts}>Attempts: {attempts}</Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    height: '100%',
     // justifyContent: 'center',
     // alignItems: 'center',
-    paddingTop: StatusBar.currentHeight + 30 || 0,
+    //paddingTop: StatusBar.currentHeight + 30 || 0,
   },
   header: {
     width: '100%',
-    
     marginBottom: 50,
-    flexDirection: 'row', // Aligns items in a row
-    alignItems: 'center', // Centers items vertically in the container
+    justifyContent: 'center',
+    flexDirection: 'row', alignItems: 'center', 
   },
   title: {
     fontSize: 40,
     fontWeight: 'bold',
     color: '#333',
-    marginLeft: 23,
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
   },
   scoreContainer: {
     width: '100%',
@@ -167,13 +172,14 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     marginLeft: 100,
     marginRight: 100,
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    marginLeft: 8,
     fontSize: 18,
     textAlign: 'center',
+    justifyContent: 'center',
   },
   inputContainer: {
     width: '100%',
