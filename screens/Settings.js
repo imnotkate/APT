@@ -10,6 +10,15 @@ import { useLeftHanded } from './Context';
 const Settings = () => {
   const [leftHandedMode, setLeftHandedMode] = useState(false);
 
+  const noteConventions = ['English', 'German', 'Japanese', 'Japanese (Romaji)', 'Spanish', 'French', 'Russian', 'Korean', 'Korean (Romaja)'];
+  const [showNoteConventionsModal, setShowNoteConventionsModal] = useState(false);
+
+  const renderNoteConventions = () => {
+    return noteConventions.map((key, index) => (
+      <Picker.Item key={index} label={key} value={key} />
+    ));
+  };
+
   const handleToggleSwitch = () => {
     setLeftHandedMode(!leftHandedMode);
     // Additional logic can be added here based on the state change
@@ -21,6 +30,7 @@ const Settings = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(language);
+  const [selectedNoteConvention, setSelectedNoteConvention] = useState('English');
 
   const handleLanguageChange = (selectedValue) => {
     setSelectedLanguage(selectedValue);
@@ -165,10 +175,33 @@ const Settings = () => {
 
         <TouchableOpacity
           className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
+          onPress={() => setShowNoteConventionsModal(true)}
         >
           <Text className='text-lg px-1' style={{color: '#0e1c36'}}>Note Name Convention</Text>
           <MusicNote color="#0e1c36" height={25} width={32} />
         </TouchableOpacity>
+
+        <Modal
+            visible={showNoteConventionsModal}
+            animationType="slide"
+            transparent={true}
+          >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+              <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, width: '90%'}}>
+                <Picker
+                  selectedValue={selectedNoteConvention}
+                  onValueChange={(itemValue) => {
+                    setSelectedNoteConvention(itemValue);
+                    setShowNoteConventionsModal(false);
+                  }}
+                  itemStyle={{ color: '#de1d35', fontSize: 20 }}
+                >
+                  {renderNoteConventions()}
+                </Picker>
+                <Button title="Cancel" onPress={() => setShowNoteConventionsModal(false)} />
+              </View>
+            </View>
+          </Modal>
       </View>
     </View>
     
