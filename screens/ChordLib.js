@@ -1,4 +1,4 @@
-  import React, {useState} from 'react';
+  import React, {useState, useEffect} from 'react';
   import { View, Text, StyleSheet, TouchableOpacity, Pressable, Dimensions,Modal, Button} from 'react-native';
   import { useNavigation } from '@react-navigation/native';
   import ChordChart from 'react-native-chord-charts';
@@ -20,6 +20,9 @@
 
     const handleFlatsToggle = () => {
       setShowFlats(!showFlats);
+    }
+
+    useEffect(() => {
       if (showFlats) {
         setSelectedKeys(["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]);
         if (selectedKey == 'C#') {
@@ -47,7 +50,7 @@
           setSelectedKey('A#');
         }
       }
-    }
+    }, [showFlats, selectedKey]); 
     
     const renderKeys = () => {
       return keys.map((key, index) => (
@@ -160,7 +163,7 @@
             <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
               <ArrowLeft color="#de1d35" height={30} width={30} />
             </TouchableOpacity>
-            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20, paddingLeft: 20}}>Chord Library</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20, paddingLeft: 10, paddingRight: 15}}>Chord Library</Text>
             <View style={{paddingLeft: 20}}>
             <TouchableOpacity
               onPress={() => {
