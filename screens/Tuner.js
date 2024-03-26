@@ -543,6 +543,11 @@ const ukeSopData = {
   const [tuningMessage, setTuningMessage] = useState('');
 
   
+  
+  // Utility function for delay
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
 
   // connection to flask webserver 
   // send msg
@@ -670,7 +675,7 @@ const ukeSopData = {
             useNativeDriver: true, // Use native driver for better performance
           }
         ).start(() => setTuningMessage('')); // After the animation is done, clear the message
-      }, 2000); // Start fading out after 3 seconds
+      }, 4000); // Start fading out after 3 seconds
   
       // Cleanup function to clear the timeout if the component unmounts
       return () => clearTimeout(timer);
@@ -698,11 +703,13 @@ const ukeSopData = {
     let stopVar = false;
 
     for (let i = 0; i < strings.length; i++) {
+      await delay(5000); // Wait for 5 seconds
+      
       stopVar = auto ? false : true;
 
       const string = stringsReversed[i];
       let status;
-      
+
       do {
         setIsTuned(false);
         setSelectedString(string);
@@ -884,9 +891,10 @@ const ukeSopData = {
         style={{
           opacity: fadeAnim, // Use the animated value for opacity
           textAlign: 'center',
-          fontSize: 18,
+          fontSize: 22,
           marginTop: 10,
           marginBottom: 20,
+          fontWeight: 'bold',
           color: isTuned ? 'green' : 'red',
         }}
       >
