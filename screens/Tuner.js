@@ -747,7 +747,7 @@ const ukeSopData = {
           handleTuningChange(itemValue);
           setShowTuningModal(false);
         }}
-        itemStyle={{ color: '#de1d35', fontSize: 18 }}
+        itemStyle={{ color: '#000', fontSize: 18 }}
       >
         {renderTunings()}
       </Picker>
@@ -785,6 +785,7 @@ const ukeSopData = {
         onPress={() => {
           setTunedStrings([]);
           setSelectedString(null);
+          setTuning('Standard');
           navigation.push('Instruments', {selectedHead, selectedInstrument});
         }}
       >
