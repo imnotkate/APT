@@ -348,52 +348,44 @@ const stringsData = {
 
 const sevenStringsData = {
 'Standard': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1'],
-'Drop A': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1'],
-'Russian': ['D4', 'G3', 'D3', 'G2', 'D2', 'B1', 'B2'],
-
+'Drop A': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'A1'],
+'Russian': ['D4', 'B3', 'G3', 'D3', 'B2', 'G2', 'D2'],
+'Brazilian': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'C2'],
 };
 
+//needs implemented
 const eightStringsData = {
 'Standard': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'F#1'],
-'F': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'F1'],
-'Drop E': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'E1'],
-'Drop A + E': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'A1', 'E1'],
-'Drop D': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'D1']
+'F': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'F#1'],
+'Drop E': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'F#1'],
+'Drop A + E': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'F#1'],
+'Drop D': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2', 'B1', 'F#1'],
 };
 
+//needs implemented
 const twelveStringsData = {
-  'Standard': ['E5', 'B4', 'G4', 'D4', 'G3', 'D3', 'A3', 'E3', 'B3', 'E2', 'A2', 'E1'],
-  'Open G': ['D5', 'B4', 'G4', 'D4', 'G3', 'D3', 'G3', 'D2', 'B3', 'G2', 'D2', 'D1'],
-  'D Modal': ['D5', 'A4', 'D4', 'A3', 'D3', 'A2', 'G3', 'D2', 'A3', 'D2', 'A2', 'D1'],
-  'Drop D': ['D5', 'A4', 'D4', 'A3', 'D3', 'A2', 'G3', 'D2', 'A3', 'D2', 'A2', 'D1'],
-  'Open C': ['C5', 'C4', 'G4', 'C4', 'G3', 'C3', 'G3', 'C2', 'C4', 'G2', 'C2', 'C1'],
-  'Drop A': ['E5', 'A4', 'E4', 'A3', 'D4', 'G3', 'D3', 'A2', 'A3', 'E2', 'A2', 'E1'],
-  'Split': ['E5', 'E2', 'B4', 'B3', 'G4', 'G3', 'D4', 'D3', 'A3', 'A2', 'E2', 'E1'],
-  'Open E': ['E5', 'B4', 'G4', 'D4', 'G3', 'D3', 'G3', 'D2', 'G3', 'B2', 'E3', 'E1'],
-  'Full Step Down': ['C5', 'C2', 'A4', 'A3', 'F4', 'F3', 'C4', 'C3', 'G3', 'G2', 'C2', 'C1']
+  'Standard': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Drop D': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Double Drop D': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'D Modal': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Drop C': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Drop C#': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Drop B': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Open D': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Open C': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Open G': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Open E': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+  'Drop A': ['E4', 'E4', 'B3', 'B3', 'G3', 'G4', 'D3', 'D4', 'A2', 'A3', 'E2', 'E3'],
+
 };
   
 const bass4StringData = {
   'Standard': ['G2', 'D2', 'A1', 'E1'],
-'Drop D': ['G2', 'D2', 'A1', 'D1'],
-'Drop C': ['F2', 'C2', 'G1', 'C1'],
-'Drop B': ['E2', 'B1', 'F#1', 'B0'],
-'Drop A': ['D2', 'A1', 'E1', 'A0'],
-'Piccolo': ['D4', 'A3', 'D3', 'G2'],
-'Fifths': ['E3', 'A2', 'D2', 'G1'],
-'All Fourths': ['G2', 'D2', 'A1', 'E1'],
-'Major Thirds': ['E2', 'C2', 'G#1', 'E1'],
-'Augmented': ['E2', 'C#2', 'G#1', 'E1'],
-'Tenor': ['A3', 'D3', 'G2', 'C2'],
-'Orchestral': ['A2', 'D2', 'G1', 'C1'],
-'Dropped Fourths': ['F2', 'C2', 'G1', 'D1'],
-'Tritone': ['Bb2', 'Eb2', 'Bb1', 'E1'],
-'Maverick': ['A2', 'E2', 'B1', 'F#1'],
-'Reversed': ['G2', 'D2', 'A1', 'E1'],
-'Circle of Fifths': ['Bb2', 'F2', 'C2', 'G1'],
-'All Fifths': ['E3', 'A2', 'D2', 'G1'],
-'Whole Tone':['B1', 'A1', 'F#1', 'E1'],
-'Chromatic': ['G1', 'F#1', 'F1', 'E1']
+  'Drop D': ['G2', 'D2', 'A1', 'D1'],
+  'E Flat': ['F#2', 'C#2', 'G#1', 'D#1'],
+  'Drop C': ['F2', 'C2', 'G1', 'C1'],
+  'Low C': ['G2', 'D2', 'A1', 'C1'],
+  'Low B': ['D2', 'A1', 'E1', 'B0'],
 };
 
 const ukeSopData = {
