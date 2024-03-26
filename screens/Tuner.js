@@ -219,7 +219,7 @@ case 'Bass 4-string':
               disabled={buttonsDisabled}
               key={index}
               onPress={() => {
-                removeTunedString(string)
+                removeTunedString(string);
                 setIsTuned(false);
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
@@ -426,6 +426,7 @@ const ukeSopData = {
           disabled={buttonsDisabled}
           key={index}
           onPress={() => {
+            removeTunedString(string);
             setIsTuned(false);
             setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, index+strings.length/2);
@@ -468,7 +469,7 @@ const ukeSopData = {
         disabled={buttonsDisabled}
           key={index}
           onPress={() => {
-
+            removeTunedString(string);
             setIsTuned(false);
             setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, strings.length/2-index-1);
@@ -724,7 +725,7 @@ const ukeSopData = {
     let stopVar = false;
 
     for (let i = 0; i < strings.length; i++) {
-      await delay(5000); // Wait for 5 seconds
+      await delay(2000); // Wait for 5 seconds
       
       stopVar = auto ? false : true;
 
