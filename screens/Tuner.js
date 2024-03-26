@@ -50,6 +50,11 @@ function Tuner({ route }) {
 
   const [tunedStrings, setTunedStrings] = useState([]);
   
+  const removeTunedString = (stringToRemove) => {
+    const newTunedStrings = tunedStrings.filter(string => string !== stringToRemove);
+    setTunedStrings(newTunedStrings);
+  }
+
   const renderGuitarHead = () => {
     switch (selectedHead) {
       case '3+3':
@@ -213,6 +218,7 @@ case 'Bass 4-string':
               disabled={buttonsDisabled}
               key={index}
               onPress={() => {
+                removeTunedString(string)
                 setIsTuned(false);
                 setSelectedString(string);
                 sendMessageToServer(string, selectedInstrument, strings.length-index-1);
