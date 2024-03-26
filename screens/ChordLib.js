@@ -160,7 +160,7 @@
             <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
               <ArrowLeft color="#de1d35" height={30} width={30} />
             </TouchableOpacity>
-            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20, paddingLeft: 20}}>Chord Library</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20, paddingLeft: 10, paddingRight: 15}}>Chord Library</Text>
             <View style={{paddingLeft: 20}}>
             <TouchableOpacity
               onPress={() => {
