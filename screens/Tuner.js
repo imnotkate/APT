@@ -13,6 +13,7 @@ import Bass4String from '../assets/images/bass-4-string.png';
 import UkeSop from '../assets/images/uksop.png';
 
 import { SERVER_IP } from '../config.js';
+import { Audio } from 'expo-av';
 
 
 import { useLeftHanded } from './Context';
@@ -575,7 +576,7 @@ const ukeSopData = {
           setTuningMessage(`Tuning string ${string} completed.`);
           setIsTuning(false);
           setTunedStrings([...tunedStrings, string]);
-
+          playCompletionSound();
         } 
         else {
           //if a random response is received
@@ -615,6 +616,7 @@ const ukeSopData = {
           setStatus(202);
           setTuningMessage(`Tuning string ${string} completed.`);
           setIsTuning(false);
+          playCompletionSound();
         } else if (response.status === 500) {
           // Stop tuning
           setStatus(500);
@@ -636,6 +638,23 @@ const ukeSopData = {
   };
   
 
+  const playCompletionSound = async () => {
+  try {
+    const { sound } = await Audio.Sound.createAsync(
+      require('../assets/sound/complete.mp3'),
+      { shouldPlay: true }
+    );
+    await sound.playAsync();
+    // Optional: When the sound is finished, unload the sound from memory
+    sound.setOnPlaybackStatusUpdate(async (status) => {
+      if (status.didJustFinish) {
+        await sound.unloadAsync();
+      }
+    });
+  } catch (error) {
+    console.error("Couldn't play audio", error);
+  }
+};
 
 
 
