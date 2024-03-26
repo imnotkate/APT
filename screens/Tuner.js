@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Text, View, TouchableOpacity, Button, Switch } from 'react-native';
+import { Image, Text, View, TouchableOpacity, Animated, TouchableHighlight, Button, Switch } from 'react-native';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
@@ -16,6 +16,7 @@ import { SERVER_IP } from '../config.js';
 
 
 import { useLeftHanded } from './Context';
+import { Bold } from 'iconoir-react-native';
 
 // If the button is selected, it's red.
 // If it's not selected and tuned, it's green.
@@ -30,6 +31,8 @@ import { useLeftHanded } from './Context';
 
 
 function Tuner({ route }) {
+
+  
 
   const { selectedHead = '6-in-line', selectedInstrument = 'Guitar 6-string' } = route.params || {};
   // const { selectedHead, selectedInstrument: initialSelectedInstrument } = route.params || {};
@@ -407,7 +410,7 @@ const bass4StringData = {
 };
 
 const ukeSopData = {
-    'Standard':['G4', 'C4', 'E4', 'A4'],
+    'Standard':['A4','E4','C4','G4'],
 'D Tuning (Reentrant)':['A4', 'D4', 'F#4', 'B4'],
 'Open G': ['G4', 'C4', 'F4', 'A4'], 
  'Open G Minor':['G4', 'C4', 'F4', 'Bb4'],
@@ -555,6 +558,7 @@ const ukeSopData = {
   const [isTuning, setIsTuning] = useState(false);
   const [tuningMessage, setTuningMessage] = useState('');
 
+  
 
   // connection to flask webserver 
   // send msg
@@ -641,6 +645,55 @@ const ukeSopData = {
         throw error; // Re-throw the error to be caught by the calling code
       });
   };
+  
+
+
+
+
+  const stopTuning = () => {
+    const messageData = {
+      stop: true,
+    };
+    console.log('came here');
+    axios.post(`${SERVER_IP}/tune_string`, messageData)
+      .then(response => {
+        console.log('Tuning process stopped:', response.data);
+        // You can update the UI or state as needed to reflect that tuning has stopped
+        setIsTuning(false);
+        setTuningMessage('Tuning process has been stopped.');
+      })
+      .catch(error => {
+        console.error('Error stopping tuning:', error);
+        // Optionally update the UI to indicate that stopping the tuning failed
+        setTuningMessage('Tuning process not in progress');
+      });
+  };
+  const [fadeAnim] = useState(new Animated.Value(1)); // Initial opacity is 1
+
+
+  useEffect(() => {
+    // Reset opacity to 1 when tuningMessage changes and is not empty
+    if (tuningMessage) {
+      fadeAnim.setValue(1); // Reset opacity to 1 to make sure the text is visible before starting fade out
+      
+      // Wait 3 seconds before starting the fade out animation
+      const timer = setTimeout(() => {
+        Animated.timing(
+          fadeAnim,
+          {
+            toValue: 0, // Animate to opacity: 0 (transparent)
+            duration: 1500, // Duration of the animation
+            useNativeDriver: true, // Use native driver for better performance
+          }
+        ).start(() => setTuningMessage('')); // After the animation is done, clear the message
+      }, 2000); // Start fading out after 3 seconds
+  
+      // Cleanup function to clear the timeout if the component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, [tuningMessage, fadeAnim]);
+  
+
 
   //send 205 stop tuning 
   //post to /stop_tuning
@@ -702,24 +755,54 @@ const ukeSopData = {
   return (
     <View className="bg-grey h-full w-full">
     {/* Logo and AUTO */}
-    <View style={{paddingTop: 90, flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
+    <View style={{paddingTop: 60, flexDirection: 'row', alignItems: 'center', paddingLeft: 10, marginBottom:0, }}>
       <Image
         source={require('../assets/images/logosmall-removebg-preview.png')}
         style={{ width: 160, height: 80, marginLeft: 20}}
       />
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30, marginTop: -30}}>
         <Text style={{ fontSize: 20, marginRight: 10, color: '#0e1c36'}}>AUTO</Text>
         <Switch
           value={auto}
           onValueChange={handleToggleSwitch}
       />
-     
+      
+
       </View>
+
+      
     </View>
+    <View style={{alignItems: 'center', paddingTop: 0, marginTop: -10}}>
+
+    <TouchableHighlight
+  onPress={stopTuning}
+  // disabled={!isTuning}
+  underlayColor="#b22222" // Darker shade for the pressed state
+  style={{
+    backgroundColor: isTuning ? '#de1d35' : '#de1d35', // Same color for both states since isTuning's effect is not needed here
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+    marginLeft: 200,
+    marginBottom: 10,
+  }}
+>
+  <View style={{ overflow: 'hidden' }}> 
+    <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center' }}>Stop Tuning</Text>
+  </View>
+</TouchableHighlight>
+</View>
+
+
 
 
     {/* Tuning and Instrument buttons */}
-    <View style={{flex: 1, paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
+    <View style={{flex: 1, paddingTop:30, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
 <TouchableOpacity
   disabled={buttonsDisabled}
   style={[
@@ -809,23 +892,21 @@ const ukeSopData = {
       </View>
       </View>
 
-      {tuningMessage && (
-  // <Text style={{ textAlign: 'center', color: 'red', fontSize: 18, marginTop: 10 }}>
-  //   {tuningMessage}
-  // </Text>
-  <Text
-  style={{
-    textAlign: 'center',
-    fontSize: 18,
-    marginTop: 10,
-    // Change color based on isTuned state
-    color: isTuned ? 'green' : 'red',
-  }}
->
-  {tuningMessage}
-</Text>
+    {tuningMessage && (
+      <Animated.Text
+        style={{
+          opacity: fadeAnim, // Use the animated value for opacity
+          textAlign: 'center',
+          fontSize: 18,
+          marginTop: 10,
+          marginBottom: 1,
+          color: isTuned ? 'green' : 'red',
+        }}
+      >
+        {tuningMessage}
+      </Animated.Text>
+    )}
 
-)}
 
       {/* Container for the guitar head image */}
       {renderGuitarHead()}
