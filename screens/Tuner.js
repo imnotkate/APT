@@ -40,7 +40,7 @@ function Tuner({ route }) {
   // const [selectedInstrument, setSelectedInstrument] = useState(initialSelectedInstrument || 'Guitar 6-string');
 
 
-  const tunings = ['Standard','Drop D', 'Double Drop D', 'D Modal', 'Double Daddy', 'Drop C#', 'Drop C', 'Drop B', 'Drop A', 'Open C', 'Open E', 'Open F', 'Open G', 'Open A', 'Open D', 'Open Am', 'Open Em']; 
+  const tunings = ['Standard','Drop D', 'Double Drop D', 'Drop B', 'Drop A', 'Open G', 'Open A', 'Open D', 'DADGAD']; 
   const sevenTunings = ['Standard','Drop A', 'Russian', 'Brazilian'];
   const eightTunings = ['Standard'];
   const twelveTunings = ['Standard'];
