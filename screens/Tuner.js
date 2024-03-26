@@ -36,12 +36,12 @@ function Tuner({ route }) {
   // const [selectedInstrument, setSelectedInstrument] = useState(initialSelectedInstrument || 'Guitar 6-string');
 
 
-  const tunings = ['Standard','Open G','Open D','D Modal','Drop D','Open C','Drop C','Drop B','Drop A','Half Step Down','Full Step Down','Drop C#','Drop D Flat','Drop E','Drop F','Drop G','Open E','Open A','Open B','Open F','Gsus','Asus2 Modal','New Standard','Standard C','Standard C#','Standard B-Barytone','Low C','Low A full step down','C Modal','C6 Modal','All Fourths','Double Drop D','Pentatonic','Minor Third','Major Third','Augmented Fourth','Nick Drake', 'Dobro Open G']; 
-  const sevenTunings = ['Standard','Open G','D Modal','Drop D','Open C','Drop A','Drop F','Drop G','Drop G#','Drop A#','Drop B','All Fourths','Russian','Standard Choro','Thirds'];
-  const eightTunings = ['Standard', 'Drop D', 'Drop A + E', 'Drop E', 'F'];
-  const twelveTunings = ['Standard', 'Open G', 'D Modal', 'Drop D', 'Open C', 'Drop A', 'Split', 'Open E', 'Full Step Down'];
-  const ukeSopTunings = ['Standard', 'Low G'];
-  const bass4StringTunings = ['Standard', 'Drop D'];
+  const tunings = ['Standard','Drop D', 'Double Drop D', 'D Modal', 'Double Daddy', 'Drop C#', 'Drop C', 'Drop B', 'Drop A', 'Open C', 'Open E', 'Open F', 'Open G', 'Open A', 'Open D', 'Open Am', 'Open Em']; 
+  const sevenTunings = ['Standard','Drop A', 'Russian', 'Brazilian'];
+  const eightTunings = ['Standard'];
+  const twelveTunings = ['Standard'];
+  const ukeSopTunings = ['Standard', 'D Tuning', 'Low G', 'Low A', 'Slack Key', 'B Tuning', 'C# Tuning'];
+  const bass4StringTunings = ['Standard', 'Drop D', 'E Flat', 'Drop C', 'Low C', 'Low B'];
 
   const { isLeftHanded } = useLeftHanded();
 
@@ -739,7 +739,7 @@ const ukeSopData = {
   animationType="slide"
   transparent={true}
 >
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
     <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, width: '90%' }}>
       <Picker
         selectedValue={selectedTuning}

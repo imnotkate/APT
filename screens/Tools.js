@@ -28,12 +28,10 @@ const Tools = () => {
   const tools = [
     {
       title: 'Custom Tunings',
-      onPress: () => navigation.navigate('CustomTunings'), // Navigate to CustomTunings on press
       icon: <Arc3dCenterPoint color={'#de1d35'} height={40} width={40} />,
     },
     {
       title: 'String Winder',
-      onPress: () => navigation.navigate('StringWinder'), // Navigate to StringWinder on press
       icon: <Refresh color={'#de1d35'} height={40} width={40} />,
     },
     {
