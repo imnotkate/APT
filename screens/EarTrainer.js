@@ -49,7 +49,7 @@ const EarTrainer = () => {
     if (userAnswer.trim().toUpperCase() === currentNote) {
       setIsCorrect(true);
       setScore(score + 10);
-    } else {
+    } else if (userAnswer.trim() != '') {
       setIsCorrect(false);
       setScore(score -5);
     }
