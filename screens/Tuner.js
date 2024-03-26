@@ -741,12 +741,14 @@ const ukeSopData = {
   return (
     <View className="bg-grey h-full w-full">
     {/* Logo and AUTO */}
-    <View style={{paddingTop: 60, flexDirection: 'row', alignItems: 'center', paddingLeft: 10, marginBottom:0, }}>
+    <View style={{paddingTop: 30, flexDirection: 'row', alignItems: 'center', paddingLeft: 10, marginBottom:0, }}>
+      <View style={{paddingTop: 50}}>
       <Image
         source={require('../assets/images/logosmall-removebg-preview.png')}
-        style={{ width: 160, height: 80, marginLeft: 20}}
+        style={{ width: 160, height: 80, marginLeft: 20, }}
       />
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30, marginTop: -30}}>
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 'auto', paddingRight: 30 }}>
         <Text style={{ fontSize: 20, marginRight: 10, color: '#0e1c36'}}>AUTO</Text>
         <Switch
           value={auto}
@@ -758,14 +760,14 @@ const ukeSopData = {
 
       
     </View>
-    <View style={{alignItems: 'center', paddingTop: 0, marginTop: -10}}>
+    <View style={{alignItems: 'center', paddingTop: 0, marginTop: -40}}>
 
     <TouchableHighlight
   onPress={stopTuning}
   // disabled={!isTuning}
   underlayColor="#b22222" // Darker shade for the pressed state
   style={{
-    backgroundColor: isTuning ? '#de1d35' : '#de1d35', // Same color for both states since isTuning's effect is not needed here
+    backgroundColor: isTuning ? '#fff' : '#fff', // Same color for both states since isTuning's effect is not needed here
     borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -779,7 +781,7 @@ const ukeSopData = {
   }}
 >
   <View style={{ overflow: 'hidden' }}> 
-    <Text style={{ color: '#fff', fontSize: 18, textAlign: 'center' }}>Stop Tuning</Text>
+    <Text style={{ color: '#de1d35', fontSize: 18, textAlign: 'center' }}>Stop Tuning</Text>
   </View>
 </TouchableHighlight>
 </View>
@@ -788,7 +790,7 @@ const ukeSopData = {
 
 
     {/* Tuning and Instrument buttons */}
-    <View style={{flex: 1, paddingTop:30, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
+    <View style={{flex: 1, paddingTop:20, flexDirection: 'row', justifyContent: 'left', paddingLeft: 20}}>
 <TouchableOpacity
   disabled={buttonsDisabled}
   style={[
@@ -886,7 +888,7 @@ const ukeSopData = {
           textAlign: 'center',
           fontSize: 18,
           marginTop: 10,
-          marginBottom: 1,
+          marginBottom: 20,
           color: isTuned ? 'green' : 'red',
         }}
       >
