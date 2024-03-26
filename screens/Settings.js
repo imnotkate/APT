@@ -41,6 +41,16 @@ const Settings = () => {
     setModalVisible(false); // Close the modal
   };
 
+  const handleNoteConventionChange = (selectedItem) => {
+    setSelectedNoteConvention(selectedItem) // Update the global language state
+    //setModalVisible(false); // Close the modal
+  };
+
+  const handleNoteConventionPress = (selectedItem) => {
+    setSelectedNoteConvention(selectedItem);
+    setShowNoteConventionsModal(false);
+  };
+
   const handleGuidePress = () => {
     navigation.navigate('Guide');
   };
@@ -169,33 +179,53 @@ const Settings = () => {
 
         <TouchableOpacity
           className='border-t border-gray-300 py-6 px-6 w-full flex-row space-between items-center'
-          onPress={() => setShowNoteConventionsModal(true)}
+          onPress={() => setShowNoteConventionsModal(!showNoteConventionsModal)}
         >
           <Text className='text-lg px-1' style={{color: '#0e1c36'}}>Note Name Convention</Text>
-          <MusicNote color="#0e1c36" height={25} width={32} />
+          <MusicNote color="black" height={25} width={32} />
+          {/* {showPicker && (
+        <View>
+          <Picker
+        selectedValue={language}
+        onValueChange={(itemValue, itemIndex) => setLanguage(itemValue)}
+        style={{height: 50, width: 100}} // Adjust the styling as needed
+      >
+        
+        <Picker.Item label="English" value="en" />
+        <Picker.Item label="Français" value="fr" />
+       
+      </Picker>
+        </View> )}*/}
+         <View style={styles.centeredView}>      
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showNoteConventionsModal}
+        onRequestClose={() => {
+          setShowNoteConventionsModal(!selectedNoteConvention);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Picker
+              selectedValue={selectedNoteConvention}
+              onValueChange={(itemValue, itemIndex) => 
+                handleNoteConventionChange(itemValue)
+                 // Close modal after selection
+                
+              }
+              style={{ width: 250}} // Adjust width as necessary
+            >
+              {renderNoteConventions()}
+            </Picker>
+            <Button title="Select" onPress={handleNoteConventionPress} />
+          </View>
+        </View>
+      </Modal>
+    </View>
+      
         </TouchableOpacity>
 
-        <Modal
-            visible={showNoteConventionsModal}
-            animationType="slide"
-            transparent={true}
-          >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-              <View style={{ backgroundColor: 'white', borderRadius: 10, padding: 20, width: '90%'}}>
-                <Picker
-                  selectedValue={selectedNoteConvention}
-                  onValueChange={(itemValue) => {
-                    setSelectedNoteConvention(itemValue);
-                    setShowNoteConventionsModal(false);
-                  }}
-                  itemStyle={{ color: '#000', fontSize: 20 }}
-                >
-                  {renderNoteConventions()}
-                </Picker>
-                <Button title="Cancel" onPress={() => setShowNoteConventionsModal(false)} />
-              </View>
-            </View>
-          </Modal>
       </View>
     </View>
     

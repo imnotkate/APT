@@ -635,6 +635,8 @@ const ukeSopData = {
 
 
   const stopTuning = () => {
+        setTunedStrings([]);
+        setSelectedString(null);
     const messageData = {
       stop: true,
     };
@@ -709,7 +711,7 @@ const ukeSopData = {
         status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopVar);
         console.log(`Status for string ${string}: ${status}`);
       } while (status !== 202 && auto); // Keep sending requests until a 202 (tuned) is received
-      
+
       if (status === 202) {
         setIsTuned(true);
         console.log(`THIS ${string}`);
