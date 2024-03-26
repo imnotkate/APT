@@ -1,4 +1,4 @@
-  import React, {useState} from 'react';
+  import React, {useState, useEffect} from 'react';
   import { View, Text, StyleSheet, TouchableOpacity, Pressable, Dimensions,Modal, Button} from 'react-native';
   import { useNavigation } from '@react-navigation/native';
   import ChordChart from 'react-native-chord-charts';
@@ -20,6 +20,9 @@
 
     const handleFlatsToggle = () => {
       setShowFlats(!showFlats);
+    }
+
+    useEffect(() => {
       if (showFlats) {
         setSelectedKeys(["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]);
         if (selectedKey == 'C#') {
@@ -47,7 +50,7 @@
           setSelectedKey('A#');
         }
       }
-    }
+    }, [showFlats, selectedKey]); 
     
     const renderKeys = () => {
       return keys.map((key, index) => (
