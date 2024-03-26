@@ -552,6 +552,10 @@ const ukeSopData = {
   const [isTuned, setIsTuned] = useState(false);
   const [status, setStatus] = useState(null); // Status message from the server
 
+  const [isTuning, setIsTuning] = useState(false);
+  const [tuningMessage, setTuningMessage] = useState('');
+
+
   // connection to flask webserver 
   // send msg
   const sendMessageToServer = (string, selectedInstrument, index) => {
@@ -561,6 +565,9 @@ const ukeSopData = {
       string: index,
       stop: false
     };
+
+    setTuningMessage(`Tuning the string ${string}...`);
+    console.log(tuningMessage);
     // use pi ip address and port number
     axios.post(`${SERVER_IP}/tune_string`, messageData)
       .then(response => {
@@ -572,7 +579,10 @@ const ukeSopData = {
           setIsTuned(true);
           setSelectedString(string); 
           setStatus(202);
+          setTuningMessage(`Tuning string ${string} completed.`);
+          setIsTuning(false);
           setTunedStrings([...tunedStrings, string]);
+
         } 
         else {
           //if a random response is received
@@ -583,6 +593,8 @@ const ukeSopData = {
       })
       .catch(error => {
         setIsTuned(false); // Assume not tuned if there's an error
+        setIsTuning(false);
+        setTuningMessage(`Error tuning string ${string}.`);
       });
   };
 
@@ -594,6 +606,10 @@ const ukeSopData = {
       stop: stopVar
     };
 
+    // Set tuning status before starting
+    setIsTuning(true);
+    setTuningMessage(`Tuning the string ${string}...`);
+    console.log(tuningMessage)
     return axios.post(`${SERVER_IP}/tune_string`, messageData)
       .then(response => {
         if (response.status === 409) {
@@ -604,6 +620,8 @@ const ukeSopData = {
           setIsTuned(true);
           setSelectedString(string);
           setStatus(202);
+          setTuningMessage(`Tuning string ${string} completed.`);
+          setIsTuning(false);
         } else if (response.status === 500) {
           // Stop tuning
           setStatus(500);
@@ -618,6 +636,8 @@ const ukeSopData = {
       .catch(error => {
         setIsTuned(false); // Assume not tuned if there's an error
         console.error('Error:', error);
+        setTuningMessage(`Error tuning string ${string}.`);
+        setIsTuning(false)
         throw error; // Re-throw the error to be caught by the calling code
       });
   };
@@ -693,6 +713,7 @@ const ukeSopData = {
           value={auto}
           onValueChange={handleToggleSwitch}
       />
+     
       </View>
     </View>
 
@@ -746,6 +767,7 @@ const ukeSopData = {
         {renderTunings()}
       </Picker>
       <Button title="Cancel" onPress={() => setShowTuningModal(false)} />
+    
     </View>
   </View>
 </Modal>
@@ -783,8 +805,27 @@ const ukeSopData = {
       >
     <Text style={{fontSize: 18, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
+      
       </View>
       </View>
+
+      {tuningMessage && (
+  // <Text style={{ textAlign: 'center', color: 'red', fontSize: 18, marginTop: 10 }}>
+  //   {tuningMessage}
+  // </Text>
+  <Text
+  style={{
+    textAlign: 'center',
+    fontSize: 18,
+    marginTop: 10,
+    // Change color based on isTuned state
+    color: isTuned ? 'green' : 'red',
+  }}
+>
+  {tuningMessage}
+</Text>
+
+)}
 
       {/* Container for the guitar head image */}
       {renderGuitarHead()}

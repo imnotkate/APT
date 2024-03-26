@@ -51,6 +51,7 @@ const EarTrainer = () => {
       setScore(score + 10);
     } else {
       setIsCorrect(false);
+      setScore(score -5);
     }
     setUserAnswer('');
   };
