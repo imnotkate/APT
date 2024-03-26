@@ -44,8 +44,8 @@ function Tuner({ route }) {
 
   const { isLeftHanded } = useLeftHanded();
 
+  const [tunedStrings, setTunedStrings] = useState([]);
   
-
   const renderGuitarHead = () => {
     switch (selectedHead) {
       case '3+3':
@@ -218,7 +218,7 @@ case 'Bass 4-string':
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: selectedString === string && isTuned ? 'green': selectedString === string ? '#de1d35' : '#fff',
+                backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) || (isTuned && auto) ? 'green': selectedString === string ? '#de1d35' : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
@@ -235,7 +235,7 @@ case 'Bass 4-string':
                 borderColor: 'transparent',
               }}
             >
-              <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+              <Text style={{ color: selectedString === string || tunedStrings.includes(string) || (isTuned && auto) ? '#fff' : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
             </TouchableOpacity>
@@ -342,16 +342,6 @@ case 'Bass 4-string':
 //   'Open D': ['E4', 'A3', 'E3', 'C#3', 'A2', 'E2'],
 //   'Open Am':   ['E4', 'C4', 'A3', 'E3', 'A2', 'E2'],
 //   'Open Em':   ['E4' ,'B3', 'G3', 'E3', 'B2', 'E2']
-
-
-
-
-
-
-
-
-  
-  
 // };
 
 const sevenStringsData = {
@@ -456,7 +446,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35': isTuned ? 'green' : '#fff',
+            backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) ? 'green': selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -473,7 +463,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || tunedStrings.includes(string) ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -489,6 +479,7 @@ const ukeSopData = {
         disabled={buttonsDisabled}
           key={index}
           onPress={() => {
+
             setIsTuned(false);
             setSelectedString(string);
             sendMessageToServer(string, selectedInstrument, strings.length/2-index-1);
@@ -498,7 +489,7 @@ const ukeSopData = {
             width: 52,
             height: 52,
             borderRadius: 30,
-            backgroundColor: selectedString === string ? '#de1d35' : '#fff',
+            backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) ? 'green': selectedString === string ? '#de1d35' : '#fff',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
@@ -515,7 +506,7 @@ const ukeSopData = {
             borderColor: 'transparent',
           }}
         >
-          <Text style={{ color: selectedString === string ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || tunedStrings.includes(string) ? '#fff' : '#de1d35', fontSize: 16 }}>
             {string}
           </Text>
         </TouchableOpacity>
@@ -540,13 +531,14 @@ const ukeSopData = {
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   const handleToggleSwitch = () => {
+    setTunedStrings([]);
+    setSelectedString(null);
     setAuto(!auto);
     setButtonsDisabled(!auto);
   };
 
   useEffect(() => {
     if (auto) {
-
       tuneStringsAutomatically(selectedInstrument, selectedTuning, setIsTuned, setSelectedString);
     } else {
       // stop tuning
@@ -569,7 +561,8 @@ const ukeSopData = {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
-      string: index
+      string: index,
+      stop: false
     };
 
     setTuningMessage(`Tuning the string ${string}...`);
@@ -587,6 +580,7 @@ const ukeSopData = {
           setStatus(202);
           setTuningMessage(`Tuning string ${string} completed.`);
           setIsTuning(false);
+          setTunedStrings([...tunedStrings, string]);
 
         } 
         else {
@@ -603,7 +597,7 @@ const ukeSopData = {
       });
   };
 
-  const sendMessageToServerAsync = (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
+  const sendMessageToServerAsync = async (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
@@ -651,6 +645,8 @@ const ukeSopData = {
   //post to /stop_tuning
 
   const tuneStringsAutomatically = async (selectedInstrument, selectedTuning, setIsTuned, setSelectedString) => {
+    
+    
     const strings = {
       'Guitar 6-string': stringsData[selectedTuning] || [],
       'Guitar 7-string': sevenStringsData[selectedTuning] || [],
@@ -666,20 +662,21 @@ const ukeSopData = {
     for (let i = 0; i < strings.length; i++) {
       stopVar = auto ? false : true;
 
-      if(status === 500) {
-        break;
-      }
-
       const string = stringsReversed[i];
       let status;
-  
+      
       do {
-        if(status === 500) {
-          break;
-        }
+        setIsTuned(false);
+        setSelectedString(string);
         status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopVar);
         console.log(`Status for string ${string}: ${status}`);
-      } while (status !== 202); // Keep sending requests until a 202 is received
+      } while (status !== 202 && auto); // Keep sending requests until a 202 (tuned) is received
+      
+      if (status === 202) {
+        setIsTuned(true);
+        console.log(`THIS ${string}`);
+      }
+
     }
   };
 
@@ -799,7 +796,11 @@ const ukeSopData = {
           borderWidth: 0,
           borderColor: 'transparent',
         }}
-        onPress={() => {navigation.push('Instruments', {selectedHead, selectedInstrument})}}
+        onPress={() => {
+          setTunedStrings([]);
+          setSelectedString(null);
+          navigation.push('Instruments', {selectedHead, selectedInstrument});
+        }}
       >
     <Text style={{fontSize: 18, color: '#fff'}}>{selectedInstrument || 'Guitar 6-string'}</Text>
       </TouchableOpacity>
