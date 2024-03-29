@@ -6,6 +6,11 @@ import {Text, View, TouchableOpacity, StyleSheet, Platform, Button } from 'react
 function StringWinder() {
   const navigation = useNavigation();
 
+  const handlePress = () => {
+    // Add logic to start the string winder
+    
+  }
+
   return (
     <View className="h-full w-full bg-grey ">
       {/* Title and Back Arrow */}
@@ -17,14 +22,33 @@ function StringWinder() {
       </View>
 
       {/* String Winder */}
-      <View style={{alignItems: 'center', justifyContent: 'center', paddingTop: 200}}>
-      <TouchableOpacity style={{
-        backgroundColor: '#de1d35',
-        borderRadius: 130,
-        padding: 100,
-      }} >
-            <Button color="white" title="Start" onPress={() => {}} />
+      <View style={{alignItems: 'center', justifyContent: 'center', paddingTop: 170}}>
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 100,
+          borderRadius: 300,
+          fontSize: 50,
+          width: 300,
+          height: 300,
+          borderWidth: 1,
+          borderColor: '#de1d35',
+          backgroundColor: '#de1d35',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 4,
+          elevation: 4, 
+          borderWidth: 0,
+          borderColor: 'transparent',
+        }}
+        onPress={handlePress}
+      >
+    <Text style={{fontSize: 30, color: '#fff'}}>Start</Text>
       </TouchableOpacity>
+      
       </View>
     </View>
   )
