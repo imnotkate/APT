@@ -247,11 +247,11 @@ function Metronome() {
   return (
     <View style={styles.container}>
       {/* Title and Back Arrow */}
-      <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 90, paddingLeft: 10 }}>
-          <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingTop: 90}}>
+          <TouchableOpacity style={{}} onPress={() => {navigation.navigate('Tools');}}>
             <ArrowLeft color="#de1d35" height={30} width={30} />
           </TouchableOpacity>
-          <Text style={{fontSize: 38, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20}}>Metronome</Text>
+          <Text style={{fontSize: 38, fontWeight: 'bold', color: '#0e1c36', paddingLeft: 50, paddingRight: 50}}>Metronome</Text>
       </View>
 
       {/* Metronome */}

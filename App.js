@@ -13,6 +13,7 @@ import { LanguageProvider } from './screens/LanguageContext';
 import i18n from './i18n';
 import Guide from  "./screens/Guide";
 import EarTrainer from './screens/EarTrainer';
+import Winder from './screens/StringWinder';
 import { LeftHandedProvider } from './screens/Context';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Stack.Screen name="CustomTunings" component={CustomTunings} />
             <Stack.Screen name="Guide" component={Guide} />
             <Stack.Screen name="EarTrainer" component={EarTrainer} />
+            <Stack.Screen name="StringWinder" component={Winder} />
           </>
         ) : (
           <>

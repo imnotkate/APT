@@ -159,12 +159,12 @@
       <View style={styles.container}>
 
         {/* Title and Back Button */}
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 90, paddingLeft: 10, }}>
-            <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', paddingTop: 90, justifyContent: 'center'}}>
+            <TouchableOpacity style={{}} onPress={() => {navigation.navigate('Tools');}}>
               <ArrowLeft color="#de1d35" height={30} width={30} />
             </TouchableOpacity>
-            <Text style={{fontSize: 25, fontWeight: 'bold', color: '#0e1c36', marginLeft: 20, paddingLeft: 10, paddingRight: 15}}>Chord Library</Text>
-            <View style={{paddingLeft: 20}}>
+            <Text style={{fontSize: 35, fontWeight: 'bold', color: '#0e1c36', paddingLeft: 30, paddingRight: 15}}>Chord Library</Text>
+            <View style={{}}>
             <TouchableOpacity
               onPress={() => {
                 handleFlatsToggle();
@@ -199,7 +199,7 @@
         </View>
 
         {/* Key and Chord Buttons */}
-        <View style={{paddingTop:50, flexDirection: 'row', justifyContent: 'left', paddingLeft: 50, paddingBottom: 30}}>
+        <View style={{paddingTop:50, flexDirection: 'row', justifyContent: 'center', paddingBottom: 30}}>
           <TouchableOpacity
             style={[
               {

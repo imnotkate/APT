@@ -31,9 +31,8 @@ function Instruments({route}) {
   ];
 
   const bass = [
-    { label: 'Bass 4-string', value: 'Bass 4-string' },
-    { label: 'Bass 5-string', value: 'Bass 5-string' },
-  ];
+    { label: 'Bass 4-string', value: 'Bass 4-string' }
+    ];
 
   const ukulele = [
     { label: 'Ukulele Soprano', value: 'Soprano Ukulele' },
@@ -48,7 +47,6 @@ function Instruments({route}) {
 
   const banjo = [
     { label: 'Banjo 4-string', value: 'Banjo 4-string' },
-    { label: 'Banjo 5-string', value: 'Banjo 5-string' },
     { label: 'Banjo 6-string', value: 'Banjo 6-string' },
   ];
 
@@ -267,9 +265,14 @@ function Instruments({route}) {
             placeholder="Mandolin"
             value={value}
             scrollEnabled={true}
-            onChange={item => {
-            setValue(item.value);
-            }}
+            onChange={(item) => {
+              if (item.value !== value) { // Check if the selected value is different from the current value
+                setSelectedHead(item.value);
+                setSelectedInstrument(item.label);
+                setValue(item.value); // Update the value state only if the selected value is different
+                navigation.setParams({ selectedHead: item.value, selectedInstrument: item.label}); // Update the navigation params
+                navigateToTuner(item.value, item.label);
+              }}}
           />
           <Dropdown
             style={{
@@ -301,9 +304,14 @@ function Instruments({route}) {
             placeholder="Banjo"
             value={value}
             scrollEnabled={true}
-            onChange={item => {
-            setValue(item.value);
-            }}
+            onChange={(item) => {
+              if (item.value !== value) { // Check if the selected value is different from the current value
+                setSelectedHead(item.value);
+                setSelectedInstrument(item.label);
+                setValue(item.value); // Update the value state only if the selected value is different
+                navigation.setParams({ selectedHead: item.value, selectedInstrument: item.label}); // Update the navigation params
+                navigateToTuner(item.value, item.label);
+              }}}
           />
         </View>
       </ScrollView>

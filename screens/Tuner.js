@@ -11,6 +11,9 @@ import EightString from '../assets/images/8string-removebg.png';
 import TwelveString from '../assets/images/12string-removebg-preview.png';
 import Bass4String from '../assets/images/bass-4-string.png';
 import UkeSop from '../assets/images/uksop.png';
+import mandolinImg from '../assets/images/mandolin.png';
+import banjo4 from '../assets/images/banjo4.png';
+import banjo6 from '../assets/images/banjo6.png';
 
 import { SERVER_IP } from '../config.js';
 import { Audio } from 'expo-av';
@@ -19,33 +22,19 @@ import { Audio } from 'expo-av';
 import { useLeftHanded } from './Context';
 import { Bold } from 'iconoir-react-native';
 
-// If the button is selected, it's red.
-// If it's not selected and tuned, it's green.
-// If it's not selected and not tuned, it's white.
-
-
-//IF GREEN STRING IS SELECTED, IT TURNS RED AGAIN AND RETUNES
-
-//IMPLEMENT AUTO TUNING
-//if other instrument selected dont keep previous string selected
-
-
-
 function Tuner({ route }) {
 
-  
-
   const { selectedHead = '6-in-line', selectedInstrument = 'Guitar 6-string' } = route.params || {};
-  // const { selectedHead, selectedInstrument: initialSelectedInstrument } = route.params || {};
-  // const [selectedInstrument, setSelectedInstrument] = useState(initialSelectedInstrument || 'Guitar 6-string');
-
-
+ 
   const tunings = ['Standard','Drop D', 'Double Drop D', 'Open G', 'Open A', 'Open D', 'DADGAD']; 
   const sevenTunings = ['Standard','Drop A', 'Russian', 'Brazilian'];
   const eightTunings = ['Standard'];
   const twelveTunings = ['Standard'];
   const ukeSopTunings = ['Standard', 'D Tuning', 'Low G', 'Low A', 'Slack Key', 'B Tuning', 'C# Tuning'];
   const bass4StringTunings = ['Standard', 'Drop D', 'E Flat', 'Drop C', 'Low C', 'Low B'];
+  const mandolinTunings = ['Standard', 'Open G'];
+  const banjo4Tunings = ['Standard', 'Double C'];
+  const banjo6StringTunings = ['Standard', 'Double C'];
 
   const { isLeftHanded } = useLeftHanded();
 
@@ -145,6 +134,7 @@ case 'Bass 4-string':
             <Image source={Bass4String} style={{ width: 250, height: 430 }} />
           </View>
         );
+
       case 'Soprano Ukulele':
         return (
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -161,6 +151,109 @@ case 'Bass 4-string':
             />
           </View>
         );
+
+          case 'Concert Ukulele':
+            return (
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <StringButtonsLeft
+                  strings={strings}
+                  selectedString={selectedString}
+                  isTuned={isTuned}
+                />
+                <Image source={UkeSop} style={{ width: 260, height: 410 }} />
+                <StringButtonsRight
+                  strings={strings}
+                  selectedString={selectedString}
+                  isTuned={isTuned}
+                />
+              </View>
+            );
+
+            case 'Tenor Ukulele':
+              return (
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                  <StringButtonsLeft
+                    strings={strings}
+                    selectedString={selectedString}
+                    isTuned={isTuned}
+                  />
+                  <Image source={UkeSop} style={{ width: 260, height: 410 }} />
+                  <StringButtonsRight
+                    strings={strings}
+                    selectedString={selectedString}
+                    isTuned={isTuned}
+                  />
+                </View>
+              );
+
+              case 'Baritone Ukulele':
+                return (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <StringButtonsLeft
+                      strings={strings}
+                      selectedString={selectedString}
+                      isTuned={isTuned}
+                    />
+                    <Image source={UkeSop} style={{ width: 260, height: 410 }} />
+                    <StringButtonsRight
+                      strings={strings}
+                      selectedString={selectedString}
+                      isTuned={isTuned}
+                    />
+                  </View>
+                );
+
+                case 'Mandolin 8-string':
+                  return (
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                      <StringButtonsLeft
+                        strings={strings}
+                        selectedString={selectedString}
+                        isTuned={isTuned}
+                      />
+                      <Image source={mandolinImg} style={{ width: 260, height: 460 }} />
+                      <StringButtonsRight
+                        strings={strings}
+                        selectedString={selectedString}
+                        isTuned={isTuned}
+                      />
+                    </View>
+                  );
+
+                  case 'Banjo 4-string':
+                    return (
+                      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <StringButtonsLeft
+                          strings={strings}
+                          selectedString={selectedString}
+                          isTuned={isTuned}
+                        />
+                        <Image source={banjo4} style={{ width: 190, height: 440 }} />
+                        <StringButtonsRight
+                          strings={strings}
+                          selectedString={selectedString}
+                          isTuned={isTuned}
+                        />
+                      </View>
+                    );
+
+
+                      case 'Banjo 6-string':
+                        return (
+                          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <StringButtonsLeft
+                              strings={strings}
+                              selectedString={selectedString}
+                              isTuned={isTuned}
+                            />
+                            <Image source={banjo6} style={{ width: 260, height: 450 }} />
+                            <StringButtonsRight
+                              strings={strings}
+                              selectedString={selectedString}
+                              isTuned={isTuned}
+                            />
+                          </View>
+                        );
       default:
         return (
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -208,7 +301,7 @@ case 'Bass 4-string':
             guitarType === '3+3' ? 30 :
             guitarType === 'Bass 4-string' ? 50 :
             guitarType === '8-string' ? 30 :
-            guitarType === 'Soprano Ukulele' ? 30 :
+            guitarType === 'Soprano Ukulele' || guitarType ==='Concert Ukulele' || guitarType ==='Tenor Ukulele' || guitarType ==='Baritone Ukulele' ? 30 :
            10 ; // Default value if none of the conditions match
   };
 
@@ -280,6 +373,31 @@ case 'Bass 4-string':
         return ukeSopTunings.map(type => (
           <Picker.Item key={type} label={type} value={type} />
         ));
+      case 'Ukulele Concert':
+        return ukeSopTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Ukulele Tenor':
+        return ukeSopTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Ukulele Baritone':
+        return ukeSopTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Mandolin 8-string':
+        return mandolinTunings.map(type => (
+          <Picker.Item key={type} label={type} value={type} />
+        ));
+      case 'Banjo 4-string':
+          return banjo4Tunings.map(type => (
+            <Picker.Item key={type} label={type} value={type} />
+          ));
+    
+      case 'Banjo 6-string':
+          return banjo6StringTunings.map(type => (
+            <Picker.Item key={type} label={type} value={type} />
+          ));
       default:
         return tunings.map(type => (
           <Picker.Item key={type} label={type} value={type} />
@@ -333,8 +451,6 @@ case 'Bass 4-string':
 //     'Nick Drake': ['C4', 'G3', 'C3', 'G2', 'C2', 'D1'],
 //     'Dobro Open G': ['G4', 'G1', 'D2', 'B1', 'G3', 'D4']
 // };
-
-
 
 const stringsData = {
   'Standard': ['E4', 'B3', 'G3', 'D3', 'A2', 'E2'],
@@ -401,6 +517,28 @@ const ukeSopData = {
 
 };
 
+//mandolin
+const mandolinDataPlz = {
+  'Standard': ['E5', 'E5', 'A4', 'A4', 'D4', 'D4', 'G3', 'G3'],
+  'Open G': ['G5', 'G5', 'D4', 'D4', 'G4', 'G4', 'B3', 'B3'],}
+
+//banjo 4-string
+const banjo4StringData = {
+  'Standard': ['D4', 'B3', 'G3', 'D3'],
+  'Double C': ['C4', 'G3', 'C3', 'D3'],
+}
+
+//banjo 5 string
+const banjo5StringData = {
+  'Standard': ['G4', 'D4', 'G3', 'B3', 'D3'],
+  'Double C': ['C4', 'G3', 'C3', 'D3', 'G2'],
+}
+
+//banjo 6 string
+const banjo6StringData = {
+  'Standard': ['G4', 'D4', 'G3', 'B3', 'D3', 'G2'],
+  'Double C': ['C4', 'G3', 'C3', 'D3', 'G2', 'C2'],
+}
 
 
   // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
@@ -411,6 +549,12 @@ const ukeSopData = {
     'Guitar 12-string': twelveStringsData[selectedTuning] || [],
 'Bass 4-string': bass4StringData[selectedTuning] || [],
     'Ukulele Soprano': ukeSopData[selectedTuning] || [],
+    'Ukulele Concert': ukeSopData[selectedTuning] || [],
+    'Ukulele Tenor': ukeSopData[selectedTuning] || [],
+    'Ukulele Baritone': ukeSopData[selectedTuning] || [],
+    'Mandolin 8-string': mandolinDataPlz[selectedTuning] || [],
+    'Banjo 4-string': banjo4StringData[selectedTuning] || [],
+    'Banjo 6-string': banjo6StringData[selectedTuning] || [],
   }[selectedInstrument] || stringsData[selectedTuning] || [];
   
 

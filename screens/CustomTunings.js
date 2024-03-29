@@ -10,10 +10,13 @@ function CustomTunings() {
   
   return (
     <View className="bg-grey h-full w-full">
-
-    <Text>Custom Tunings</Text>
-      
-    </View>
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingTop: 90}}>
+          <TouchableOpacity style={{}} onPress={() => {navigation.navigate('Tools');}}>
+            <ArrowLeft color="#de1d35" height={30} width={30} />
+          </TouchableOpacity>
+          <Text style={{fontSize: 38, fontWeight: 'bold', color: '#0e1c36', paddingLeft: 20, paddingRight: 20}}>Custom Tunings</Text>
+      </View>
+      </View>
   )
 }
 
