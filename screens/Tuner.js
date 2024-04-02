@@ -379,7 +379,7 @@ case 'Bass 4-string':
                 borderColor: 'transparent',
               }}
             >
-              <Text style={{ color: selectedString === string || tunedStrings.includes(string) || (isTuned && auto) ? '#fff' : '#de1d35', fontSize: 16 }}>
+          <Text style={{ color: selectedString === string || tunedStrings.includes(string) ? '#fff' : '#de1d35', fontSize: 16 }}>
                 {string}
               </Text>
             </TouchableOpacity>
