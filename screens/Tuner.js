@@ -830,6 +830,7 @@ if (selectedInstrumentTunings.length > 0) {
   const [showTuningModal, setShowTuningModal] = useState(false);
   const [auto, setAuto] = useState(false);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const [stopTuningValue, setStopTuningValue] = useState(false);
 
   const handleToggleSwitch = () => {
     setTunedStrings([]);
@@ -840,6 +841,7 @@ if (selectedInstrumentTunings.length > 0) {
 
   useEffect(() => {
     if (auto) {
+      setStopTuningValue(false);
       tuneStringsAutomatically(selectedInstrument, selectedTuning, setIsTuned, setSelectedString);
     } else {
       // stop tuning
@@ -904,12 +906,12 @@ if (selectedInstrumentTunings.length > 0) {
       });
   };
 
-  const sendMessageToServerAsync = async (string, selectedInstrument, index, setIsTuned, setSelectedString, stopVar) => {
+  const sendMessageToServerAsync = async (string, selectedInstrument, index, setIsTuned, setSelectedString, stopTuningValue) => {
     const messageData = {
       message: string,
       instrument: selectedInstrument,
       string: index,
-      stop: stopVar
+      stop: stopTuningValue
     };
 
     // Set tuning status before starting
@@ -968,11 +970,13 @@ if (selectedInstrumentTunings.length > 0) {
   }
 };
 
-
-
   const stopTuning = () => {
         setTunedStrings([]);
         setSelectedString(null);
+        setStopTuningValue(true);
+        if (auto){
+          setAuto(false);
+        }
     const messageData = {
       stop: true,
     };
@@ -1033,12 +1037,10 @@ if (selectedInstrumentTunings.length > 0) {
     }[selectedInstrument] || stringsData[selectedTuning] || [];
     
     const stringsReversed = strings.reverse(); // Reverse the strings array
-    let stopVar = false;
 
     for (let i = 0; i < strings.length; i++) {
       await delay(2000); // Wait for 5 seconds
       
-      stopVar = auto ? false : true;
 
       const string = stringsReversed[i];
       let status;
