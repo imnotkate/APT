@@ -362,7 +362,7 @@ case 'Bass 4-string':
                 width: 52,
                 height: 52,
                 borderRadius: 30,
-                backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) || (isTuned && auto) ? 'green': selectedString === string ? '#de1d35' : '#fff',
+                backgroundColor: (selectedString === string && isTuned) || tunedStrings.includes(string) ? 'green': selectedString === string ? '#de1d35' : '#fff',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 1,
