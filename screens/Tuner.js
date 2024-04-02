@@ -3,7 +3,7 @@ import { Image, Text, View, TouchableOpacity, Animated, TouchableHighlight, Butt
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { Modal } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import ThreePlusThreeHeadImage from '../assets/images/3+3-removebg.png';
 import SixHeadImage from '../assets/images/6inline-removebg-preview.png';
 import SevenString from '../assets/images/7string-removebg.png';
@@ -21,6 +21,23 @@ import { Audio } from 'expo-av';
 
 import { useLeftHanded } from './Context';
 import { Bold } from 'iconoir-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// This function just fetches the tunings from AsyncStorage
+// It's not a component or a hook, so it doesn't use useState
+const getAllCustomTunings = async () => {
+  try {
+    const savedTunings = await AsyncStorage.getItem('tunings');
+    console.log('Tunings:', savedTunings);
+    return savedTunings ? JSON.parse(savedTunings) : [];
+  } catch (e) {
+    console.error('Failed to fetch tunings:', e);
+    return [];
+  }
+};
+
+// A functional component that uses the function above
+
 
 function Tuner({ route }) {
 
@@ -44,6 +61,29 @@ function Tuner({ route }) {
     const newTunedStrings = tunedStrings.filter(string => string !== stringToRemove);
     setTunedStrings(newTunedStrings);
   }
+
+  //// CUSTOM TUNINGS BIT /////////
+
+  const [customTunings, setCustomTunings] = useState([]);
+
+  useEffect(() => {
+    const fetchTunings = async () => {
+      const allTunings = await getAllCustomTunings();
+      setCustomTunings(allTunings);
+    };
+    fetchTunings();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+        const fetchTunings = async () => {
+            const allTunings = await getAllCustomTunings();
+            setCustomTunings(allTunings);
+        };
+        fetchTunings();
+    }, [])
+);
+
 
   const renderGuitarHead = () => {
     switch (selectedHead) {
@@ -347,64 +387,156 @@ case 'Bass 4-string':
         </View>
   );
 
+  // const renderTunings = () => {
+  //   switch (selectedInstrument) {
+  //     case 'Guitar 6-string':
+  //       return tunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Guitar 7-string':
+  //       return sevenTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Guitar 8-string':
+  //       return eightTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Guitar 12-string':
+  //       return twelveTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Bass 4-string':
+  //       return bass4StringTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Ukulele Soprano':
+  //       return ukeSopTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Ukulele Concert':
+  //       return ukeSopTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Ukulele Tenor':
+  //       return ukeSopTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Ukulele Baritone':
+  //       return ukeSopTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Mandolin 8-string':
+  //       return mandolinTunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+  //     case 'Banjo 4-string':
+  //         return banjo4Tunings.map(type => (
+  //           <Picker.Item key={type} label={type} value={type} />
+  //         ));
+    
+  //     case 'Banjo 6-string':
+  //         return banjo6StringTunings.map(type => (
+  //           <Picker.Item key={type} label={type} value={type} />
+  //         ));
+  //     default:
+  //       return tunings.map(type => (
+  //         <Picker.Item key={type} label={type} value={type} />
+  //       ));
+
+  //   }
+
+  // };
+
+
   const renderTunings = () => {
+    let predefinedTunings;
+  
+    // Define predefined tunings based on the selected instrument
     switch (selectedInstrument) {
       case 'Guitar 6-string':
-        return tunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = tunings;
+        break;
       case 'Guitar 7-string':
-        return sevenTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = sevenTunings;
+        break;
       case 'Guitar 8-string':
-        return eightTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = eightTunings;
+        break;
       case 'Guitar 12-string':
-        return twelveTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = twelveTunings;
+        break;
       case 'Bass 4-string':
-        return bass4StringTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = bass4StringTunings;
+        break;
       case 'Ukulele Soprano':
-        return ukeSopTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
       case 'Ukulele Concert':
-        return ukeSopTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
       case 'Ukulele Tenor':
-        return ukeSopTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
       case 'Ukulele Baritone':
-        return ukeSopTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = ukeSopTunings;
+        break;
       case 'Mandolin 8-string':
-        return mandolinTunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
+        predefinedTunings = mandolinTunings;
+        break;
       case 'Banjo 4-string':
-          return banjo4Tunings.map(type => (
-            <Picker.Item key={type} label={type} value={type} />
-          ));
-    
+        predefinedTunings = banjo4Tunings;
+        break;
       case 'Banjo 6-string':
-          return banjo6StringTunings.map(type => (
-            <Picker.Item key={type} label={type} value={type} />
-          ));
+        predefinedTunings = banjo6StringTunings;
+        break;
       default:
-        return tunings.map(type => (
-          <Picker.Item key={type} label={type} value={type} />
-        ));
-
+        predefinedTunings = []; // Empty array if the instrument is not matched
     }
+
+    // Filter custom tunings based on the selected instrument
+    const relevantCustomTunings = customTunings.filter(tuning => tuning.instrument === selectedInstrument).map(tuning => tuning.name);
+
+
+    // Combine predefined tunings with relevant custom tunings for the picker
+    const combinedTunings = [...predefinedTunings, ...relevantCustomTunings];
+    
+    // Render the combined list of tunings
+    return combinedTunings.map((type, index) => (
+      <Picker.Item key={index.toString()} label={type} value={type} />
+    ));
   };
+
+
+  // This function assumes 'selectedTuning' holds the name of the currently selected tuning,
+// and 'selectedInstrument' holds the name of the currently selected instrument.
+
+const getStringsForSelectedTuning = () => {
+  let strings;
+  
+  // First, check if the selected tuning is a custom tuning
+  const customTuning = customTunings.find(tuning => 
+    tuning.name === selectedTuning && tuning.instrument === selectedInstrument
+  );
+
+  if (customTuning) {
+    // If it's a custom tuning, use its strings
+    strings = customTuning.strings;
+  } else {
+    // If it's not a custom tuning, use predefined tunings
+    switch (selectedInstrument) {
+      case 'Guitar 6-string':
+        strings = stringsData[selectedTuning] || [];
+        break;
+      case 'Guitar 7-string':
+        strings = sevenStringsData[selectedTuning] || [];
+        break;
+      // Handle other instruments similarly...
+      default:
+        strings = []; // Fallback if no matching tuning is found
+    }
+  }
+
+  return strings;
+};
+
+
+
+  
+
   const navigation = useNavigation();
 
   const [selectedTuning, setTuning] = useState('Standard');
@@ -542,22 +674,57 @@ const banjo6StringData = {
 
 
   // const strings = stringsData[selectedTuning] || []; // Get strings based on selected tuning
-  let strings = {
-    'Guitar 6-string': stringsData[selectedTuning] || [],
-    'Guitar 7-string': sevenStringsData[selectedTuning] || [],
-    'Guitar 8-string': eightStringsData[selectedTuning] || [],
-    'Guitar 12-string': twelveStringsData[selectedTuning] || [],
-'Bass 4-string': bass4StringData[selectedTuning] || [],
-    'Ukulele Soprano': ukeSopData[selectedTuning] || [],
-    'Ukulele Concert': ukeSopData[selectedTuning] || [],
-    'Ukulele Tenor': ukeSopData[selectedTuning] || [],
-    'Ukulele Baritone': ukeSopData[selectedTuning] || [],
-    'Mandolin 8-string': mandolinDataPlz[selectedTuning] || [],
-    'Banjo 4-string': banjo4StringData[selectedTuning] || [],
-    'Banjo 6-string': banjo6StringData[selectedTuning] || [],
-  }[selectedInstrument] || stringsData[selectedTuning] || [];
-  
+//   let strings = {
+//     'Guitar 6-string': stringsData[selectedTuning] || [],
+//     'Guitar 7-string': sevenStringsData[selectedTuning] || [],
+//     'Guitar 8-string': eightStringsData[selectedTuning] || [],
+//     'Guitar 12-string': twelveStringsData[selectedTuning] || [],
+// 'Bass 4-string': bass4StringData[selectedTuning] || [],
+//     'Ukulele Soprano': ukeSopData[selectedTuning] || [],
+//     'Ukulele Concert': ukeSopData[selectedTuning] || [],
+//     'Ukulele Tenor': ukeSopData[selectedTuning] || [],
+//     'Ukulele Baritone': ukeSopData[selectedTuning] || [],
+//     'Mandolin 8-string': mandolinDataPlz[selectedTuning] || [],
+//     'Banjo 4-string': banjo4StringData[selectedTuning] || [],
+//     'Banjo 6-string': banjo6StringData[selectedTuning] || [],
+//   }[selectedInstrument] || stringsData[selectedTuning] || [];
 
+
+let strings;
+const selectedInstrumentTunings = {
+  'Guitar 6-string': stringsData[selectedTuning] || [],
+  'Guitar 7-string': sevenStringsData[selectedTuning] || [],
+  'Guitar 8-string': eightStringsData[selectedTuning] || [],
+  'Guitar 12-string': twelveStringsData[selectedTuning] || [],
+  'Bass 4-string': bass4StringData[selectedTuning] || [],
+  'Ukulele Soprano': ukeSopData[selectedTuning] || [],
+  'Ukulele Concert': ukeSopData[selectedTuning] || [],
+  'Ukulele Tenor': ukeSopData[selectedTuning] || [],
+  'Ukulele Baritone': ukeSopData[selectedTuning] || [],
+  'Mandolin 8-string': mandolinDataPlz[selectedTuning] || [],
+  'Banjo 4-string': banjo4StringData[selectedTuning] || [],
+  'Banjo 6-string': banjo6StringData[selectedTuning] || [],
+}[selectedInstrument];
+
+// If there are custom tunings for the selected instrument, append their strings
+const relevantCustomTuningsStrings = customTunings
+  .filter(tuning => tuning.instrument === selectedInstrument)
+  .map(tuning => tuning.tunings); // Assuming 'strings' is the property that contains the tuning strings array
+
+// Check if there's predefined tuning for the selected tuning and instrument
+if (selectedInstrumentTunings.length > 0) {
+  strings = selectedInstrumentTunings;
+} else {
+  // // If there's no predefined tuning (which means selectedTuning might be a custom tuning),
+  // // use the strings from the first matching custom tuning
+  // strings = relevantCustomTuningsStrings.length > 0 ? relevantCustomTuningsStrings[0] : [];
+  const customTuning = customTunings.find(tuning => tuning.name === selectedTuning && tuning.instrument === selectedInstrument);
+  // console.log(customTuning);
+  // If a matching custom tuning is found, use its strings; otherwise, default to an empty array
+  strings = customTuning ? customTuning.tunings : [];
+}
+  
+  
   if (isLeftHanded){
     strings = strings.slice().reverse();
   }
