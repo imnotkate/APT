@@ -110,7 +110,7 @@ function Metronome() {
         <ArrowLeft color="#de1d35" height={30} width={30} />
       </TouchableOpacity>
       setButtonText('Stop');
-      playClick1();
+      playSound();
     }
   }
 
