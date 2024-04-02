@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeft } from 'iconoir-react-native';
 import {Text, View, TouchableOpacity, StyleSheet, Platform, Button } from 'react-native';
@@ -6,10 +6,15 @@ import {Text, View, TouchableOpacity, StyleSheet, Platform, Button } from 'react
 function StringWinder() {
   const navigation = useNavigation();
 
+  const [buttonText, setButtonText] = useState('Start');
+
   const handlePress = () => {
     // Add logic to start the string winder
-    
-    
+    if (buttonText === 'Stop') {
+      setButtonText('Start');
+    } else{
+      setButtonText('Stop');
+    }
   }
 
   return (
@@ -47,7 +52,7 @@ function StringWinder() {
         }}
         onPress={handlePress}
       >
-    <Text style={{fontSize: 30, color: '#fff'}}>Start</Text>
+    <Text style={{fontSize: 30, color: '#fff'}}>{buttonText}</Text>
       </TouchableOpacity>
       
       </View>
