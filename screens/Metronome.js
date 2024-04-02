@@ -7,23 +7,6 @@ import click1 from '../assets/clickrecordings/click1.mp3';
 import click2 from '../assets/clickrecordings/click2.mp3';
 import { Audio } from 'expo-av';
 
-// Sound.setCategory('Playback');
-
-// var click1Sound = new Sound(click1, (error) => {
-//   // Handle error if needed
-//   if (error) {
-//     console.log('failed to load the sound', error);
-//     return;
-//   }
-//   // if loaded successfully
-//   console.log(
-//     'duration in seconds: ' +
-//      click1Sound.getDuration() +
-//       'number of channels: ' +
-//       click1Sound.getNumberOfChannels(),
-//   );
-// })
-
 function Metronome() {
   const [bpm, setBpm] = useState(140);
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
@@ -122,11 +105,12 @@ function Metronome() {
       setIsPlaying(false);
       setButtonText('Start');
     } else {
-      setIsPlaying(true);<TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
-      <ArrowLeft color="#de1d35" height={30} width={30} />
-    </TouchableOpacity>
+      setIsPlaying(true);
+      <TouchableOpacity style={{marginRight: 20, marginLeft: 25}} onPress={() => {navigation.navigate('Tools');}}>
+        <ArrowLeft color="#de1d35" height={30} width={30} />
+      </TouchableOpacity>
       setButtonText('Stop');
-      // playClick1();
+      playClick1();
     }
   }
 
