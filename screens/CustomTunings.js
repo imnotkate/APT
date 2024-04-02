@@ -1,48 +1,3 @@
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.header}>
-//         <TouchableOpacity onPress={() => navigation.navigate('Tools')}>
-//           <ArrowLeft color="#de1d35" height={30} width={30} />
-//         </TouchableOpacity>
-//         <Text style={styles.title}>Custom Tunings</Text>
-//       </View>
-//       <View style={styles.inputContainer}>
-//         <TextInput
-//           style={styles.input}
-//           placeholder="Add new tuning"
-//           value={newTuning}
-//           onChangeText={setNewTuning}
-//         />
-//         <TouchableOpacity onPress={addTuning}>
-//           <Text style={styles.addButton}>+</Text>
-//         </TouchableOpacity>
-//       </View>
-//       <FlatList
-//         data={tunings}
-//         keyExtractor={(item) => item.id.toString()}
-//         renderItem={({ item }) => (
-//           <View style={styles.listItem}>
-//             {item.isEditing ? (
-//               <TextInput
-//                 style={styles.input}
-//                 value={item.name}
-//                 onChangeText={(text) => updateTuning(item.id, text)}
-//                 onBlur={() => toggleEdit(item.id)}
-//               />
-//             ) : (
-//               <Text style={styles.tuningName} onLongPress={() => toggleEdit(item.id)}>{item.name}</Text>
-//             )}
-//             <TouchableOpacity onPress={() => deleteTuning(item.id)}>
-//               <Text style={styles.deleteButton}>Delete</Text>
-//             </TouchableOpacity>
-//           </View>
-//         )}
-//       />
-//     </View>
-//   );
-// }
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, FlatList, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -82,13 +37,6 @@ function CustomTunings() {
  }, [tunings]);
 
 
- // // Add a new tuning
- // const addTuning = () => {
- //   if (newTuning.trim()) {
- //     setTunings([...tunings, { id: tunings.length + 1, name: newTuning, isEditing: false }]);
- //     setNewTuning('');
- //   }
- // };
  const [customTuningName, setCustomTuningName] = useState('');
 
 
@@ -113,23 +61,6 @@ function CustomTunings() {
    setModalVisible(false);
  };
 
- const updateTuning = (id) => {
-   const updatedTunings = tunings.map((tuning) => {
-     if (tuning.id === id) {
-       return {
-         ...tuning,
-         name: customTuningName,
-         instrument: selectedInstrument,
-         tunings: stringTunings,
-       };
-     }
-     return tuning;
-   });
-   setTunings(updatedTunings);
-   setModalVisible(false);
-   resetForm();
- };
-
  // Toggle the isEditing state of a tuning
  const toggleEdit = (id) => {
    setTunings(tunings.map(tuning => {
@@ -144,14 +75,6 @@ function CustomTunings() {
  const deleteTuning = (id) => {
    setTunings(tunings.filter(tuning => tuning.id !== id));
  };
-
- // const editTuning = (id) => {
- //   const tuningToEdit = tunings.find((tuning) => tuning.id === id);
- //   setCustomTuningName(tuningToEdit.name);
- //   setSelectedInstrument(tuningToEdit.instrument);
- //   setStringTunings(tuningToEdit.tunings);
- //   setModalVisible(true);
- // };
 
  const editTuning = (id) => {
    const tuningToEdit = tunings.find((tuning) => tuning.id === id);
@@ -194,7 +117,7 @@ function CustomTunings() {
    resetForm();
    setIsEditMode(false);
    setTuningToEditId(null);
-   setSelectedInstrument('6 String Guitar');
+   setSelectedInstrument('Guitar 6-string');
    
  };
 
@@ -210,31 +133,11 @@ function CustomTunings() {
 
  const [numStrings, setNumStrings] = useState(6);
 
- // useEffect(() => {
- //   switch (selectedInstrument) {
- //     case '6 String Guitar':
- //       setNumStrings(6);
- //       setStringTunings(Array(6).fill(''));
- //       break;
- //     case '7 String Guitar':
- //       setNumStrings(7);
- //       setStringTunings(Array(7).fill(''));
- //       break;
- //     case 'Ukulele':
- //       setNumStrings(4);
- //       setStringTunings(Array(4).fill(''));
- //       break;
- //     // Add more cases for other instruments
- //     default:
- //       setNumStrings(6);
- //       setStringTunings(Array(6).fill(''));
- //   }
- // }, [selectedInstrument]);
 
  useEffect(() => {
    switch (selectedInstrument) {
      case '6 String Guitar':
-       setInstrumentName('6 String Guitar');
+       setInstrumentName('Guitar 6-string');
        setNumStrings(6);
        setStringTunings(Array(6).fill(''));
        break;
@@ -243,20 +146,20 @@ function CustomTunings() {
        setNumStrings(7);
        setStringTunings(Array(7).fill(''));
        break;
-     case 'Ukulele':
-       setInstrumentName('Ukulele');
+     case 'Ukulele Soprano':
+       setInstrumentName('Ukulele Soprano');
        setNumStrings(4);
        setStringTunings(Array(4).fill(''));
        break;
      // Add more cases for other instruments
      default:
-       setInstrumentName('6 String Guitar');
+       setInstrumentName('Guitar 6-string');
        setNumStrings(6);
        setStringTunings(Array(6).fill(''));
    }
  }, [selectedInstrument]);
 
- const [instrumentName, setInstrumentName] = useState('6 String Guitar');
+ const [instrumentName, setInstrumentName] = useState('Guitar 6-string');
 
 return (
  <View style={styles.container}>
@@ -265,8 +168,10 @@ return (
        <ArrowLeft color="#de1d35" height={30} width={30} paddingLeft={50} />
      </TouchableOpacity>
      <Text style={styles.title}>Custom Tunings</Text>
+     
    </View>
    <View style={styles.inputContainer}>
+    
      <TextInput
        style={styles.input}
        placeholder="Enter Tuning name"
@@ -304,31 +209,15 @@ return (
                  setSelectedInstrument(itemValue);
                  setIsPickerVisible(false); // Close the picker once an item is selected
                }}>
-               <Picker.Item label="6 String Guitar" value="6 String Guitar" />
-               <Picker.Item label="7 String Guitar" value="7 String Guitar" />
-               <Picker.Item label="Ukulele" value="Ukulele" />
+               <Picker.Item label="Guitar 6-string" value="Guitar 6-string" />
+               {/* <Picker.Item label="7 String Guitar" value="7 String Guitar" /> */}
+               <Picker.Item label="Ukulele Soprano" value="Ukulele Soprano" />
                {/* Add other instruments here */}
              </Picker>
            )}
            </View>
            </View>
 
-{/*     
-           {stringTunings.map((tuning, index) => (
-           <View key={index} style={styles.stringInputContainer}>
-             <Text style={{ marginRight: 5 }}>String {index + 1}:</Text>
-             <TextInput
-               style={styles.smallInput}
-               onChangeText={text => {
-                 const newTunings = [...stringTunings];
-                 newTunings[index] = text;
-                 setStringTunings(newTunings);
-               }}
-               value={tuning}
-               placeholder="Tuning"
-             />
-           </View>
-         ))} */}
          {Array.from({ length: numStrings }, (_, index) => (
  <View key={index} style={styles.stringInputContainer}>
    <Text style={{ marginRight: 5 }}>String {index + 1}:</Text>
@@ -345,8 +234,7 @@ return (
  </View>
 ))}
 
-           {/* <Button title="Save Tuning" onPress={addTuning} />
-           <Button title="Update Tuning" onPress={() => updateTuning()} /> */}
+
 
 <Button title={isEditMode ? 'Update Tuning' : 'Save Tuning'} onPress={addOrUpdateTuning} />
            <Button title="Cancel" onPress={cancelHandle} />
@@ -357,45 +245,14 @@ return (
 
 
 
-   <Text style={styles.subTitle}>
+   {/* <Text style={styles.subTitle}>
      {tunings.length > 0 ? 'Existing Tunings' : 'None'}
-   </Text>
+   </Text> */}
 
-
-   {/* <FlatList
-     data={tunings}
-     keyExtractor={(item) => item.id.toString()}
-     renderItem={({ item }) => (
-       <View style={styles.listItem}>
-         <Text style={styles.tuningName}>{item.name}</Text>
-         <TouchableOpacity onPress={() => deleteTuning(item.id)}>
-             <Text style={styles.deleteButton}>Delete</Text>
-           </TouchableOpacity>
-
-    
-       </View>
-     )}
-     style={styles.list}
-   /> */}
-
-
-   {/* <FlatList
-     data={tunings}
-     keyExtractor={(item) => item.id.toString()}
-     renderItem={({ item }) => (
-       <View style={styles.listItem}>
-         <Text style={styles.tuningName}>{item.name}</Text>
-         <Text style={styles.tuningSettings}>{item.tunings.join(', ')}</Text>
-         <TouchableOpacity onPress={() => editTuning(item.id)}>
-           <Text style={styles.editButton}>Edit</Text>
-         </TouchableOpacity>
-         <TouchableOpacity onPress={() => deleteTuning(item.id)}>
-           <Text style={styles.deleteButton}>Delete</Text>
-         </TouchableOpacity>
-       </View>
-     )}
-     style={styles.list}
-   /> */}
+<Text
+  style={tunings.length > 0 ? styles.subTitle : styles.noTuningsText}>
+  {tunings.length > 0 ? 'Existing Tunings' : 'Add your custom tunings here!'}
+</Text>
 
 <FlatList
  data={tunings}
@@ -498,12 +355,21 @@ addButtonText: {
  color: '#fff',
  fontSize: 24,
 },
+
 subTitle: {
- fontSize: 18,
- fontWeight: 'bold',
- color: '#0e1c36',
- paddingLeft: 20,
- paddingTop: 10,
+  fontSize: 20,
+  fontWeight: 'bold',
+  color: '#0e1c36',
+  paddingLeft: 20,
+  paddingTop: 20,
+},
+noTuningsText: {
+  fontSize: 18,
+  color: '#0e1c36',
+  paddingLeft: 20,
+  paddingRight:20,
+  paddingTop: 30, // Increased padding to push the text lower
+  textAlign: 'center', // Center the text if you like
 },
 listItem: {
  backgroundColor: '#fff',
@@ -636,7 +502,8 @@ buttonContainer: {
 },
 editButton: {
  color: 'blue',
- marginRight: 10,
+ marginRight: 15,
+ 
 },
 deleteButton: {
  color: 'red',
