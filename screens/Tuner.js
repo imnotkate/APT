@@ -845,8 +845,6 @@ if (selectedInstrumentTunings.length > 0) {
       tuneStringsAutomatically(selectedInstrument, selectedTuning, setIsTuned, setSelectedString);
     } else {
       // stop tuning
-
-
     }
   }, [auto, selectedInstrument, selectedTuning, setIsTuned, setSelectedString]);
 
@@ -974,9 +972,8 @@ if (selectedInstrumentTunings.length > 0) {
         setTunedStrings([]);
         setSelectedString(null);
         setStopTuningValue(true);
-        if (auto){
-          setAuto(false);
-        }
+        setAuto(false);
+        setButtonsDisabled(false);
     const messageData = {
       stop: true,
     };
@@ -1024,13 +1021,13 @@ if (selectedInstrumentTunings.length > 0) {
   //send 205 stop tuning 
   //post to /stop_tuning
 
-  const tuneStringsAutomatically = async (selectedInstrument, selectedTuning, setIsTuned, setSelectedString) => {
+  const tuneStringsAutomatically = async (selectedInstrument, selectedTuning, setIsTuned, setSelectedString, stopTuningValue) => {
     
     
     const strings = {
       'Guitar 6-string': stringsData[selectedTuning] || [],
       'Guitar 7-string': sevenStringsData[selectedTuning] || [],
-      'Guitar 8-string': eightStringsData[selectedTuning] || [],
+      'Guitar 8-string': eightStringsData[selectedTuning] || [],  
       'Guitar 12-string': twelveStringsData[selectedTuning] || [],
       'Bass 4-string': bass4StringData[selectedTuning] || [],
       'Ukulele Soprano': ukeSopData[selectedTuning] || [],
@@ -1048,13 +1045,22 @@ if (selectedInstrumentTunings.length > 0) {
       do {
         setIsTuned(false);
         setSelectedString(string);
-        status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopVar);
+        status = await sendMessageToServerAsync(string, selectedInstrument, i, setIsTuned, setSelectedString, stopTuningValue);
         console.log(`Status for string ${string}: ${status}`);
+        if (!stopTuningValue){
+          break;
+          console.log("getting here")
+        }
       } while (status !== 202 && auto); // Keep sending requests until a 202 (tuned) is received
 
       if (status === 202) {
         setIsTuned(true);
         console.log(`THIS ${string}`);
+      }
+
+      if (!stopTuningValue){
+        break;
+        console.log("getting here 2")
       }
 
     }
