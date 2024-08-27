@@ -1,8 +1,9 @@
 # Auto Tuned
 The AT (AutoTunEd) mobile app connects to the AT handheld tuning device to tune ANY string instrument. <br>
 https://github.com/user-attachments/assets/12eec65a-989b-4c5c-a19c-498c3b256abf
-
-![home](https://github.com/user-attachments/assets/40c9bfbf-2e4b-431c-8409-b17454d4e5a2) ![tools](https://github.com/user-attachments/assets/4a5690c5-9136-48af-ac96-d7a25400f86f) ![settings](https://github.com/user-attachments/assets/ba3ab5c9-8638-4399-bf95-e8598ce2da19)
+<img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/40c9bfbf-2e4b-431c-8409-b17454d4e5a2.png">
+<img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/4a5690c5-9136-48af-ac96-d7a25400f86f.png">
+<img width="200" height="500" alt="image" src="https://github.com/user-attachments/assets/ba3ab5c9-8638-4399-bf95-e8598ce2da19.png">
 
 # Dev
 ```
